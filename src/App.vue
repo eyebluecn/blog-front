@@ -1,28 +1,25 @@
 <template>
   <div class="nb-app">
 
-
-
+    <NprogressContainer/>
     <router-view/>
 
   </div>
 </template>
 
 <script>
-  //import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
-
+  import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 
 
   export default {
-    data () {
-      return {
-      }
+    data() {
+      return {}
     },
     computed: {},
     components: {
-
+      NprogressContainer
     },
-    mounted(){
+    mounted() {
 
       let that = this;
 
@@ -35,7 +32,6 @@
 
   @import "~font-awesome/css/font-awesome.css";
   @import "./assets/css/app.less";
-
 
   .nb-app {
 
@@ -65,7 +61,6 @@
         }
       }
     }
-
 
     //所有的滚动条样式
     ::-webkit-scrollbar {
