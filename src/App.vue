@@ -1,23 +1,95 @@
 <template>
-  <div id="app">
-    <img src="./assets/img/logo.png">
+  <div class="nb-app">
+
+
+
     <router-view/>
+
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+  //import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
+
+
+
+  export default {
+    data () {
+      return {
+      }
+    },
+    computed: {},
+    components: {
+
+    },
+    mounted(){
+
+      let that = this;
+
+    }
+  }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
+<style lang="less" rel="stylesheet/less">
+
+  @import "~font-awesome/css/font-awesome.css";
+  @import "./assets/css/app.less";
+
+
+  .nb-app {
+
+    height: 100%;
+
+    .nprogress-container {
+      position: fixed !important;
+      width: 100%;
+      height: 150px;
+      z-index: 2048;
+      pointer-events: none;
+
+      #nprogress {
+        //@color: #48e79a;
+        @color: #1ab394;
+
+        .bar {
+          background: @color;
+        }
+        .peg {
+          box-shadow: 0 0 10px @color, 0 0 5px @color;
+        }
+
+        .spinner-icon {
+          border-top-color: @color;
+          border-left-color: @color;
+        }
+      }
+    }
+
+
+    //所有的滚动条样式
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track-piece {
+      background-color: #eee;
+      margin: -2px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #aaa;
+      min-height: 150px;
+      min-width: 150px;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:vertical:hover {
+      background: #555555
+    }
+    ::-webkit-scrollbar-thumb:horizontal:hover {
+      background: #555555
+    }
+
+  }
+
+
 </style>

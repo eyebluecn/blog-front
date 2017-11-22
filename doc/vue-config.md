@@ -27,3 +27,20 @@ b.不需要做任何操作了，因为只要安装了less，vue-cli就会把less
 `favicon: 'src/assets/img/favicon.ico'`
 
 文件`build/webpack.dev.config.js` 同样的位置添加。
+
+
+
+### 5.设置http代理
+
+`config/index.js`在dev节点下添加：
+```
+proxyTable: {
+      '/api': {
+        target: 'http://127.0.0.1:9090',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '/api'
+        }
+      }
+    },
+```
