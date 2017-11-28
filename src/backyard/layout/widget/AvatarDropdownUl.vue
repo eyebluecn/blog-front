@@ -8,7 +8,7 @@
 			</a>
 		</li>
 		<li>
-			<a href="javascript:void(0)" @click.prevent="$router.push('/by/member/profile/' + member.uuid + '/campus')">
+			<a href="javascript:void(0)" @click.prevent="$router.push('/by/user/profile/' + user.uuid + '/campus')">
 				<i class="fa fa-user-circle w20 text-center"></i>
 				个人中心
 			</a>
@@ -36,15 +36,15 @@
   export default {
     data () {
       return {
-        member: this.$store.state.member
+        user: this.$store.state.user
       }
     },
     props: {},
     computed: {},
     methods: {
       logout () {
-        this.member.httpLogout()
-        this.$router.push('/member/login')
+        this.user.httpLogout()
+        this.$router.push('/user/login')
       }
     },
     mounted () {

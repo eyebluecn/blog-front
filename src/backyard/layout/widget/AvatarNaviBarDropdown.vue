@@ -3,7 +3,7 @@
 	<li class="dropdown" :class="{'open':open}" ref="dropdown" @mouseover="mouseOver" @mouseout="mouseOut"
 	    @click="toggle">
 		<a href="javascript:void(0)" @blur="loseFocus">
-			<img alt="image" class="img-circle w30 h30" :src="member.getAvatarUrl()"/>
+			<img alt="image" class="img-circle w30 h30" :src="user.getAvatarUrl()"/>
 		</a>
 
 		<AvatarDropdownUl ref="avatarDropdownUl" @mouseover="mouseOver" @mouseout="mouseOut"/>
@@ -21,7 +21,7 @@
 	export default {
 		data () {
 			return {
-				member: this.$store.state.member,
+				user: this.$store.state.user,
 				open: false,
 				isInside: false
 			}
@@ -72,8 +72,8 @@
 				}, 200);
 			},
 			logout(){
-				this.member.logout();
-				this.$router.push("/member/login");
+				this.user.logout();
+				this.$router.push("/user/login");
 			}
 		},
 		mounted(){

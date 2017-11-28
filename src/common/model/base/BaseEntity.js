@@ -4,7 +4,6 @@ import Filter from './Filter'
 import { lowerSlash, startWith } from '../../filter/str'
 import { MessageBox, Notification as NotificationBox } from 'element-ui'
 import Schema from '../../../../node_modules/async-validator'
-import EntityType from '../feature/EntityType'
 
 export default class BaseEntity extends Base {
 
@@ -43,16 +42,6 @@ export default class BaseEntity extends Base {
 
   }
 
-//获取当前类的EntityType
-  getEntityType () {
-    let originName = this.getTAG()
-    let res = originName.replace(/([A-Z])/g, '_$1').toUpperCase()
-    if (startWith(res, '_')) {
-      res = res.substr(1, res.length)
-    }
-
-    return EntityType[res]
-  }
 
 //该实体目前是否能够编辑
   canEdit () {

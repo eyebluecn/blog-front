@@ -7,6 +7,7 @@
 			<i v-if="menu.children && menu.children.length" class="pull-right fa"
 			   :class="{'fa-angle-left':!menu.active,'fa-angle-down':menu.active}"></i>
 
+
 		</a>
 
 		<NbExpanding>
@@ -54,8 +55,6 @@
 										</li>
 									</ul>
 								</NbExpanding>
-
-
 							</li>
 						</ul>
 					</NbExpanding>
@@ -67,9 +66,9 @@
 </template>
 <script>
 
-  import NbExpanding from '../../../common/widget/NbExpanding.vue'
-  import Menu from '../../../common/model/frontend/Menu'
-  import { startWith } from '../../../common/filter/str'
+  import NbExpanding from '../../common/widget/NbExpanding.vue'
+  import Menu from '../../common/frontend/Menu'
+  import { startWith } from '../../common/filter/str'
 
   export default {
     props: {
@@ -115,7 +114,7 @@
         //TODO:需要一个优雅的解决方案。
 
         return (startWith(this.$route.path, '/by/region/list') && startWith(menu.router.path, '/by/region/list')) ||
-          (startWith(this.$route.path, '/by/member/role') && startWith(menu.router.path, '/by/member/role'))
+          (startWith(this.$route.path, '/by/user/role') && startWith(menu.router.path, '/by/user/role'))
 
       }
     },

@@ -44,8 +44,8 @@
 
 <script>
   import { Notification } from 'element-ui'
-  import SideNavigation from './view/layout/SideNavigation.vue'
-  import TopNavigation from './view/layout/TopNavigation.vue'
+  import SideNavigation from './layout/SideNavigation.vue'
+  import TopNavigation from './layout/TopNavigation.vue'
   import enquire from 'enquire.js/dist/enquire'
 
   export default {

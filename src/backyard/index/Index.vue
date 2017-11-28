@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
 
-    <h1>现在是首页的显示了</h1>
+    <div>现在是首页的显示了</div>
 
   </div>
 </template>
