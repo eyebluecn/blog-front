@@ -1,20 +1,19 @@
 <template>
 
-	<div id="body" class="fixed-sidebar">
+  <div id="body">
 
-		<div id="wrapper">
-			<SideNavigation/>
-			<div id="page-wrapper" :class="{'show-drawer':$store.state.config.showDrawer}" @click="blankClick">
+    <div>
+      <SideNavigation/>
+      <div id="page-wrapper" :class="{'show-drawer':$store.state.config.showDrawer}" @click="blankClick">
+        <div>
 
-				<div>
+          <div class="mb10">
 
-					<div class="mb10">
+            <router-link to="/by" v-if="$store.state.breadcrumbs && $store.state.breadcrumbs.length">
+              <i class="fa fa-home f16"></i>
+            </router-link>
 
-						<router-link to="/by">
-							<i class="fa fa-home f16"></i>
-						</router-link>
-
-						<span v-for="b in $store.state.breadcrumbs">
+            <span v-for="b in $store.state.breadcrumbs">
               <span>/</span>
 							<router-link v-if="b.name !== $store.state.route.name" :to="b">
                 {{b.title}}
@@ -25,37 +24,35 @@
 
             </span>
 
-					</div>
-					<router-view></router-view>
+          </div>
+          <router-view></router-view>
 
-				</div>
-
-
-				<TopNavigation/>
-			</div>
-
-		</div>
+        </div>
 
 
-	</div>
+        <TopNavigation/>
+      </div>
+
+    </div>
+  </div>
 
 
 </template>
 
 <script>
-  import { Notification } from 'element-ui'
+  import {Notification} from 'element-ui'
   import SideNavigation from './layout/SideNavigation.vue'
   import TopNavigation from './layout/TopNavigation.vue'
   import enquire from 'enquire.js/dist/enquire'
 
   export default {
-    data () {
+    data() {
       return {
         member: this.$store.state.member
       }
     },
     computed: {
-      config () {
+      config() {
         return this.$store.state.config
       }
     },
@@ -64,14 +61,14 @@
       TopNavigation
     },
     methods: {
-      blankClick () {
+      blankClick() {
         if (this.config.mobile) {
           if (this.config.showDrawer) {
             this.$store.state.config.showDrawer = false
           }
         }
       },
-      listenResponsiveEvent () {
+      listenResponsiveEvent() {
         let that = this
         enquire.register('(max-width: 768px)', {
           match: function () {
@@ -83,50 +80,57 @@
         })
       }
     },
-    created () {
+    created() {
 
     },
-    mounted () {
+    mounted() {
       let that = this
-
       this.$store.state.environment = 'backyard'
-
-
       this.listenResponsiveEvent()
-
     }
   }
-
 </script>
 
 <style lang="less" rel="stylesheet/less">
-	@import "../assets/css/global/variables";
+  @import "../assets/css/global/variables";
 
-	#page-wrapper {
+  #page-wrapper {
 
-		position: relative;
-		margin-top: @top-navigation-height + 10px;
-		//min-height: 1200px;
-		padding-bottom: 40px;
+    position: fixed;
+    left: @sidebar-width;
+    top: @top-navigation-height;
+    right: 0;
+    bottom: 0;
 
-		-webkit-transition: all 0.4s;
-		-moz-transition: all 0.4s;
-		-o-transition: all 0.4s;
-		transition: all 0.4s;
+    padding: 10px;
 
-		background-color: #f3f3f4;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
 
-		&.show-drawer {
-			//大屏幕
-			@media (min-width: @screen-sm-min) {
-				margin-left: @sidebar-width;
-			}
+    background-color: #f3f3f4;
 
-			//小屏幕
-			@media (max-width: @screen-xs-max) {
-				margin-left: 0;
-			}
-		}
-	}
+    //大屏幕
+    @media (min-width: @screen-sm-min) {
+      left: @sidebar-width;
+    }
+    //小屏幕
+    @media (max-width: @screen-xs-max) {
+      left: 0;
+    }
+
+    &.show-drawer {
+      //大屏幕
+      @media (min-width: @screen-sm-min) {
+        left: @sidebar-width;
+      }
+
+      //小屏幕
+      @media (max-width: @screen-xs-max) {
+        left: 0;
+      }
+    }
+  }
 
 </style>

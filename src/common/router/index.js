@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import ByIndexView from '../../backyard/index/Index.vue'
 import ByFrameView from '../../backyard/Frame.vue'
+import UserLogin from '../../backyard/user/Login.vue'
 
 Vue.use(Router)
 
@@ -42,6 +43,16 @@ export default new Router({
                 title: '首页'
               }
             ]
+          }
+        },
+        {
+          path: 'user/login',
+          name: 'UserLogin',
+          component: UserLogin,
+          meta: {
+            title: '登录',
+            requiresAuth: false,
+            breadcrumbs: []
           }
         }
       ]

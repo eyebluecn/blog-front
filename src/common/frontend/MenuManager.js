@@ -1,5 +1,4 @@
 import Menu from './Menu'
-import Vue from 'vue'
 
 export default class MenuManager {
 
@@ -10,9 +9,20 @@ MenuManager.refreshByMenus = function (user) {
 
   let byMenus = []
 
-  //首页
-  let indexMenu = new Menu('首页', '/by', false, 'fa fa-home')
-  byMenus.push(indexMenu)
+  if (user.role === "GUEST") {
+
+    //登录
+    let loginMenu = new Menu('登录', '/by/user/login', false, 'fa fa-user-circle-o')
+    byMenus.push(loginMenu)
+
+  } else {
+
+    //首页
+    let indexMenu = new Menu('首页', '/by', false, 'fa fa-home')
+    byMenus.push(indexMenu)
+
+  }
+
 
   return byMenus
 }

@@ -8,11 +8,16 @@
 
 <script>
   export default {
-    name: 'HelloWorld',
     data() {
-      return {
-        msg: 'Welcome to Your Vue.js App'
-      }
+      return {}
+    },
+    props: {},
+    watch: {},
+    computed: {},
+    components: {},
+    methods: {},
+    mounted() {
+
     }
   }
 

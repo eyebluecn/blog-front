@@ -1,9 +1,7 @@
 import BaseEntity from '../base/BaseEntity'
 import Filter from '../base/Filter'
 import $ from 'jquery'
-import { readLocalStorage, removeLocalStorage, saveToLocalStorage } from '../../util/Utils'
-import { simpleDateTime } from '../../filter/time'
-import Menu from "../../frontend/Menu"
+import {readLocalStorage, removeLocalStorage, saveToLocalStorage} from '../../util/Utils'
 import MenuManager from "../../frontend/MenuManager"
 
 let Gender = {
@@ -30,10 +28,16 @@ let GenderMap = {
 }
 
 let Role = {
+  GUEST: 'GUEST',
   USER: 'USER',
   ADMIN: 'ADMIN'
 }
 let RoleMap = {
+  GUEST: {
+    name: '游客',
+    value: 'GUEST',
+    style: 'primary'
+  },
   USER: {
     name: '注册用户',
     value: 'USER',
@@ -47,12 +51,12 @@ let RoleMap = {
 }
 
 export default class User extends BaseEntity {
-  constructor (args) {
+  constructor(args) {
     super(args)
 
     this.username = null;
     this.password = null;
-    this.role = Role.ADMIN = null;
+    this.role = Role.GUEST;
     this.email = null;
     this.phone = null;
     //用户角色
@@ -95,7 +99,7 @@ export default class User extends BaseEntity {
   static URL_LOGOUT = '/admin/member/logout'
   static URL_MEMBER_RESET_PASSWORD = '/admin/member/reset/password'
 
-  getFilters () {
+  getFilters() {
     return [
       new Filter(Filter.prototype.Type.SORT, '序号', 'orderSort'),
       new Filter(Filter.prototype.Type.HTTP_SELECTION, '角色', 'roleUuid', null, UserRole),
@@ -109,13 +113,13 @@ export default class User extends BaseEntity {
   };
 
   //We use this method to get the full js Object.
-  render (obj) {
+  render(obj) {
     super.render(obj)
     this.renderEntity('lastTime', Date)
   }
 
   //获取用户头像的url.
-  getAvatarUrl () {
+  getAvatarUrl() {
     if (this.avatarUrl) {
       return this.avatarUrl
     } else {
@@ -123,7 +127,7 @@ export default class User extends BaseEntity {
     }
   }
 
-  refreshMenus () {
+  refreshMenus() {
 
     //后台菜单。不同用户看到的东西不一样。
     this.byMenus = MenuManager.refreshByMenus(this)
@@ -131,7 +135,7 @@ export default class User extends BaseEntity {
   };
 
   //将用户信息存储在本地。
-  renderFromLocalStorage () {
+  renderFromLocalStorage() {
 
     try {
       let memberString = readLocalStorage(this.getTAG())
@@ -149,7 +153,7 @@ export default class User extends BaseEntity {
   }
 
   //将用户信息存储在本地。
-  saveToLocalStorage (rawUserObject = null) {
+  saveToLocalStorage(rawUserObject = null) {
 
     if (rawUserObject) {
       rawUserObject.isLogin = true
@@ -158,13 +162,13 @@ export default class User extends BaseEntity {
   }
 
   //清除本地的member信息
-  clearLocalStorage () {
+  clearLocalStorage() {
 
     removeLocalStorage(this.getTAG())
   }
 
   //更新本地持久化了的个别字段。
-  updateLocalStorage (opt = {}) {
+  updateLocalStorage(opt = {}) {
     try {
       let memberString = readLocalStorage(this.getTAG())
 
@@ -180,7 +184,7 @@ export default class User extends BaseEntity {
     }
   }
 
-  getForm () {
+  getForm() {
 
     return {
       roleUuid: this.role.uuid,
@@ -196,7 +200,7 @@ export default class User extends BaseEntity {
     }
   }
 
-  validate () {
+  validate() {
 
     if (this.editMode) {
       this.password = true
@@ -205,7 +209,7 @@ export default class User extends BaseEntity {
     return super.validate()
   }
 
-  httpSave (captcha, successCallback, errorCallback) {
+  httpSave(captcha, successCallback, errorCallback) {
     let that = this
     let url = this.getUrlCreate()
     if (this.uuid) {
@@ -235,7 +239,7 @@ export default class User extends BaseEntity {
   }
 
   //local logout.
-  innerLogout () {
+  innerLogout() {
 
     this.render(new User())
 
@@ -246,7 +250,7 @@ export default class User extends BaseEntity {
 
   }
 
-  innerLogin (response) {
+  innerLogin(response) {
     let that = this
     that.errorMessage = null
     that.render(response.data.data)
@@ -260,7 +264,7 @@ export default class User extends BaseEntity {
 
   }
 
-  loginValidate () {
+  loginValidate() {
 
     if (!this.phone) {
       this.errorMessage = '手机必填'
@@ -275,7 +279,7 @@ export default class User extends BaseEntity {
     return true
   }
 
-  resetValidate () {
+  resetValidate() {
 
     if (!this.phone) {
       this.errorMessage = '手机必填'
@@ -289,7 +293,7 @@ export default class User extends BaseEntity {
     return true
   }
 
-  getLoginForm () {
+  getLoginForm() {
 
     return {
       phone: this.phone,
@@ -297,7 +301,7 @@ export default class User extends BaseEntity {
     }
   }
 
-  hasPermission (featureType) {
+  hasPermission(featureType) {
 
     if (this.role) {
       return this.role.hasPermission(featureType)
@@ -307,14 +311,14 @@ export default class User extends BaseEntity {
     }
   }
 
-  getResetForm () {
+  getResetForm() {
     return {
       phone: this.phone,
       password: this.password
     }
   }
 
-  httpLogin (captcha, successCallback, errorCallback) {
+  httpLogin(captcha, successCallback, errorCallback) {
 
     let that = this
 
@@ -336,7 +340,7 @@ export default class User extends BaseEntity {
     }, errorCallback)
   }
 
-  httpResetPassword (captcha, successCallback, errorCallback) {
+  httpResetPassword(captcha, successCallback, errorCallback) {
     let that = this
 
     if (!this.resetValidate()) {
@@ -356,7 +360,7 @@ export default class User extends BaseEntity {
 
   }
 
-  httpLogout (successCallback, errorCallback) {
+  httpLogout(successCallback, errorCallback) {
 
     let that = this
 
@@ -371,5 +375,6 @@ export default class User extends BaseEntity {
 }
 //注册Gender这个枚举变量
 User.registerEnum('Gender', GenderMap)
+User.registerEnum('Role', RoleMap)
 
 

@@ -6,47 +6,21 @@
       <div class="navbar-title">
 
         <router-link to="/">
-          <span class="f18 black bold">超级后台管理系统</span>
+          <span class="f18 black bold">个人博客管理后台</span>
         </router-link>
-
 
       </div>
 
       <ul class="nav navbar-right">
 
-        <!--通知按钮先隐藏-->
-        <li v-if="false">
-          <a class="message-info" href="javascript:void(0)"
-             @click.stop.prevent="$router.push('/by/message/remind/list')">
-            <i class="fa fa-bell"></i>
-            <span class="label label-warning">12</span>
-          </a>
-        </li>
-
-        <!--通知按钮先隐藏-->
-        <li v-if="false">
-          <a class="message-info" href="javascript:void(0)"
-             @click.stop.prevent="$router.push('/by/message/letter/list/inbox')">
-            <i class="fa fa-envelope"></i>
-            <span class="label label-primary">10</span>
-          </a>
-        </li>
-
-        <li is="AvatarNaviBarDropdown" v-if="user.isLogin"></li>
+        <li is="AvatarNaviBarDropdown" v-if="user.role !== 'GUEST'"></li>
 
       </ul>
-
 
       <button class="drawer-trigger btn btn-primary btn-sm"
               @click.stop.prevent="$store.state.config.showDrawer=!$store.state.config.showDrawer">
         <i class="fa fa-bars"></i>
       </button>
-
-      <span class="login-trigger" v-if="!user.isLogin">
-				<span class="login-span" @click.stop.prevent="$router.push('/user/login')">登录</span>
-				/
-				<span class="register-span" @click.stop.prevent="$router.push('/user/login')">注册</span>
-			</span>
 
 
     </nav>

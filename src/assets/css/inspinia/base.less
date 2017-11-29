@@ -1,27 +1,4 @@
 
-#body.full-height-layout #wrapper,
-#body.full-height-layout #page-wrapper {
-	height: 100%;
-}
-
-#body.boxed-layout {
-
-}
-
-#body.boxed-layout #wrapper {
-	background-color: #2f4050;
-	max-width: @boxed-width;
-	margin: 0 auto;
-	-webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
-	-moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
-	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.75);
-}
-
-.top-navigation.boxed-layout #wrapper,
-.boxed-layout #wrapper.top-navigation {
-	max-width: 1300px !important;
-}
-
 .block {
 	display: block;
 }
@@ -158,27 +135,6 @@ a:hover, a:focus {
 
 .modal-footer {
 	margin-top: 0;
-}
-
-/* WRAPPERS */
-
-#wrapper {
-	width: 100%;
-	overflow-x: hidden;
-}
-
-.wrapper {
-	padding: 0 20px;
-}
-
-.wrapper-content {
-	padding: 20px 10px 40px;
-}
-
-#page-wrapper {
-	padding: 0 15px;
-	min-height: 568px;
-	position: relative !important;
 }
 
 
@@ -1306,11 +1262,6 @@ table.table-mail tr td {
 // Fix
 #body.modal-open {
 	padding-right: inherit !important;
-}
-
-// Fix modal in Safari browser
-#body.modal-open .wrapper-content.animated {
-	-webkit-animation: none;
 }
 
 // Fix for modal backdrop with animate.css
