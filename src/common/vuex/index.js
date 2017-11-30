@@ -5,7 +5,7 @@ import User from "../model/user/User";
 Vue.use(Vuex)
 
 let user = new User()
-user.refreshMenus()
+user.renderFromLocalStorage()
 
 const state = {
   config: {

@@ -609,8 +609,8 @@ export default class Base {
       that.loading = false
 
       console.error(response)
-      //错误信息一律存放在自己的errorMessage中
-      that.errorMessage = that.getErrorMessage(response)
+      //错误信息一律存放在自己的errorMessage中，user httpLogout将显得不灵活了
+      //that.errorMessage = that.getErrorMessage(response)
 
       //对于没有登录的错误直接跳转到登录页面
       if (that.loginErrorHandler(response)) {
@@ -657,8 +657,8 @@ export default class Base {
       that.loading = false
 
       console.error(response)
-      //错误信息一律存放在自己的errorMessage中
-      that.errorMessage = that.getErrorMessage(response)
+      //错误信息一律存放在自己的errorMessage中，user httpLogout将显得不灵活了
+      //that.errorMessage = that.getErrorMessage(response)
 
       //对于没有登录的错误直接跳转到登录页面
       if (that.loginErrorHandler(response)) {

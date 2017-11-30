@@ -23,7 +23,7 @@ MenuManager.refreshByMenus = function (user) {
 
 
     //首页
-    let logoutMenu = new Menu('退出登录', '/by/user/login', false, 'fa fa-home')
+    let logoutMenu = new Menu('退出登录', '/by/user/login', false, 'fa fa-power-off')
     byMenus.push(logoutMenu)
 
   }

@@ -90,10 +90,23 @@
 
         })
 
+      },
+      logout() {
+
+        if (this.user.role !== "GUEST") {
+          this.user.httpLogout(function () {
+            console.info("退出成功！")
+          }, function () {
+            console.error("退出失败！")
+          })
+        }
+
+
       }
     },
     mounted() {
-
+      //到登录页面了需要先做一次退出操作。因为退出就是直接跳转到登录页面的。
+      this.logout()
     }
 
 

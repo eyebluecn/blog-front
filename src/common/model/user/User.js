@@ -70,8 +70,6 @@ export default class User extends BaseEntity {
     //上次登录时间
     this.lastTime = null;
     //local fields.
-    //统指邮箱或手机
-    this.isLogin = false
     this.byMenus = []
 
     //登录的密码，服务器返回字段中没有密码
@@ -145,21 +143,20 @@ export default class User extends BaseEntity {
       if (userString) {
         let json = JSON.parse(userString)
         this.render(json)
-        //从本地加载user之后，可以去访问后台菜单了
-        this.refreshMenus()
+
       }
 
     } catch (e) {
       removeLocalStorage(this.getTAG())
     }
+    //从本地加载user之后，可以去访问后台菜单了
+    this.refreshMenus()
   }
 
   //将用户信息存储在本地。
   saveToLocalStorage(rawUserObject = null) {
 
-    if (rawUserObject) {
-      rawUserObject.isLogin = true
-    }
+
     saveToLocalStorage(this.getTAG(), JSON.stringify(rawUserObject))
   }
 
@@ -256,7 +253,6 @@ export default class User extends BaseEntity {
     let that = this
     that.errorMessage = null
     that.render(response.data.data)
-    that.isLogin = true
 
     //用户登陆后我们认为可以去访问后台菜单了
     this.refreshMenus()
@@ -264,11 +260,6 @@ export default class User extends BaseEntity {
     //登录成功后去本地保存一下用户的简单信息，方便下次自动填入个别字段。
     this.saveToLocalStorage(response.data.data)
 
-  }
-
-  loginValidate() {
-
-    return true
   }
 
   resetValidate() {
@@ -332,7 +323,11 @@ export default class User extends BaseEntity {
       that.innerLogin(response)
 
       successCallback && successCallback(response)
-    }, errorCallback)
+    }, function (response) {
+
+      that.errorMessage = that.getErrorMessage(response)
+      errorCallback && errorCallback(response);
+    })
   }
 
   httpResetPassword(captcha, successCallback, errorCallback) {
