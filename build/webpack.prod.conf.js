@@ -37,7 +37,12 @@ const webpackConfig = merge(baseWebpackConfig, {
       compress: {
         warnings: false
       },
-      sourceMap: true
+      sourceMap: true,
+      //我们的类名不希望被混淆，否则url获取会成单字母了。
+      mangle: {
+        except: ['$super', '$', 'exports', 'require', 'angular'],
+        keep_fnames: true//it works
+      }
     }),
     // extract css into its own matter
     new ExtractTextPlugin({

@@ -79,6 +79,7 @@ export default class User extends BaseEntity {
     this.createTime = null
 
 
+    //编辑用户资料时的验证规则。也是默认的验证规则。
     this.validatorSchema = {
       phone: {
         rules: [{required: true, message: '手机号必填'}],
@@ -93,11 +94,12 @@ export default class User extends BaseEntity {
         error: null
       }
     }
+
   }
 
-  static URL_LOGIN = '/admin/member/login'
-  static URL_LOGOUT = '/admin/member/logout'
-  static URL_MEMBER_RESET_PASSWORD = '/admin/member/reset/password'
+  static URL_LOGIN = '/user/login'
+  static URL_LOGOUT = '/user/logout'
+  static URL_MEMBER_RESET_PASSWORD = '/user/reset/password'
 
   getFilters() {
     return [
@@ -138,12 +140,12 @@ export default class User extends BaseEntity {
   renderFromLocalStorage() {
 
     try {
-      let memberString = readLocalStorage(this.getTAG())
+      let userString = readLocalStorage(this.getTAG())
 
-      if (memberString) {
-        let json = JSON.parse(memberString)
+      if (userString) {
+        let json = JSON.parse(userString)
         this.render(json)
-        //从本地加载member之后，可以去访问后台菜单了
+        //从本地加载user之后，可以去访问后台菜单了
         this.refreshMenus()
       }
 
@@ -161,7 +163,7 @@ export default class User extends BaseEntity {
     saveToLocalStorage(this.getTAG(), JSON.stringify(rawUserObject))
   }
 
-  //清除本地的member信息
+  //清除本地的user信息
   clearLocalStorage() {
 
     removeLocalStorage(this.getTAG())
@@ -170,10 +172,10 @@ export default class User extends BaseEntity {
   //更新本地持久化了的个别字段。
   updateLocalStorage(opt = {}) {
     try {
-      let memberString = readLocalStorage(this.getTAG())
+      let userString = readLocalStorage(this.getTAG())
 
-      if (memberString) {
-        let json = JSON.parse(memberString)
+      if (userString) {
+        let json = JSON.parse(userString)
         $.extend(json, opt)
 
         saveToLocalStorage(this.getTAG(), JSON.stringify(json))
@@ -266,16 +268,6 @@ export default class User extends BaseEntity {
 
   loginValidate() {
 
-    if (!this.phone) {
-      this.errorMessage = '手机必填'
-      return false
-    }
-
-    if (!this.localPassword) {
-      this.errorMessage = '密码必填'
-      return false
-    }
-
     return true
   }
 
@@ -293,13 +285,6 @@ export default class User extends BaseEntity {
     return true
   }
 
-  getLoginForm() {
-
-    return {
-      phone: this.phone,
-      password: this.localPassword
-    }
-  }
 
   hasPermission(featureType) {
 
@@ -322,11 +307,21 @@ export default class User extends BaseEntity {
 
     let that = this
 
-    if (!this.loginValidate()) {
+    //验证参数。
+    if (!this.email) {
+      this.errorMessage = '邮箱必填'
       return
     }
+    if (!this.localPassword) {
+      this.errorMessage = '密码必填'
+      return
+    }
+    this.errorMessage = null
 
-    let form = this.getLoginForm()
+    let form = {
+      email: this.email,
+      password: this.localPassword
+    }
 
     if (captcha) {
       form.captcha = captcha
@@ -373,6 +368,7 @@ export default class User extends BaseEntity {
   }
 
 }
+
 //注册Gender这个枚举变量
 User.registerEnum('Gender', GenderMap)
 User.registerEnum('Role', RoleMap)

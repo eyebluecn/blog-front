@@ -21,6 +21,11 @@ MenuManager.refreshByMenus = function (user) {
     let indexMenu = new Menu('首页', '/by', false, 'fa fa-home')
     byMenus.push(indexMenu)
 
+
+    //首页
+    let logoutMenu = new Menu('退出登录', '/by/user/login', false, 'fa fa-home')
+    byMenus.push(logoutMenu)
+
   }
 
 

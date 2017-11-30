@@ -6,7 +6,7 @@
       <!--输入框开始-->
       <div class="input-group mb15">
         <span class="input-group-addon"><i class="fa fa-user w14"></i></span>
-        <input type="email" class="form-control" placeholder="邮箱" v-model="user.phone"
+        <input type="email" class="form-control" placeholder="邮箱" v-model="user.email"
                @keyup.enter="login">
       </div>
       <div class="input-group mb15">
@@ -15,14 +15,41 @@
                @keyup.enter="login">
       </div>
 
-      <div>
-        <button class="btn btn-primary button full-width" @click.prevent.stop="login">
-          <i class="fa fa-user-circle-o"></i>
-          登录
+      <div class="row mb15" v-if="loginFail">
+        <div class="col-xs-8">
+
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-file-image-o w14"></i></span>
+            <input type="password" class="form-control" placeholder="图形验证码" v-model="captchaValue"
+                   @keyup.enter="login">
+          </div>
+        </div>
+        <div class="col-xs-4">
+          <NbImageCaptcha/>
+        </div>
+      </div>
+
+      <div class="mb15">
+        <button class="btn btn-primary button full-width" @click.prevent.stop="login" :disabled="user.loading">
+          <span v-if="user.loading">
+            <i class="fa fa-spinner fa-spin"></i>
+            正在登录...
+          </span>
+          <span v-else>
+            <i class="fa fa-user-circle-o"></i>
+            登录
+          </span>
+
         </button>
 
       </div>
 
+
+      <div class="mb15" v-show="user.errorMessage">
+        <div class="alert alert-danger">
+          {{user.errorMessage}}
+        </div>
+      </div>
 
     </div>
 
@@ -30,18 +57,38 @@
 </template>
 
 <script>
+  import NbImageCaptcha from "../../common/widget/NbImageCaptcha.vue"
+
   export default {
     data() {
       return {
-        user: this.$store.state.user
+        user: this.$store.state.user,
+        captchaValue: null,
+        loginFail: false
       }
     },
     props: {},
     watch: {},
     computed: {},
-    components: {},
+    components: {
+      NbImageCaptcha
+    },
     methods: {
       login() {
+        let that = this
+        this.user.httpLogin(that.captchaValue, function () {
+          that.loginFail = false;
+
+          //自动进入到首页。
+          that.$router.push("/by")
+
+          //登录成功啦。
+        }, function (err) {
+          that.loginFail = true
+
+          console.log(err)
+
+        })
 
       }
     },

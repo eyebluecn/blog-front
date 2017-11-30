@@ -9,18 +9,14 @@
       </div>
 
 
-      <div class="menu-header">
-        <div class="logo-area" @click="goToProfile">
+      <div class="menu-header" @click="goToProfile">
+        <div class="logo-area">
           <img alt="image" class="img-circle w80" :src="user.getAvatarUrl()"/>
         </div>
         <div class="text-area">
           <div class="nickname">
-            {{user.nickname}}
+            {{user.role === 'GUEST' ? '请登录' : user.username}}
           </div>
-          <div class="role">
-            {{user.role}}
-          </div>
-
         </div>
       </div>
 
@@ -63,7 +59,14 @@
     },
     methods: {
       goToProfile() {
-        this.$router.push("/by/user/profile/" + this.user.uuid);
+
+        if (this.user.role === 'GUEST') {
+          this.$router.push("/by/user/login");
+        } else {
+          this.$router.push("/by/user/profile/" + this.user.uuid);
+        }
+
+
       },
       eatClick() {
 
@@ -99,27 +102,6 @@
   @nav-text-color: white;
   @font-highlight-color: #ddd;
   @left-border-color: @brand-primary;
-
-  //大屏幕
-  @media (min-width: @screen-lg-min) {
-    .menu-header {
-      display: none;
-    }
-  }
-
-  //中屏幕
-  @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
-    .menu-header {
-      display: none;
-    }
-  }
-
-  //小屏幕
-  @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
-    .menu-header {
-      display: none;
-    }
-  }
 
   //手机屏幕
   @media (max-width: @screen-xs-max) {
@@ -169,10 +151,9 @@
 
     //放头像和用户名的地方。
     .menu-header {
-
-      border-bottom: 1px solid #2F4458;
+      cursor: pointer;
       .logo-area {
-        cursor: pointer;
+
         text-align: center;
         padding: 20px 0;
       }

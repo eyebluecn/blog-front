@@ -11,12 +11,6 @@
 
       </div>
 
-      <ul class="nav navbar-right">
-
-        <li is="AvatarNaviBarDropdown" v-if="user.role !== 'GUEST'"></li>
-
-      </ul>
-
       <button class="drawer-trigger btn btn-primary btn-sm"
               @click.stop.prevent="$store.state.config.showDrawer=!$store.state.config.showDrawer">
         <i class="fa fa-bars"></i>

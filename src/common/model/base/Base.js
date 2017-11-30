@@ -1,12 +1,12 @@
 import $ from 'jquery'
 import Vue from 'vue'
-import { Notification } from 'element-ui'
-import { lowerCamel, lowerSlash, startWith, toPlural } from '../../filter/str'
-import { str2Date } from '../../filter/time'
+import {Notification} from 'element-ui'
+import {lowerCamel, lowerSlash, startWith, toPlural} from '../../filter/str'
+import {str2Date} from '../../filter/time'
 
 export default class Base {
 
-  constructor (args) {
+  constructor(args) {
     //local fields. Used in UI.
     this.errorMessage = null
     this.editMode = false
@@ -16,7 +16,7 @@ export default class Base {
     this.detailLoading = false
   }
 
-  getStatusList () {
+  getStatusList() {
 
     if (!this.StatusMap) {
       console.error(this.getTAG() + '错误！未指定StatusMap!')
@@ -40,7 +40,7 @@ export default class Base {
 
   }
 
-  getStatusMap () {
+  getStatusMap() {
     if (!this.StatusMap) {
       console.error(this.getTAG() + '错误！未指定StatusMap!')
       return {}
@@ -50,7 +50,7 @@ export default class Base {
 
   }
 
-  getStatusItem (status) {
+  getStatusItem(status) {
     if (!this.StatusMap) {
       console.error(this.getTAG() + '错误！未指定StatusMap!')
       return {
@@ -74,7 +74,7 @@ export default class Base {
     }
   }
 
-  getStatusName () {
+  getStatusName() {
     if (this.status && this.StatusMap) {
       let item = this.StatusMap[this.status]
       if (item) {
@@ -90,7 +90,7 @@ export default class Base {
     return '未知状态'
   };
 
-  getStatusStyle () {
+  getStatusStyle() {
 
     if (this.status && this.StatusMap) {
       let item = this.StatusMap[this.status]
@@ -105,7 +105,7 @@ export default class Base {
     return 'default'
   };
 
-  getStatusIcon () {
+  getStatusIcon() {
 
     if (this.status && this.StatusMap) {
       let item = this.StatusMap[this.status]
@@ -120,7 +120,7 @@ export default class Base {
     return 'ban'
   };
 
-  getTypeList () {
+  getTypeList() {
 
     if (!this.TypeMap) {
       console.error(this.getTAG() + '错误！未指定TypeMap!')
@@ -144,7 +144,7 @@ export default class Base {
 
   }
 
-  getTypeMap () {
+  getTypeMap() {
     if (!this.TypeMap) {
       console.error(this.getTAG() + '错误！未指定TypeMap!')
       return {}
@@ -154,7 +154,7 @@ export default class Base {
 
   }
 
-  getTypeItem (type) {
+  getTypeItem(type) {
     if (!this.TypeMap) {
       console.error(this.getTAG() + '错误！未指定TypeMap!')
       return {
@@ -178,7 +178,7 @@ export default class Base {
     }
   }
 
-  getTypeName () {
+  getTypeName() {
     if (this.type && this.TypeMap) {
       let item = this.TypeMap[this.type]
       if (item) {
@@ -193,7 +193,7 @@ export default class Base {
     return '未知类型'
   };
 
-  getTypeStyle () {
+  getTypeStyle() {
     if (this.type && this.TypeMap) {
       let item = this.TypeMap[this.type]
       if (item) {
@@ -209,7 +209,7 @@ export default class Base {
     return 'default'
   };
 
-  getTypeIcon () {
+  getTypeIcon() {
     if (this.type && this.TypeMap) {
       let item = this.TypeMap[this.type]
       if (item) {
@@ -226,7 +226,7 @@ export default class Base {
   };
 
   //注册Status的枚举变量。只能Clazz来调用这个方法，谁调用this就是谁。
-  static registerStatusEnum (StatusMap) {
+  static registerStatusEnum(StatusMap) {
 
     let Clazz = this
     let Status = {}
@@ -243,7 +243,7 @@ export default class Base {
   }
 
   //注册Type的枚举变量。只能Clazz来调用这个方法，谁调用this就是谁。
-  static registerTypeEnum (TypeMap) {
+  static registerTypeEnum(TypeMap) {
     let Clazz = this
     let Type = {}
     let TypeList = []
@@ -261,7 +261,7 @@ export default class Base {
   //往某个实体的prototype中注册某个枚举类型。以Category为例，会注册以下属性和方法
   //Category CategoryMap CategoryList getCategoryList() getCategoryMap()
   // getCategoryItem() getCategoryStyle() getCategoryName() getCategoryIcon()
-  static registerEnum (EnumName, EnumMap) {
+  static registerEnum(EnumName, EnumMap) {
     let Clazz = this
     if (!EnumName || !EnumMap) {
       console.error('注册枚举变量时参数错误！')
@@ -296,11 +296,11 @@ export default class Base {
 
         let item = null
 
-        for(let k in EnumMap){
+        for (let k in EnumMap) {
 
-          if(EnumMap.hasOwnProperty(k)){
+          if (EnumMap.hasOwnProperty(k)) {
             let temp = EnumMap[k];
-            if(temp.value === itemValue){
+            if (temp.value === itemValue) {
               item = temp
               break
             }
@@ -332,11 +332,11 @@ export default class Base {
 
         let item = null
 
-        for(let k in EnumMap){
+        for (let k in EnumMap) {
 
-          if(EnumMap.hasOwnProperty(k)){
+          if (EnumMap.hasOwnProperty(k)) {
             let temp = EnumMap[k];
-            if(temp.value === itemValue){
+            if (temp.value === itemValue) {
               item = temp
               break
             }
@@ -361,22 +361,20 @@ export default class Base {
       let itemValue = this[enumName]
 
 
-
       if (itemValue !== null && typeof itemValue !== "undefined") {
         let item = null
 
-        for(let k in EnumMap){
+        for (let k in EnumMap) {
 
-          if(EnumMap.hasOwnProperty(k)){
+          if (EnumMap.hasOwnProperty(k)) {
             let temp = EnumMap[k];
-            if(temp.value === itemValue){
+            if (temp.value === itemValue) {
               item = temp
               break
             }
           }
 
         }
-
 
 
         if (item) {
@@ -397,11 +395,11 @@ export default class Base {
 
         let item = null
 
-        for(let k in EnumMap){
+        for (let k in EnumMap) {
 
-          if(EnumMap.hasOwnProperty(k)){
+          if (EnumMap.hasOwnProperty(k)) {
             let temp = EnumMap[k];
-            if(temp.value === itemValue){
+            if (temp.value === itemValue) {
               item = temp
               break
             }
@@ -427,7 +425,7 @@ export default class Base {
 
   //We use this method to get the full js Object.
   //对于一对一的情况，会出现无穷递归，我们使用 one2one 参数来标识这个字段是否是另外一个对象的one2one字段。
-  render (obj, one2one = false) {
+  render(obj, one2one = false) {
     if (obj) {
       $.extend(this, obj)
     }
@@ -435,7 +433,7 @@ export default class Base {
 
   //如果自己仅仅是作为一个列表中的属性渲染的话，那么我们只关心个别关键词段。
   //比如在SpaceApply中SpaceSeats，这个如果使用render的话，那么页面加载速度将非常慢。
-  simpleRender (obj, one2one = false) {
+  simpleRender(obj, one2one = false) {
     this.render(obj, one2one)
   }
 
@@ -445,7 +443,7 @@ export default class Base {
    * @param Clazz 类型名
    * @param simpleRender 是否使用极简的渲染方式。
    */
-  renderList (field, Clazz, simpleRender = true) {
+  renderList(field, Clazz, simpleRender = true) {
 
     let beans = this[field]
     if (!beans) {
@@ -475,7 +473,7 @@ export default class Base {
   }
 
   //直接render出一个Entity. field字段名，Clazz类名。
-  renderEntity (field, Clazz, one2one = false) {
+  renderEntity(field, Clazz, one2one = false) {
 
     let obj = this[field]
     if (!obj) {
@@ -514,7 +512,7 @@ export default class Base {
   }
 
   //we provide a default error handing method. handle with specific errorCallback.
-  defaultErrorHandler (response, errorCallback) {
+  defaultErrorHandler(response, errorCallback) {
 
     let msg = this.getErrorMessage(response)
 
@@ -529,7 +527,7 @@ export default class Base {
   }
 
   //专门捕捉没有登录这种错误。return true -> 有错误（已经处理掉了）  false -> 没错误 （什么都没干）
-  loginErrorHandler (response) {
+  loginErrorHandler(response) {
 
     let temp = response['data']
     if (temp !== null && typeof temp === 'object') {
@@ -540,10 +538,10 @@ export default class Base {
         })
 
         //做一次退出。
-        Vue.store.state.member.innerLogout()
+        Vue.store.state.user.innerLogout()
 
         Vue.router.push({
-          path: '/member/login',
+          path: '/user/login',
           query: {redirect: Vue.store.state.route.fullPath}
         })
 
@@ -557,7 +555,7 @@ export default class Base {
   }
 
   //get errorMessage from response and wrap the value to this.errorMessage.
-  getErrorMessage (response) {
+  getErrorMessage(response) {
 
     let msg = '服务器出错，请稍后再试!'
 
@@ -589,7 +587,7 @@ export default class Base {
 
   //Vue.http.get('/someUrl', [options]).then(successCallback, errorCallback);
   //opts中可以传递一些特殊的选项。具体参考：https://github.com/pagekit/vue-resource/blob/develop/docs/http.md
-  httpGet (url, params = {}, successCallback, errorCallback, opts = {}) {
+  httpGet(url, params = {}, successCallback, errorCallback, opts = {}) {
 
     let that = this
     let fullUrl = url
@@ -611,6 +609,8 @@ export default class Base {
       that.loading = false
 
       console.error(response)
+      //错误信息一律存放在自己的errorMessage中
+      that.errorMessage = that.getErrorMessage(response)
 
       //对于没有登录的错误直接跳转到登录页面
       if (that.loginErrorHandler(response)) {
@@ -632,7 +632,7 @@ export default class Base {
   //Vue.http.post('/someUrl', [body], [options]).then(successCallback, errorCallback);
   //url is something like this: /article/detail/1
   //opts中可以传递一些特殊的选项。具体参考：https://github.com/pagekit/vue-resource/blob/develop/docs/http.md
-  httpPost (url, params, successCallback, errorCallback, opts = {}) {
+  httpPost(url, params, successCallback, errorCallback, opts = {}) {
     let that = this
 
     let fullUrl = url
@@ -657,6 +657,8 @@ export default class Base {
       that.loading = false
 
       console.error(response)
+      //错误信息一律存放在自己的errorMessage中
+      that.errorMessage = that.getErrorMessage(response)
 
       //对于没有登录的错误直接跳转到登录页面
       if (that.loginErrorHandler(response)) {
@@ -676,7 +678,7 @@ export default class Base {
   }
 
   //获取到当前类的单数标签。比如 Project便得到 project
-  getTAG () {
+  getTAG() {
 
     let className = this.constructor.name
 
@@ -684,13 +686,13 @@ export default class Base {
   }
 
   //获取到当前类的复数标签。比如 Project便得到 projects
-  getTAGS () {
+  getTAGS() {
 
     return toPlural(this.getTAG())
   }
 
   //获取到当前实体的url前缀。
-  getUrlPrefix () {
+  getUrlPrefix() {
     return '/admin' + lowerSlash(this.getTAG())
   }
 

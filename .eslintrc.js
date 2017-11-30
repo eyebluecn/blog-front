@@ -58,6 +58,7 @@ module.exports = {
     'no-multi-spaces': 0,
     'eol-last': 0,
     'no-template-curly-in-string': 0,
-    'no-mixed-spaces-and-tabs': 0
+    'no-mixed-spaces-and-tabs': 0,
+    'handle-callback-err': 0
   }
 }

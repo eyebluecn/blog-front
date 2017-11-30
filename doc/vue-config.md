@@ -44,3 +44,19 @@ proxyTable: {
       }
     },
 ```
+
+### 6.UglifyJsPlugin 不需要压缩类名，因为接口中有直接使用类名。
+```
+new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+      sourceMap: true,
+      //我们的类名不希望被混淆，否则url获取会成单字母了。
+      mangle: {
+        except: ['$super', '$', 'exports', 'require', 'angular'],
+        keep_fnames: true//it works
+      }
+    })
+
+```
