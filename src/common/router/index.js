@@ -3,8 +3,10 @@ import Router from 'vue-router'
 import ByIndexView from '../../backyard/index/Index.vue'
 import ByFrameView from '../../backyard/Frame.vue'
 import UserLogin from '../../backyard/user/Login.vue'
+import UserProfile from '../../backyard/user/Profile.vue'
 import ArticleList from '../../backyard/article/List.vue'
 import ArticleCreate from '../../backyard/article/Create.vue'
+import ArticleDetail from '../../backyard/article/Detail.vue'
 import store from '../vuex/index.js'
 
 Vue.use(Router)
@@ -60,6 +62,16 @@ const router = new Router({
           }
         },
         {
+          path: 'user/profile/:uuid',
+          name: 'UserProfile',
+          component: UserProfile,
+          meta: {
+            title: '用户详情',
+            requiresAuth: true,
+            breadcrumbs: []
+          }
+        },
+        {
           path: 'article/list',
           name: 'ArticleList',
           component: ArticleList,
@@ -108,6 +120,25 @@ const router = new Router({
               {
                 name: "ArticleEdit",
                 title: "编辑文章"
+              }
+            ]
+          }
+        },
+        {
+          path: 'article/detail/:uuid',
+          name: 'ArticleDetail',
+          component: ArticleDetail,
+          meta: {
+            title: '文章详情',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: "ArticleList",
+                title: "文章列表"
+              },
+              {
+                name: "ArticleDetail",
+                title: "文章详情"
               }
             ]
           }

@@ -22,29 +22,29 @@
         </div>
 
 
-        <div class="row">
+        <div class="row" v-validator="article.validatorSchema.title.error">
           <label class="col-md-12 control-label mt5 compulsory">文章名称</label>
-          <div class="col-md-12">
+          <div class="col-md-12 validate">
             <input type="text" class="form-control" v-model="article.title">
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" v-validator="article.validatorSchema.tags.error">
           <label class="col-md-12 control-label mt5 compulsory">标签</label>
-          <div class="col-md-12">
+          <div class="col-md-12 validate">
             <input type="text" class="form-control" v-model="article.tags">
           </div>
         </div>
 
         <div class="row">
-          <label class="col-md-12 control-label mt5 compulsory">封面图片</label>
+          <label class="col-md-12 control-label mt5">封面图片</label>
           <div class="col-md-12">
             <input type="text" class="form-control" v-model="article.posterTankUuid">
           </div>
         </div>
 
         <div class="row">
-          <label class="col-md-12 control-label mt5 compulsory">封面图片Url</label>
+          <label class="col-md-12 control-label mt5">封面图片Url</label>
           <div class="col-md-12">
             <input type="text" class="form-control" v-model="article.posterUrl">
           </div>
@@ -52,7 +52,7 @@
 
 
         <div class="row">
-          <label class="col-md-12 control-label mt5 compulsory">作者</label>
+          <label class="col-md-12 control-label mt5">作者</label>
           <div class="col-md-12">
             <input type="text" class="form-control" v-model="article.author">
           </div>
@@ -60,29 +60,29 @@
 
 
         <div class="row">
-          <label class="col-md-12 control-label mt5 compulsory">摘要</label>
+          <label class="col-md-12 control-label mt5">摘要</label>
           <div class="col-md-12">
             <input type="text" class="form-control" v-model="article.digest">
           </div>
         </div>
 
         <div class="row">
-          <label class="col-md-12 control-label mt5 compulsory">Markdown格式</label>
-          <div class="col-md-12">
+          <label class="col-md-12 control-label mt5">Markdown格式</label>
+          <div class="col-md-12 ">
             <NbCheckbox v-model="article.isMarkdown"/>
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" v-validator="article.validatorSchema.tags.error">
           <label class="col-md-12 control-label mt5 compulsory">内容</label>
-          <div class="col-md-12">
+          <div class="col-md-12 validate">
             <input type="text" class="form-control" v-model="article.content">
           </div>
         </div>
 
 
         <div class="row">
-          <label class="col-md-12 control-label mt5 compulsory">私有文章</label>
+          <label class="col-md-12 control-label mt5">私有文章</label>
           <div class="col-md-12">
             <NbCheckbox v-model="article.privacy"/>
           </div>
@@ -90,7 +90,7 @@
 
 
         <div class="row">
-          <label class="col-md-12 control-label mt5 compulsory">置顶</label>
+          <label class="col-md-12 control-label mt5">置顶</label>
           <div class="col-md-12">
             <NbCheckbox v-model="article.top"/>
           </div>
@@ -98,7 +98,7 @@
 
 
         <div class="row">
-          <label class="col-md-12 control-label mt5 compulsory">发布日期</label>
+          <label class="col-md-12 control-label mt5">发布日期</label>
           <div class="col-md-12">
             <DatePicker
               v-model="article.releaseTime" type="datetime" placeholder="发布日期">

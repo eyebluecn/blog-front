@@ -18,9 +18,10 @@
         </NbFilter>
       </div>
 
-      <div class="col-md-6" v-for="(article,index) in pager.data">
-        <div class="bg-white border br4">
-          <div class="cell-title">
+      <div class="col-md-12" v-for="(article,index) in pager.data">
+
+        <div class="bg-white border br4 p10 mb10">
+          <div class="cell-title cursor" @click.prevent.stop="$router.push('/by/article/detail/'+article.uuid)">
             {{article.title}}
           </div>
           <div class="cell-content">
@@ -32,7 +33,6 @@
 
         </div>
       </div>
-
 
 
       <div class="col-md-12 mt20">
@@ -82,16 +82,17 @@
       },
       refresh() {
 
-        //默认按照sort倒序排列。
-        if (this.pager.getFilter("orderReleaseTime").isEmpty()) {
-          this.pager.setFilterValue("orderReleaseTime", "DESC");
-        }
 
         this.pager.httpFastPage();
       }
     },
     mounted() {
       this.pager.enableHistory();
+      //默认按照sort倒序排列。
+      if (this.pager.getFilter("orderReleaseTime").isEmpty()) {
+        this.pager.setFilterValue("orderReleaseTime", "DESC");
+      }
+
 
       this.refresh();
     }

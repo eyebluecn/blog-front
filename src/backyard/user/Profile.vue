@@ -4,7 +4,7 @@
       <div class="col-md-12">
 
         <div class="pedia-navigation">
-          <span class="item active">文章详情</span>
+          <span class="item active">用户详情</span>
         </div>
 
       </div>
@@ -12,24 +12,19 @@
 
     <!--编辑，权限设置-->
     <div class="text-right mb10">
-      <router-link class="btn btn-primary btn-sm" :to="'/by/article/edit/'+ article.uuid">
+      <router-link class="btn btn-primary btn-sm" :to="'/by/user/edit/'+ user.uuid">
         <i class="fa fa-pencil"></i>
-        编辑文章
+        编辑用户
       </router-link>
     </div>
 
     <div class="row">
       <div class="col-md-12">
-        <LoadingFrame :loading="article.detailLoading">
+        <LoadingFrame :loading="user.detailLoading">
           <div class="row">
             <div class="col-md-12">
-              标题：{{article.title}}
-              摘要：{{article.digest}}
-              作者：{{article.author}}
-              发布日期：{{article.releaseTime | simpleDateTime}}
-            </div>
-            <div class="col-md-12">
-              <div v-html="article.content"></div>
+              用户名：{{user.username}}
+              邮箱：{{user.email}}
             </div>
           </div>
         </LoadingFrame>
@@ -41,7 +36,7 @@
 </template>
 <script>
   import {MessageBox, Notification as NotificationBox} from 'element-ui'
-  import Article from '../../common/model/article/Article'
+  import User from '../../common/model/user/User'
   import NbSlidePanel from '../../common/widget/NbSlidePanel.vue'
   import NbExpanding from '../../common/widget/NbExpanding.vue'
   import NbBtnDropdown from "../../common/widget/NbBtnDropdown.vue";
@@ -52,8 +47,7 @@
 
     data() {
       return {
-        user: this.$store.state.user,
-        article: new Article()
+        user: new User()
       }
     },
     components: {},
@@ -61,9 +55,9 @@
     methods: {
       fetchDetail() {
         let that = this;
-        this.article.uuid = this.$store.state.route.params.uuid;
-        if (this.article.uuid) {
-          this.article.httpDetail();
+        this.user.uuid = this.$store.state.route.params.uuid;
+        if (this.user.uuid) {
+          this.user.httpDetail();
         }
       }
     },
