@@ -27,7 +27,7 @@ const state = {
   //当前用户，即使没有登录依然有游客的用户在。
   user,
 
-  breadcrumbs: null
+  breadcrumbs: []
 
 }
 

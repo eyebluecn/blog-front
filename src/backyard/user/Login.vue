@@ -20,7 +20,7 @@
 
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-file-image-o w14"></i></span>
-            <input type="password" class="form-control" placeholder="图形验证码" v-model="captchaValue"
+            <input type="text" class="form-control" placeholder="图形验证码" v-model="captchaValue"
                    @keyup.enter="login">
           </div>
         </div>
@@ -58,13 +58,15 @@
 
 <script>
   import NbImageCaptcha from "../../common/widget/NbImageCaptcha.vue"
+  import {startWith} from "../../common/filter/str";
 
   export default {
     data() {
       return {
         user: this.$store.state.user,
         captchaValue: null,
-        loginFail: false
+        loginFail: false,
+        redirect: this.$route.query.redirect
       }
     },
     props: {},
@@ -79,8 +81,21 @@
         this.user.httpLogin(that.captchaValue, function () {
           that.loginFail = false;
 
-          //自动进入到首页。
-          that.$router.push("/by")
+
+          console.log("that.redirect:")
+          console.log(that.redirect)
+          if (that.redirect) {
+
+            if (startWith(that.redirect, "/by")) {
+              that.$router.push(that.redirect);
+            } else {
+              location.href = that.redirect;
+            }
+          } else {
+            //自动进入到首页。
+            that.$router.push("/by")
+          }
+
 
           //登录成功啦。
         }, function (err) {

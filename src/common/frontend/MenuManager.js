@@ -21,8 +21,12 @@ MenuManager.refreshByMenus = function (user) {
     let indexMenu = new Menu('首页', '/by', false, 'fa fa-home')
     byMenus.push(indexMenu)
 
+    //文章列表
+    let articleListMenu = new Menu('文章列表', '/by/article/list', false, 'fa fa-book')
+    byMenus.push(articleListMenu)
 
-    //首页
+
+    //退出登录
     let logoutMenu = new Menu('退出登录', '/by/user/login', false, 'fa fa-power-off')
     byMenus.push(logoutMenu)
 

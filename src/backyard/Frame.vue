@@ -101,6 +101,8 @@
     top: @top-navigation-height;
     right: 0;
     bottom: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     padding: 10px;
 

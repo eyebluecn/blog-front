@@ -693,7 +693,7 @@ export default class Base {
 
   //获取到当前实体的url前缀。
   getUrlPrefix() {
-    return '/admin' + lowerSlash(this.getTAG())
+    return lowerSlash(this.getTAG())
   }
 
 }

@@ -2,3 +2,6 @@
 /config/
 /dist/
 /*.js
+
+src/common/fork/*
+

@@ -6,10 +6,10 @@
 @import "bootstrap/bootstrap.less";
 @import "inspinia/style.less";
 //Animated
-//@import "~animate.css/animate.min.css";
+@import "~animate.css/animate.min.css";
 
 //element-ui
-//@import "~element-ui/lib/theme-chalk/index.css";
+@import "~element-ui/lib/theme-chalk/index.css";
 
 //使用自定义的主题
 @import "global/border.less";
@@ -100,4 +100,28 @@ p {
   color: #333;
   font-size: 15px;
   padding: 0;
+}
+
+
+
+//每个页面导航处样式
+.pedia-navigation {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #E6E6E6;
+
+  .item, a {
+    font-size: 16px;
+    color: #778195;
+    margin-top: 15px;
+    margin-right: 20px;
+    display: inline-block;
+    box-sizing: content-box;
+    line-height: 30px;
+
+    &:hover, &.is-link-active, &.active {
+      color: @brand-primary;
+
+      border-bottom: 2px solid @brand-primary;
+    }
+  }
 }
