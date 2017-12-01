@@ -12,15 +12,16 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-md-12">
+        <CreateSaveButton :entity="article" :callback="save"/>
+      </div>
+    </div>
+
+
     <LoadingFrame :loading="article.detailLoading">
 
-      <div class="bg-white br4 p20">
-        <div class="row">
-          <div class="col-md-12">
-            <CreateSaveButton :entity="article" :callback="save"/>
-          </div>
-        </div>
-
+      <div class="bg-white br4 p20 mt10">
 
         <div class="row" v-validator="article.validatorSchema.title.error">
           <label class="col-md-12 control-label mt5 compulsory">文章名称</label>

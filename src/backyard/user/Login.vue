@@ -82,8 +82,7 @@
           that.loginFail = false;
 
 
-          console.log("that.redirect:")
-          console.log(that.redirect)
+          //自动跳转到之前的页面中去。
           if (that.redirect) {
 
             if (startWith(that.redirect, "/by")) {
