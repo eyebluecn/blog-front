@@ -26,6 +26,11 @@ MenuManager.refreshByMenus = function (user) {
     byMenus.push(articleListMenu)
 
 
+    //自家轮子
+    let wheelMenu = new Menu('自家轮子', '/by/wheel', false, 'fa fa-ge')
+    byMenus.push(wheelMenu)
+
+
     //退出登录
     let logoutMenu = new Menu('退出登录', '/by/user/login', false, 'fa fa-power-off')
     byMenus.push(logoutMenu)

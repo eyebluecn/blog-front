@@ -7,6 +7,7 @@ import UserProfile from '../../backyard/user/Profile.vue'
 import ArticleList from '../../backyard/article/List.vue'
 import ArticleCreate from '../../backyard/article/Create.vue'
 import ArticleDetail from '../../backyard/article/Detail.vue'
+import WheelIndex from '../../backyard/wheel/Index.vue'
 import store from '../vuex/index.js'
 
 Vue.use(Router)
@@ -139,6 +140,21 @@ const router = new Router({
               {
                 name: "ArticleDetail",
                 title: "文章详情"
+              }
+            ]
+          }
+        },
+        {
+          path: 'wheel',
+          name: 'WheelIndex',
+          component: WheelIndex,
+          meta: {
+            title: '自家轮子',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: "WheelIndex",
+                title: "自家轮子"
               }
             ]
           }
