@@ -16,9 +16,25 @@
           NbTank演示：
         </h3>
       </div>
+      <div class="col-md-12 mt15">
+        <p>
+          1.私有文件演示：
+        </p>
+      </div>
       <div class="col-md-12">
         <NbTank :tank="tank1"/>
       </div>
+
+      <div class="col-md-12 mt15">
+        <p>
+          2.公有文件演示：
+        </p>
+      </div>
+      <div class="col-md-12">
+        <NbTank :tank="tank2"/>
+      </div>
+
+
     </div>
 
   </div>
@@ -32,7 +48,8 @@
   export default {
     data() {
       return {
-        tank1: new Tank("image", true, 1024 * 1024, "请上传1M以内的图片")
+        tank1: new Tank("image", true, 1024 * 1024, "请上传1M以内的图片"),
+        tank2: new Tank("image", false, 1024 * 1024, "请上传1M以内的图片")
       }
     },
     props: {},

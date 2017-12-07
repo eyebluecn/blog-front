@@ -302,6 +302,7 @@ export default class Tank extends BaseEntity {
     newTank.filter = this.filter
     newTank.privacy = this.privacy
     newTank.errorMessage = this.errorMessage
+    newTank.uploadHint = this.uploadHint
 
     this.render(newTank)
 
@@ -316,7 +317,16 @@ export default class Tank extends BaseEntity {
       return
     }
 
-    this.httpPost(Tank.URL_CONFIRM, {uuid: this.uuid, matterUuid: this.matterUuid}, successMessage, errorMessage)
+    this.httpPost(Tank.URL_CONFIRM, {uuid: this.uuid, matterUuid: this.matterUuid}, function (response) {
+
+      that.render(response.data.data);
+
+
+      if (typeof successMessage === "function") {
+        successMessage(response)
+      }
+
+    }, errorMessage)
   }
 
   //获取上传的token
