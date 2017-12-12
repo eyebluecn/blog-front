@@ -12,12 +12,28 @@
     <div class="row mt10">
       <div class="col-md-12">
         <h3>
+          NbEditor演示：
+        </h3>
+      </div>
+      <div class="col-md-12 mt15">
+        <NbEditor v-model="nbEditorContent"/>
+      </div>
+      <div class="col-md-12 mt10">
+        {{nbEditorContent}}
+      </div>
+
+    </div>
+
+    <div class="row mt10">
+      <div class="col-md-12">
+        <h3>
           NbMarkdown演示：
         </h3>
       </div>
       <div class="col-md-12 mt15">
         <NbMarkdown/>
       </div>
+
 
 
     </div>
@@ -57,13 +73,15 @@
 
   import NbTank from "../../common/widget/NbTank.vue"
   import NbMarkdown from "../../common/widget/NbMarkdown.vue"
+  import NbEditor from "../../common/widget/NbEditor.vue"
   import Tank from "../../common/model/tank/Tank";
 
   export default {
     data() {
       return {
         tank1: new Tank("image", true, 1024 * 1024, "请上传1M以内的图片"),
-        tank2: new Tank("image", false, 1024 * 1024, "请上传1M以内的图片")
+        tank2: new Tank("image", false, 1024 * 1024, "请上传1M以内的图片"),
+        nbEditorContent: null
       }
     },
     props: {},
@@ -71,6 +89,7 @@
     computed: {},
     components: {
       NbTank,
+      NbEditor,
       NbMarkdown
     },
     methods: {},

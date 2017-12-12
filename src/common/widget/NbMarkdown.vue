@@ -11,11 +11,11 @@
     props: {
       editorPath: {
         type: String,
-        default: '/static/editormd'
+        default: '/static/fork/editormd'
       },
       jqueryPath: {
         type: String,
-        default: '/static/jquery'
+        default: '/static/fork/jquery'
       },
 
       editorConfig: {
@@ -24,7 +24,7 @@
           return {
             width: '100%',
             height: 530,
-            path: '/static/editormd/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
+            path: '/static/fork/editormd/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
             codeFold: true,
             saveHTMLToTextarea: true,
             searchReplace: true,
@@ -83,7 +83,7 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
-  @import "../../../static/editormd/css/editormd.css";
+  @import "../../../static/fork/editormd/css/editormd.css";
 
 
   .main-editor {
