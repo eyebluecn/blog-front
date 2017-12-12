@@ -59,7 +59,7 @@ export default class Article extends BaseEntity {
         error: null
       },
       content: {
-        rules: [{required: true, message: '标签必填并且最长100000字'}],
+        rules: [{required: true, message: '内容必填并且最长100000字'}],
         error: null
       }
     }
@@ -103,7 +103,7 @@ export default class Article extends BaseEntity {
     }
   }
 
-  validate () {
+  validate() {
     return super.validate()
   }
 

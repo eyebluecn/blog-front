@@ -59,6 +59,7 @@ module.exports = {
     'eol-last': 0,
     'no-template-curly-in-string': 0,
     'no-mixed-spaces-and-tabs': 0,
-    'handle-callback-err': 0
+    'handle-callback-err': 0,
+    "import/no-webpack-loader-syntax": "off"
   }
 }

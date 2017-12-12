@@ -8,7 +8,6 @@
 						<span v-show="article.editMode">编辑文章</span>
 					</span>
         </div>
-
       </div>
     </div>
 
@@ -61,28 +60,6 @@
 
 
         <div class="row">
-          <label class="col-md-12 control-label mt5">摘要</label>
-          <div class="col-md-12">
-            <input type="text" class="form-control" v-model="article.digest">
-          </div>
-        </div>
-
-        <div class="row">
-          <label class="col-md-12 control-label mt5">Markdown格式</label>
-          <div class="col-md-12 ">
-            <NbCheckbox v-model="article.isMarkdown"/>
-          </div>
-        </div>
-
-        <div class="row" v-validator="article.validatorSchema.tags.error">
-          <label class="col-md-12 control-label mt5 compulsory">内容</label>
-          <div class="col-md-12 validate">
-            <input type="text" class="form-control" v-model="article.content">
-          </div>
-        </div>
-
-
-        <div class="row">
           <label class="col-md-12 control-label mt5">私有文章</label>
           <div class="col-md-12">
             <NbCheckbox v-model="article.privacy"/>
@@ -109,6 +86,29 @@
 
 
         <div class="row">
+          <label class="col-md-12 control-label mt5">摘要</label>
+          <div class="col-md-12">
+            <input type="text" class="form-control" v-model="article.digest">
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-md-12 control-label mt5">Markdown格式</label>
+          <div class="col-md-12 ">
+            <NbCheckbox v-model="article.isMarkdown"/>
+          </div>
+        </div>
+
+        <div class="row" v-validator="article.validatorSchema.content.error">
+          <label class="col-md-12 control-label mt5 compulsory">内容</label>
+          <div class="col-md-12 validate">
+            <input type="text" class="form-control" v-model="article.content">
+          </div>
+        </div>
+
+
+
+        <div class="row">
           <div class="col-md-12 m-t-md">
             <div class="alert alert-danger" v-show="article.errorMessage">
               {{article.errorMessage}}
@@ -131,6 +131,7 @@
   import Article from '../../common/model/article/Article';
   import NbSlidePanel from '../../common/widget/NbSlidePanel.vue';
   import NbRadio from '../../common/widget/NbRadio.vue';
+  import NbMarkdown from '../../common/widget/NbMarkdown';
   import NbCheckbox from '../../common/widget/NbCheckbox.vue';
   import CreateSaveButton from "../widget/CreateSaveButton.vue";
   import LoadingFrame from "../widget/LoadingFrame.vue";
@@ -149,6 +150,7 @@
       CreateSaveButton,
       LoadingFrame,
       NbRadio,
+      NbMarkdown,
       NbCheckbox,
       NbSlidePanel
     },

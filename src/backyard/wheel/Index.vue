@@ -9,6 +9,19 @@
       </div>
     </div>
 
+    <div class="row mt10">
+      <div class="col-md-12">
+        <h3>
+          NbMarkdown演示：
+        </h3>
+      </div>
+      <div class="col-md-12 mt15">
+        <NbMarkdown/>
+      </div>
+
+
+    </div>
+
 
     <div class="row mt10">
       <div class="col-md-12">
@@ -43,6 +56,7 @@
 <script>
 
   import NbTank from "../../common/widget/NbTank.vue"
+  import NbMarkdown from "../../common/widget/NbMarkdown.vue"
   import Tank from "../../common/model/tank/Tank";
 
   export default {
@@ -56,7 +70,8 @@
     watch: {},
     computed: {},
     components: {
-      NbTank
+      NbTank,
+      NbMarkdown
     },
     methods: {},
     mounted() {

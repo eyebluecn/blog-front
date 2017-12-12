@@ -1,6 +1,7 @@
 /build/
 /config/
 /dist/
+/static/
 /*.js
 
 src/common/fork/*
