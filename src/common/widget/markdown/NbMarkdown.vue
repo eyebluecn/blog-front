@@ -28,6 +28,10 @@
       jqueryPath: {
         type: String,
         default: '/static/fork/jquery'
+      },
+      value: {
+        type: String,
+        required: false
       }
     },
     created() {
@@ -35,9 +39,13 @@
     },
     methods: {
       initEditor() {
+        let that = this
         let emAttachment = this.emAttachment
         let emPicture = this.emPicture
         let createElement = this.$createElement
+
+        console.log("that.value")
+        console.log(that.value)
 
         // eslint-disable-next-line
         this.$nextTick((editorMD = window.editormd) => {
@@ -81,6 +89,7 @@
                   picture: emPicture.title
                 }
               },
+              markdown: that.value,
               codeFold: true,
               saveHTMLToTextarea: true,
               searchReplace: true,
@@ -98,6 +107,15 @@
               dialogMaskBgColor: "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
               onload: () => {
                 // eslint-disable-next-line
+              },
+              onchange: function () {
+                console.log("getMarkdown =>", this.getMarkdown());
+                console.log("getHTML =>", this.getHTML());
+
+                // 编辑区域内容变化时，实时打印出当前内容
+                that.$emit('input', this.getMarkdown());
+                that.$emit('htmlChange', this.getHTML());
+
               }
             });
           }

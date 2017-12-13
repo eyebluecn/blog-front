@@ -30,11 +30,18 @@
           NbMarkdown演示：
         </h3>
       </div>
+
       <div class="col-md-12 mt15">
-        <NbMarkdown/>
+        <NbMarkdown v-model="nbMarkdownContent" v-on:htmlChange="nbHtmlContent = $event"/>
       </div>
-
-
+      <div class="col-md-12 mt15">
+        <h6>Markdown内容</h6>
+        {{nbMarkdownContent}}
+      </div>
+      <div class="col-md-12 mt15">
+        <h6>Html内容</h6>
+        {{nbHtmlContent}}
+      </div>
 
     </div>
 
@@ -81,7 +88,9 @@
       return {
         tank1: new Tank("image", true, 1024 * 1024, "请上传1M以内的图片"),
         tank2: new Tank("image", false, 1024 * 1024, "请上传1M以内的图片"),
-        nbEditorContent: null
+        nbEditorContent: null,
+        nbMarkdownContent: "### Hello",
+        nbHtmlContent: "暂无"
       }
     },
     props: {},
@@ -92,7 +101,9 @@
       NbEditor,
       NbMarkdown
     },
-    methods: {},
+    methods: {
+
+    },
     mounted() {
 
     }
