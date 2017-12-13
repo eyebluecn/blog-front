@@ -44,8 +44,6 @@
         let emPicture = this.emPicture
         let createElement = this.$createElement
 
-        console.log("that.value")
-        console.log(that.value)
 
         // eslint-disable-next-line
         this.$nextTick((editorMD = window.editormd) => {
@@ -109,8 +107,7 @@
                 // eslint-disable-next-line
               },
               onchange: function () {
-                console.log("getMarkdown =>", this.getMarkdown());
-                console.log("getHTML =>", this.getHTML());
+
 
                 // 编辑区域内容变化时，实时打印出当前内容
                 that.$emit('input', this.getMarkdown());
