@@ -131,7 +131,7 @@
   import Article from '../../common/model/article/Article';
   import NbSlidePanel from '../../common/widget/NbSlidePanel.vue';
   import NbRadio from '../../common/widget/NbRadio.vue';
-  import NbMarkdown from '../../common/widget/NbMarkdown';
+  import NbMarkdown from '../../common/widget/markdown/NbMarkdown';
   import NbCheckbox from '../../common/widget/NbCheckbox.vue';
   import CreateSaveButton from "../widget/CreateSaveButton.vue";
   import LoadingFrame from "../widget/LoadingFrame.vue";

@@ -368,6 +368,7 @@ export default class Tank extends BaseEntity {
       return
     }
 
+    this.procedure = Procedure.FETCHING_UPLOAD_TOKEN
     this.httpFetchUploadToken(function (response) {
 
       //（兼容性：chrome，ff，IE9及以上）

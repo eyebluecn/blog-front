@@ -72,7 +72,7 @@
 <script>
 
   import NbTank from "../../common/widget/NbTank.vue"
-  import NbMarkdown from "../../common/widget/NbMarkdown.vue"
+  import NbMarkdown from "../../common/widget/markdown/NbMarkdown.vue"
   import NbEditor from "../../common/widget/NbEditor.vue"
   import Tank from "../../common/model/tank/Tank";
 
