@@ -9,12 +9,15 @@
 
   //引入自定义的“上传附件”插件
   import EMAttachment from "./EMAttachment.js"
+  //引入自定义的“插入图片”插件
+  import EMPicture from "./EMPicture.js"
 
   export default {
     data() {
       return {
         instance: null,
-        emAttachment: new EMAttachment()
+        emAttachment: new EMAttachment(),
+        emPicture: new EMPicture()
       }
     },
     props: {
@@ -33,6 +36,7 @@
     methods: {
       initEditor() {
         let emAttachment = this.emAttachment
+        let emPicture = this.emPicture
         let createElement = this.$createElement
 
         // eslint-disable-next-line
@@ -51,12 +55,13 @@
                   "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
                   "h1", "h2", "h3", "h4", "h5", "h6", "|",
                   "list-ul", "list-ol", "hr", "|",
-                  "link", "reference-link", "image", emAttachment.name, "code", "preformatted-text", "code-block", "table", "datetime", "pagebreak", "|", "watch", "preview", "clear", "|", "undo", "redo"
+                  "link", "reference-link", emPicture.name, emAttachment.name, "code", "preformatted-text", "code-block", "table", "datetime", "pagebreak", "|", "watch", "preview", "clear", "|", "undo", "redo"
                 ]
               },
               //自定义一个附件上传的动作
               toolbarIconsClass: {
-                attachment: emAttachment.icon  // 指定一个FontAawsome的图标类
+                attachment: emAttachment.icon,  // 指定一个FontAawsome的图标类
+                picture: emPicture.icon  // 指定一个FontAawsome的图标类
               },
               // 自定义工具栏按钮的事件处理
               toolbarHandlers: {
@@ -66,12 +71,14 @@
                  * @param {Object}      cursor     CodeMirror的光标对象，可获取光标所在行和位置
                  * @param {String}      selection  编辑器选中的文本
                  */
-                attachment: emAttachment.handler(createElement)
+                attachment: emAttachment.handler(createElement),
+                picture: emPicture.handler(createElement)
               },
               //自定义菜单hover提示
               lang: {
                 toolbar: {
-                  attachment: emAttachment.title
+                  attachment: emAttachment.title,
+                  picture: emPicture.title
                 }
               },
               codeFold: true,
@@ -89,9 +96,6 @@
               dialogDraggable: false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
               dialogMaskOpacity: 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
               dialogMaskBgColor: "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
-              imageUpload: true,
-              imageFormats: ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp'],
-              imageUploadURL: 'examples/php/upload.php',
               onload: () => {
                 // eslint-disable-next-line
               }
