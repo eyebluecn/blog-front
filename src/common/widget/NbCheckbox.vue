@@ -1,7 +1,7 @@
 <template>
-	<div class="nb-check-checkbox">
-		<input ref="check" type="checkbox" :value="val">
-	</div>
+  <div class="nb-check-checkbox">
+    <input ref="check" type="checkbox" :value="val">
+  </div>
 </template>
 
 <script>
@@ -14,7 +14,7 @@
   iCheck($)
 
   export default {
-    data () {
+    data() {
       return {}
     },
     props: {
@@ -30,17 +30,20 @@
       }
     },
     computed: {
-      $check () {
+      $check() {
         return $(this.$refs.check)
       }
     },
     watch: {
-      'value' () {
+      'value'() {
+        this.refresh()
+      },
+      'val'() {
         this.refresh()
       }
     },
     methods: {
-      refresh () {
+      refresh() {
 
         let state = 'check'
         if (this.value instanceof Array) {
@@ -56,7 +59,7 @@
 
       }
     },
-    mounted () {
+    mounted() {
       let that = this
       this.$check.iCheck({
         checkboxClass: 'icheckbox_square-green',
@@ -97,15 +100,15 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
-	.nb-check-checkbox {
-		display: inline-block;
-		vertical-align: middle;
-		margin: 0;
-		padding: 0;
-		width: 22px;
-		height: 22px;
-		border: none;
-	}
+  .nb-check-checkbox {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: 22px;
+    height: 22px;
+    border: none;
+  }
 </style>
 
 
