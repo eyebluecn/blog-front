@@ -1,6 +1,7 @@
 import BaseEntity from '../base/BaseEntity'
 import {containStr, endWith, getExtension, startWith} from '../../filter/str'
 import Vue from 'vue'
+import {getMimeType} from "../../util/MimeUtil";
 
 //当前tank处于怎样的步骤中
 let Procedure = {
@@ -64,6 +65,8 @@ export default class Tank extends BaseEntity {
 
   render(obj) {
     super.render(obj)
+
+    this.type = getMimeType(this.name)
   }
 
   getForm() {
@@ -91,17 +94,11 @@ export default class Tank extends BaseEntity {
     }
 
     this.size = this.file.size
+    this.type = getMimeType(this.name)
+
     this.type = this.file.type
     if (!this.type) {
-      if (endWith(this.name, 'zip')) {
-        this.type = 'application/zip'
-      } else if (endWith(this.name, 'rar')) {
-        this.type = 'application/rar'
-      } else if (endWith(this.name, 'apk')) {
-        this.type = 'application/vnd.android.package-archive'
-      } else {
-        this.type = 'application/octet-stream'
-      }
+      this.type = getMimeType(this.name)
     }
     this.errorMessage = null
     return true
@@ -119,7 +116,7 @@ export default class Tank extends BaseEntity {
       return null
     }
     if (!this.privacy && this.confirmed) {
-      if (endWith(this.name, 'png')) {
+      if (startWith(this.name, 'image')) {
         return this.url
       } else {
         return null
