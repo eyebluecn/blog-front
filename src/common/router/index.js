@@ -7,11 +7,12 @@ import UserProfile from '../../backyard/user/Profile.vue'
 import ArticleList from '../../backyard/article/List.vue'
 import ArticleCreate from '../../backyard/article/Create.vue'
 import ArticleDetail from '../../backyard/article/Detail.vue'
+import TagList from '../../backyard/tag/List'
+import TagCreate from '../../backyard/tag/Create'
 import WheelIndex from '../../backyard/wheel/Index.vue'
 import store from '../vuex/index.js'
 
 Vue.use(Router)
-
 
 const router = new Router({
   mode: 'history',
@@ -81,8 +82,8 @@ const router = new Router({
             requiresAuth: true,
             breadcrumbs: [
               {
-                name: "ArticleList",
-                title: "文章列表"
+                name: 'ArticleList',
+                title: '文章列表'
               }
             ]
           }
@@ -96,12 +97,12 @@ const router = new Router({
             requiresAuth: true,
             breadcrumbs: [
               {
-                name: "ArticleList",
-                title: "文章列表"
+                name: 'ArticleList',
+                title: '文章列表'
               },
               {
-                name: "ArticleCreate",
-                title: "新建文章"
+                name: 'ArticleCreate',
+                title: '新建文章'
               }
             ]
           }
@@ -115,12 +116,12 @@ const router = new Router({
             requiresAuth: true,
             breadcrumbs: [
               {
-                name: "ArticleList",
-                title: "文章列表"
+                name: 'ArticleList',
+                title: '文章列表'
               },
               {
-                name: "ArticleEdit",
-                title: "编辑文章"
+                name: 'ArticleEdit',
+                title: '编辑文章'
               }
             ]
           }
@@ -134,12 +135,65 @@ const router = new Router({
             requiresAuth: true,
             breadcrumbs: [
               {
-                name: "ArticleList",
-                title: "文章列表"
+                name: 'ArticleList',
+                title: '文章列表'
               },
               {
-                name: "ArticleDetail",
-                title: "文章详情"
+                name: 'ArticleDetail',
+                title: '文章详情'
+              }
+            ]
+          }
+        },
+        {
+          path: 'tag/list',
+          name: 'TagList',
+          component: TagList,
+          meta: {
+            title: '标签列表',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'TagList',
+                title: '标签列表'
+              }
+            ]
+          }
+        },
+        {
+          path: 'tag/create',
+          name: 'TagCreate',
+          component: TagCreate,
+          meta: {
+            title: '新建标签',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'TagList',
+                title: '标签列表'
+              },
+              {
+                name: 'TagCreate',
+                title: '新建标签'
+              }
+            ]
+          }
+        },
+        {
+          path: 'tag/edit/:uuid',
+          name: 'TagEdit',
+          component: TagCreate,
+          meta: {
+            title: '编辑标签',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'TagList',
+                title: '标签列表'
+              },
+              {
+                name: 'TagEdit',
+                title: '编辑标签'
               }
             ]
           }
@@ -153,8 +207,8 @@ const router = new Router({
             requiresAuth: true,
             breadcrumbs: [
               {
-                name: "WheelIndex",
-                title: "自家轮子"
+                name: 'WheelIndex',
+                title: '自家轮子'
               }
             ]
           }
@@ -200,7 +254,6 @@ const router = new Router({
   ]
 })
 
-
 //add global interceptor.
 router.beforeEach((to, from, next) => {
 
@@ -234,5 +287,4 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-
-export default router;
+export default router

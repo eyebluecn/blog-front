@@ -3,7 +3,6 @@ import $ from 'jquery'
 
 Vue.directive('validator', {
   update: function (el, binding, vnode) {
-    console.log("自定义指令。")
     if (binding.value && binding.value !== binding.oldValue) {
       $(el).find('.validate').children().addClass('border-danger').parent().append('<div class="text-danger mt5"><i class="fa fa-warning"></i>' + binding.value + '</div>')
     } else if (!binding.value) {

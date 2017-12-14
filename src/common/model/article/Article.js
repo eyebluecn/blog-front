@@ -1,52 +1,53 @@
 import BaseEntity from '../base/BaseEntity'
-import Filter from "../base/Filter";
-import {simpleDateTime} from "../../filter/time";
-
+import Filter from '../base/Filter'
+import { simpleDateTime } from '../../filter/time'
 
 export default class Article extends BaseEntity {
 
-  constructor(args) {
+  constructor (args) {
     super(args)
 
     //发布者
-    this.userUuid = null;
+    this.userUuid = null
 
     //标题
-    this.title = null;
+    this.title = null
 
     //标签
-    this.tags = null;
+    this.tags = null
 
     //封面图片
-    this.posterTankUuid = null;
+    this.posterTankUuid = null
 
     //封面图片Url
-    this.posterUrl = null;
+    this.posterUrl = null
 
     //作者
-    this.author = null;
+    this.author = null
 
     //摘要
-    this.digest = null;
+    this.digest = null
 
     //是否是markdown格式
-    this.isMarkdown = null;
+    this.isMarkdown = null
 
-    //内容
-    this.content = null;
+    //markdown内容
+    this.markdown = null
+
+    //html内容
+    this.html = null
 
     //是否是私有文章
-    this.privacy = null;
+    this.privacy = null
 
     //是否置顶
-    this.top = false;
+    this.top = false
 
     //点击数量
-    this.hit = 1;
+    this.hit = 1
 
     //发布日期
-    this.releaseTime = new Date();
-
+    this.releaseTime = new Date()
 
     //编辑和修改文章时的验证规则。也是默认的验证规则。
     this.validatorSchema = {
@@ -64,10 +65,9 @@ export default class Article extends BaseEntity {
       }
     }
 
-
   }
 
-  getFilters() {
+  getFilters () {
     return [
       new Filter('SORT', '排序', 'orderSort'),
       new Filter('SORT', '置顶', 'orderTop'),
@@ -81,12 +81,12 @@ export default class Article extends BaseEntity {
     ]
   };
 
-  render(obj) {
+  render (obj) {
     super.render(obj)
     this.renderEntity('releaseTime', Date)
   }
 
-  getForm() {
+  getForm () {
     return {
       title: this.title,
       tags: this.tags,
@@ -103,7 +103,7 @@ export default class Article extends BaseEntity {
     }
   }
 
-  validate() {
+  validate () {
     return super.validate()
   }
 
