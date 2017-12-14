@@ -119,7 +119,7 @@ export default class Tank extends BaseEntity {
       return null
     }
     if (!this.privacy && this.confirmed) {
-      if (startWith(this.type, 'image')) {
+      if (endWith(this.name, 'png')) {
         return this.url
       } else {
         return null

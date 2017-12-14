@@ -81,8 +81,6 @@
         this.refresh()
       },
       refresh() {
-
-
         this.pager.httpFastPage();
       }
     },

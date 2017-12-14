@@ -25,6 +25,9 @@ MenuManager.refreshByMenus = function (user) {
     let articleListMenu = new Menu('文章列表', '/by/article/list', false, 'fa fa-book')
     byMenus.push(articleListMenu)
 
+    //标签列表
+    let tagListMenu = new Menu('标签列表', '/by/tag/list', false, 'fa fa-tags')
+    byMenus.push(tagListMenu)
 
     //自家轮子
     let wheelMenu = new Menu('自家轮子', '/by/wheel', false, 'fa fa-ge')
