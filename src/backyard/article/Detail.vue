@@ -25,7 +25,7 @@
 						<div class="col-md-10 col-md-offset-1 ">
 							<h1 class="text-center">{{article.title}}</h1>
 							<div class="text-center">
-								<span class="label label-primary" v-for="item in JSON.parse(article.tags)">
+								<span class="label label-primary mr5" v-for="item in JSON.parse(article.tags)">
 									{{item}}
 								</span>
 								<p class="mt10">{{article.releaseTime | simpleDateTime}}</p>
@@ -37,8 +37,6 @@
 								<div v-html="article.html"></div>
 							</div>
 						</div>
-
-
 
 
 					</div>

@@ -45,7 +45,7 @@
 							<div class="row">
 								<label class="col-md-12 control-label mt5">标签</label>
 								<div class="col-md-12">
-									<NbTags :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"q
+									<NbTags :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false" q
 									        :initFilter="{'orderSort':'DESC'}"/>
 								</div>
 							</div>
@@ -90,7 +90,7 @@
 							</div>
 						</div>
 
-						<div class="col-md-3">
+						<div class="col-md-3" v-if="!article.editMode">
 							<div class="row">
 								<label class="col-md-12 control-label mt5">Markdown格式</label>
 								<div class="col-md-12 ">
@@ -197,7 +197,7 @@
         } else {
           this.article.html = this.nbEditorContent
         }
-        if(!this.article.validate()){
+        if (!this.article.validate()) {
           this.showOutline = true
           return
         }
@@ -211,7 +211,16 @@
       },
       fetchDetail () {
         let that = this
-        this.article.httpDetail()
+        this.article.httpDetail(function () {
+          if(that.article.isMarkdown){
+            that.nbMarkdownContent = that.article.markdown
+            that.nbHtmlContent = that.article.html
+          }else{
+            that.nbEditorContent = that.archive.html
+          }
+          that.shortTags = JSON.parse(that.article.tags)
+
+        })
 
       }
     },
