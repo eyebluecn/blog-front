@@ -33,7 +33,7 @@
 
 						<div class="media-body">
 							<div class="cell-title cursor">
-								{{tag.name}}
+								<span class="ln64 ml10">{{tag.name}}</span>
 							</div>
 						</div>
 						<div>
