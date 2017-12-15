@@ -1,6 +1,7 @@
 import BaseEntity from '../base/BaseEntity'
 import Filter from '../base/Filter'
 import { simpleDateTime } from '../../filter/time'
+import Tank from '../tank/Tank'
 
 export default class Article extends BaseEntity {
 
@@ -21,9 +22,6 @@ export default class Article extends BaseEntity {
 
     //封面图片Url
     this.posterUrl = null
-
-    //作者
-    this.author = null
 
     //摘要
     this.digest = null
@@ -48,6 +46,9 @@ export default class Article extends BaseEntity {
 
     //发布日期
     this.releaseTime = new Date()
+
+    //封面图片
+    this.posterTank = new Tank('image', false, 1024 * 1024, '图片不能超过1M')
 
     //编辑和修改文章时的验证规则。也是默认的验证规则。
     this.validatorSchema = {
@@ -84,6 +85,7 @@ export default class Article extends BaseEntity {
   render (obj) {
     super.render(obj)
     this.renderEntity('releaseTime', Date)
+    this.renderEntity('posterTank',Tank)
   }
 
   getForm () {
@@ -104,6 +106,10 @@ export default class Article extends BaseEntity {
   }
 
   validate () {
+    if(this.posterTank){
+      this.posterTankUuid = this.posterTank.uuid
+      this.posterUrl = this.posterTank.url
+    }
     return super.validate()
   }
 
