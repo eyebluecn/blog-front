@@ -1,6 +1,7 @@
 import BaseEntity from '../base/BaseEntity'
 import Filter from '../base/Filter'
 import { simpleDateTime } from '../../filter/time'
+import { Notification } from 'element-ui'
 import Tank from '../tank/Tank'
 
 export default class Article extends BaseEntity {
@@ -27,7 +28,7 @@ export default class Article extends BaseEntity {
     this.digest = null
 
     //是否是markdown格式
-    this.isMarkdown = null
+    this.isMarkdown = true
 
     //markdown内容
     this.markdown = null
@@ -36,7 +37,7 @@ export default class Article extends BaseEntity {
     this.html = null
 
     //是否是私有文章
-    this.privacy = null
+    this.privacy = false
 
     //是否置顶
     this.top = false
@@ -53,15 +54,11 @@ export default class Article extends BaseEntity {
     //编辑和修改文章时的验证规则。也是默认的验证规则。
     this.validatorSchema = {
       title: {
-        rules: [{required: true, message: '名称必填并且最长255字'}],
+        rules: [{required: true, message: '标题必填'}, {max: 255, message: '标题最长255字'}],
         error: null
       },
-      tags: {
-        rules: [{required: true, message: '标签必填并且最长1024字'}],
-        error: null
-      },
-      content: {
-        rules: [{required: true, message: '内容必填并且最长100000字'}],
+      html: {
+        rules: [{required: true, message: '内容必填'}, {max: 10000, message: '内容最长10000字'}],
         error: null
       }
     }
@@ -85,7 +82,7 @@ export default class Article extends BaseEntity {
   render (obj) {
     super.render(obj)
     this.renderEntity('releaseTime', Date)
-    this.renderEntity('posterTank',Tank)
+    this.renderEntity('posterTank', Tank)
   }
 
   getForm () {
@@ -94,22 +91,29 @@ export default class Article extends BaseEntity {
       tags: this.tags,
       posterTankUuid: this.posterTankUuid,
       posterUrl: this.posterUrl,
-      author: this.author,
       digest: this.digest,
       isMarkdown: this.isMarkdown,
-      content: this.content,
       privacy: this.privacy,
       top: this.top,
       releaseTime: simpleDateTime(this.releaseTime),
+      markdown: this.markdown,
+      html: this.html,
       uuid: this.uuid ? this.uuid : null
     }
   }
 
   validate () {
-    if(this.posterTank){
+    if (this.posterTank) {
       this.posterTankUuid = this.posterTank.uuid
       this.posterUrl = this.posterTank.url
     }
+
+    if (!this.html || this.html.length > 10000) {
+      Notification.error({
+        message: '文章内容必填且不超过10000字'
+      })
+    }
+
     return super.validate()
   }
 
