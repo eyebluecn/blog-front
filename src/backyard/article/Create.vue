@@ -45,7 +45,7 @@
 							<div class="row">
 								<label class="col-md-12 control-label mt5">标签</label>
 								<div class="col-md-12">
-									<NbTags :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"
+									<NbTags :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"q
 									        :initFilter="{'orderSort':'DESC'}"/>
 								</div>
 							</div>

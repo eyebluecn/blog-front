@@ -22,15 +22,25 @@
 			<div class="col-md-12">
 				<LoadingFrame :loading="article.detailLoading">
 					<div class="row">
-						<div class="col-md-12">
-							标题：{{article.title}}
-							摘要：{{article.digest}}
-							作者：{{article.author}}
-							发布日期：{{article.releaseTime | simpleDateTime}}
+						<div class="col-md-10 col-md-offset-1 ">
+							<h1 class="text-center">{{article.title}}</h1>
+							<div class="text-center">
+								<span class="label label-primary" v-for="item in JSON.parse(article.tags)">
+									{{item}}
+								</span>
+								<p class="mt10">{{article.releaseTime | simpleDateTime}}</p>
+							</div>
+							<div class="">
+								<img :src="article.posterUrl" alt="">
+							</div>
+							<div class="">
+								<div v-html="article.html"></div>
+							</div>
 						</div>
-						<div class="col-md-12">
-							<div v-html="article.content"></div>
-						</div>
+
+
+
+
 					</div>
 				</LoadingFrame>
 			</div>
@@ -53,6 +63,7 @@
     data () {
       return {
         user: this.$store.state.user,
+	      tags:[],
         article: new Article()
       }
     },
