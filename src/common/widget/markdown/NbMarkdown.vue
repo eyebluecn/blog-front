@@ -48,6 +48,7 @@
         // eslint-disable-next-line
         this.$nextTick((editorMD = window.editormd) => {
           if (editorMD) {
+
             // Vue 异步执行 DOM 更新，template 里面的 script 标签异步创建
             // 所以，只能在 nextTick 里面初始化 editormd
             this.instance = editorMD('editor-md', {
@@ -105,6 +106,9 @@
               dialogMaskBgColor: "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
               onload: () => {
                 // eslint-disable-next-line
+                if (that.value) {
+                  that.instance.setMarkdown(that.value)
+                }
               },
               onchange: function () {
 
