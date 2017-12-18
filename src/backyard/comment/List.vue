@@ -40,7 +40,7 @@
 									</div>
 								</div>
 								<div>
-									<NbPager :pager="commentFloor.commentPager" :callback="subRefresh(commentFloor.commentPager)"/>
+									<NbPager :pager="commentFloor.commentPager" :callback="commentFloor.commentRefresh"/>
 								</div>
 							</div>
 						</div>
