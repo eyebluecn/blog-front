@@ -19,10 +19,10 @@
 		</div>
 
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-10 col-md-offset-1 bg-white">
 				<LoadingFrame :loading="article.detailLoading">
 					<div class="row">
-						<div class="col-md-10 col-md-offset-1 ">
+						<div class="col-md-8 col-md-offset-2 ">
 							<h1 class="text-center">{{article.title}}</h1>
 							<div class="text-center">
 								<span class="label label-primary mr5" v-for="item in JSON.parse(article.tags)">
@@ -38,12 +38,19 @@
 							</div>
 						</div>
 
+						<div class="col-md-8 col-md-offset-2 mt100">
+							<CommentList></CommentList>
+						</div>
 
 					</div>
+
+
+
 				</LoadingFrame>
 			</div>
 
 		</div>
+
 
 	</div>
 </template>
@@ -55,7 +62,7 @@
   import NbBtnDropdown from '../../common/widget/NbBtnDropdown.vue'
   import LoadingFrame from '../widget/LoadingFrame'
   import CreateSaveButton from '../widget/CreateSaveButton.vue'
-
+	import CommentList from '../comment/List'
   export default {
 
     data () {
@@ -66,7 +73,8 @@
       }
     },
     components: {
-      LoadingFrame
+      LoadingFrame,
+      CommentList
     },
     computed: {},
     methods: {
