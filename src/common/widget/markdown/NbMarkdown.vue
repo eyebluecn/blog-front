@@ -41,17 +41,19 @@
 
         if (that.innerValue === newVal) {
           //内部变化引起的
-          console.log("内部引起的变化，不管")
+          //console.log("内部引起的变化，不管")
 
         } else {
-          console.log("外部主动变化的")
 
           //外部变化引起的
-          that.innerValue = that.value
+          that.innerValue = newVal
 
-          if (that.instance) {
-            that.instance.setMarkdown(newVal)
-          }
+          that.$nextTick(function () {
+            if (that.instance) {
+              that.instance.setMarkdown(that.innerValue)
+            }
+
+          })
 
         }
 
@@ -75,7 +77,7 @@
 
             // Vue 异步执行 DOM 更新，template 里面的 script 标签异步创建
             // 所以，只能在 nextTick 里面初始化 editormd
-            this.instance = editorMD('editor-md', {
+            this.instance = editorMD("editor-md", {
               width: '100%',
               height: 530,
               path: '/static/fork/editormd/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
@@ -129,10 +131,17 @@
               dialogMaskOpacity: 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
               dialogMaskBgColor: "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
               onload: function () {
-                // eslint-disable-next-line
-                if (that.innerValue) {
-                  that.instance.setMarkdown(that.innerValue)
-                }
+
+                console.log("onload 工作完成")
+                that.$nextTick(function () {
+
+                  if (that.innerValue) {
+                    that.instance.setMarkdown(that.innerValue)
+                  }
+
+                })
+
+
               },
               onchange: function () {
 
