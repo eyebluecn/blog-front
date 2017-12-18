@@ -41,13 +41,16 @@
 
         if (that.innerValue === newVal) {
           //内部变化引起的
+          console.log("内部引起的变化，不管")
 
         } else {
+          console.log("外部主动变化的")
+
           //外部变化引起的
           that.innerValue = that.value
 
           if (that.instance) {
-            that.instance.setMarkdown(that.value)
+            that.instance.setMarkdown(newVal)
           }
 
         }
@@ -127,8 +130,8 @@
               dialogMaskBgColor: "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
               onload: function () {
                 // eslint-disable-next-line
-                if (that.value) {
-                  that.instance.setMarkdown(that.value)
+                if (that.innerValue) {
+                  that.instance.setMarkdown(that.innerValue)
                 }
               },
               onchange: function () {
