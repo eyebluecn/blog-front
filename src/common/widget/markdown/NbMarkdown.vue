@@ -132,7 +132,6 @@
               dialogMaskBgColor: "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
               onload: function () {
 
-                console.log("onload 工作完成")
                 that.$nextTick(function () {
 
                   if (that.innerValue) {
