@@ -41,20 +41,17 @@
 
         if (that.innerValue === newVal) {
           //内部变化引起的
-          //console.log("内部引起的变化，不管")
+          console.log("内部引起的变化，不管")
+
 
         } else {
 
           //外部变化引起的
           that.innerValue = newVal
 
-          that.$nextTick(function () {
-            if (that.instance) {
-              that.instance.setMarkdown(that.innerValue)
-            }
-
-          })
-
+          if (that.instance) {
+            that.instance.setMarkdown(that.innerValue)
+          }
         }
 
 
@@ -70,101 +67,96 @@
         let emPicture = this.emPicture
         let createElement = this.$createElement
 
+        // Vue 异步执行 DOM 更新，template 里面的 script 标签异步创建
+        // 所以，只能在 nextTick 里面初始化 editormd
+        this.instance = window.editormd("editor-md", {
+          width: '100%',
+          height: 530,
+          path: '/static/fork/editormd/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
+          toolbarIcons: function () {
+            // Or return editormd.toolbarModes[name]; // full, simple, mini
+            // Using "||" set icons align right.
+            return [
+              "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+              "h1", "h2", "h3", "h4", "h5", "h6", "|",
+              "list-ul", "list-ol", "hr", "|",
+              "link", "reference-link", emPicture.name, emAttachment.name, "code", "preformatted-text", "code-block", "table", "datetime", "pagebreak", "|", "watch", "preview", "clear", "|", "undo", "redo"
+            ]
+          },
+          //自定义一个附件上传的动作
+          toolbarIconsClass: {
+            attachment: emAttachment.icon,  // 指定一个FontAawsome的图标类
+            picture: emPicture.icon  // 指定一个FontAawsome的图标类
+          },
+          // 自定义工具栏按钮的事件处理
+          toolbarHandlers: {
+            /**
+             * @param {Object}      cm         CodeMirror对象
+             * @param {Object}      icon       图标按钮jQuery元素对象
+             * @param {Object}      cursor     CodeMirror的光标对象，可获取光标所在行和位置
+             * @param {String}      selection  编辑器选中的文本
+             */
+            attachment: emAttachment.handler(createElement),
+            picture: emPicture.handler(createElement)
+          },
+          //自定义菜单hover提示
+          lang: {
+            toolbar: {
+              attachment: emAttachment.title,
+              picture: emPicture.title
+            }
+          },
 
-        // eslint-disable-next-line
-        this.$nextTick((editorMD = window.editormd) => {
-          if (editorMD) {
+          markdown: that.innerValue,
+          codeFold: true,
+          saveHTMLToTextarea: true,
+          searchReplace: true,
+          htmlDecode: 'style,script,iframe|on*',
+          emoji: false,
+          taskList: true,
+          tocm: true,                  // Using [TOCM]
+          tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+          flowChart: true,             // 开启流程图支持，默认关闭
+          sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+          dialogLockScreen: true,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+          dialogShowMask: true,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+          dialogDraggable: false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+          dialogMaskOpacity: 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+          dialogMaskBgColor: "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+          onload: function () {
 
-            // Vue 异步执行 DOM 更新，template 里面的 script 标签异步创建
-            // 所以，只能在 nextTick 里面初始化 editormd
-            this.instance = editorMD("editor-md", {
-              width: '100%',
-              height: 530,
-              path: '/static/fork/editormd/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
-              toolbarIcons: function () {
-                // Or return editormd.toolbarModes[name]; // full, simple, mini
-                // Using "||" set icons align right.
-                return [
-                  "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
-                  "h1", "h2", "h3", "h4", "h5", "h6", "|",
-                  "list-ul", "list-ol", "hr", "|",
-                  "link", "reference-link", emPicture.name, emAttachment.name, "code", "preformatted-text", "code-block", "table", "datetime", "pagebreak", "|", "watch", "preview", "clear", "|", "undo", "redo"
-                ]
-              },
-              //自定义一个附件上传的动作
-              toolbarIconsClass: {
-                attachment: emAttachment.icon,  // 指定一个FontAawsome的图标类
-                picture: emPicture.icon  // 指定一个FontAawsome的图标类
-              },
-              // 自定义工具栏按钮的事件处理
-              toolbarHandlers: {
-                /**
-                 * @param {Object}      cm         CodeMirror对象
-                 * @param {Object}      icon       图标按钮jQuery元素对象
-                 * @param {Object}      cursor     CodeMirror的光标对象，可获取光标所在行和位置
-                 * @param {String}      selection  编辑器选中的文本
-                 */
-                attachment: emAttachment.handler(createElement),
-                picture: emPicture.handler(createElement)
-              },
-              //自定义菜单hover提示
-              lang: {
-                toolbar: {
-                  attachment: emAttachment.title,
-                  picture: emPicture.title
-                }
-              },
-              markdown: that.value,
-              codeFold: true,
-              saveHTMLToTextarea: true,
-              searchReplace: true,
-              htmlDecode: 'style,script,iframe|on*',
-              emoji: false,
-              taskList: true,
-              tocm: true,                  // Using [TOCM]
-              tex: true,                   // 开启科学公式TeX语言支持，默认关闭
-              flowChart: true,             // 开启流程图支持，默认关闭
-              sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
-              dialogLockScreen: true,   // 设置弹出层对话框不锁屏，全局通用，默认为true
-              dialogShowMask: true,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
-              dialogDraggable: false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
-              dialogMaskOpacity: 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
-              dialogMaskBgColor: "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
-              onload: function () {
+            if (that.innerValue) {
+              that.instance.setMarkdown(that.innerValue)
+            }
 
-                console.log("onload 工作完成")
-                that.$nextTick(function () {
+          },
+          onchange: function () {
 
-                  if (that.innerValue) {
-                    that.instance.setMarkdown(that.innerValue)
-                  }
+            that.innerValue = this.getMarkdown();
 
-                })
+            // 编辑区域内容变化时，实时打印出当前内容
+            that.$emit('input', that.innerValue);
+            that.$emit('htmlChange', this.getHTML());
 
-
-              },
-              onchange: function () {
-
-                that.innerValue = this.getMarkdown();
-
-                // 编辑区域内容变化时，实时打印出当前内容
-                that.$emit('input', that.innerValue);
-                that.$emit('htmlChange', this.getHTML());
-
-              }
-            });
           }
         });
+
       }
     },
     mounted() {
+      let that = this
       // async loading js dependencies
       // editormd depdend on jquery and zepto
       $script([
-        `${this.jqueryPath}/dist/jquery.min.js`
+        `${that.jqueryPath}/dist/jquery.min.js`
       ], () => {
-        $script(`${this.editorPath}/editormd.min.js`, () => {
-          this.initEditor();
+        $script(`${that.editorPath}/editormd.min.js`, () => {
+
+          //设置延时，nextTick不靠谱啊。
+          setTimeout(function () {
+            that.initEditor();
+          }, 100)
+
         });
       });
 
