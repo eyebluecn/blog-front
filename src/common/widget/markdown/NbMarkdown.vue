@@ -17,7 +17,8 @@
       return {
         instance: null,
         emAttachment: new EMAttachment(),
-        emPicture: new EMPicture()
+        emPicture: new EMPicture(),
+        innerValue: null
       }
     },
     props: {
@@ -32,6 +33,26 @@
       value: {
         type: String,
         required: false
+      }
+    },
+    watch: {
+      "value"(newVal, oldVal) {
+        let that = this
+
+        if (that.innerValue === newVal) {
+          //内部变化引起的
+
+        } else {
+          //外部变化引起的
+          that.innerValue = that.value
+
+          if (that.instance) {
+            that.instance.setMarkdown(that.value)
+          }
+
+        }
+
+
       }
     },
     created() {
@@ -104,17 +125,18 @@
               dialogDraggable: false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
               dialogMaskOpacity: 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
               dialogMaskBgColor: "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
-              onload: function(){
+              onload: function () {
                 // eslint-disable-next-line
                 if (that.value) {
-                  this.setMarkdown(that.value)
+                  that.instance.setMarkdown(that.value)
                 }
               },
               onchange: function () {
 
+                that.innerValue = this.getMarkdown();
 
                 // 编辑区域内容变化时，实时打印出当前内容
-                that.$emit('input', this.getMarkdown());
+                that.$emit('input', that.innerValue);
                 that.$emit('htmlChange', this.getHTML());
 
               }
