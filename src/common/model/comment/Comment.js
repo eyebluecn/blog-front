@@ -17,6 +17,7 @@ export default class Comment extends BaseEntity {
     this.report = null
     this.agree = 0
     this.ip = null
+    this.agreed = false
     this.commentPager = new Pager(Comment, 10)
     this.validatorSchema = {
       articleUuid: {
@@ -39,6 +40,8 @@ export default class Comment extends BaseEntity {
   }
 
   static URL_API_COMMENT_CREATE = '/comment/create'
+  static URL_API_COMMENT_AGREE = '/comment/agree'
+  static URL_API_COMMENT_CANCEL_AGREE = '/comment/cancel/agree'
 
   render (obj) {
     super.render(obj)
@@ -96,6 +99,21 @@ export default class Comment extends BaseEntity {
     this.httpPost(Comment.URL_API_COMMENT_CREATE, this.getForm(), function (response) {
       typeof successCallback === 'function' && successCallback(response)
     }, errorCallback)
+  }
+
+  httpAgreeChange(successCallback, errorCallback){
+    let that = this
+    if(this.agreed){
+      this.httpPost(Comment.URL_API_COMMENT_CANCEL_AGREE,{'commentUuid':this.uuid},function (response) {
+        that.agree --
+        that.agreed = false
+      },errorCallback)
+    }else{
+      this.httpPost(Comment.URL_API_COMMENT_AGREE,{'commentUuid':this.uuid},function (response) {
+        that.agree ++
+        that.agreed = true
+      },errorCallback)
+    }
   }
 
 }

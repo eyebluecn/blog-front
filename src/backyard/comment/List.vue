@@ -1,10 +1,14 @@
 <template>
 	<div class="article-comment-list">
 		<div>
-			<h2>请写下你的评论</h2>
+			<h2 class="black">欢迎评论</h2>
 			<div class="new-comment">
-				<img class="user-avatar img-circle img-sm" src="../../assets/img/avatar.png" alt="">
 				<CommentTextarea :comment="floorComment" @success="floorCreateSuccess"></CommentTextarea>
+			</div>
+			<div>
+				<h2 class="black">
+					共{{pager.totalItems}}条评论
+				</h2>
 			</div>
 			<div class="comment-list">
 				<div>
@@ -23,10 +27,13 @@
 								{{commentFloor.content}}
 							</div>
 							<div class="comment-operate mt10">
-								<span class="cursor mr20" @click.stop.prevent="prepareReply(commentFloor)">
+								<span class="cursor" @click.stop.prevent="agreeChange(commentFloor)">
+									<em class="fa fa-thumbs-o-up" v-if="!commentFloor.agreed"></em> <em class="fa fa-thumbs-up red" v-else></em> {{commentFloor.agree}}人赞过
+								</span>
+								<span class="cursor ml20" @click.stop.prevent="prepareReply(commentFloor)">
 									<em class="fa fa-commenting-o"></em> 回复
 								</span>
-								<span class="cursor" @click.stop.prevent="commentFloor.confirmDel(refresh)">
+								<span class="cursor ml20" @click.stop.prevent="commentFloor.confirmDel(refresh)">
 									<em class="fa fa-trash-o"></em> 删除
 								</span>
 								<span v-if="commentFloor.isReport">
@@ -41,6 +48,9 @@
 									</div>
 									<div>
 										<span>{{subComment.createTime | simpleDateTime}}</span>
+										<span class="cursor ml20" @click.stop.prevent="agreeChange(subComment)">
+											<em class="fa fa-thumbs-o-up" v-if="!subComment.agreed"></em> <em class="fa fa-thumbs-up red" v-else></em> {{subComment.agree}}人赞过
+										</span>
 										<span class="cursor ml20" @click.stop.prevent="prepareReply(subComment)">
 											<em class="fa fa-commenting-o"></em> 回复
 										</span>
@@ -66,7 +76,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="mt20">
+				<div class="mv20">
 					<NbPager :pager="pager" :callback="refresh"/>
 				</div>
 			</div>
@@ -108,6 +118,12 @@
         this.pager.setFilterValue('needSubPager', true)
         this.pager.httpFastPage()
       },
+
+	    //修改用户点赞状态
+	    agreeChange(comment) {
+				comment.httpAgreeChange()
+	    },
+
 	    //楼层回复成功
       floorCreateSuccess() {
         Message.success('评论成功！')
@@ -145,6 +161,7 @@
 
 
 
+
     },
     components: {
       NbPager,
@@ -170,23 +187,12 @@
 		.new-comment {
 			position: relative;
 			margin: 20px 0 20px 0;
-			.user-avatar {
+
+			/*.user-avatar {
 				position: absolute;
 				left: -50px;
-			}
-			.comment-text {
-				padding: 10px 15px;
-				width: 100%;
-				height: 80px;
-				font-size: 13px;
-				border: 1px solid #dcdcdc;
-				border-radius: 5px;
-				background-color: hsla(0, 0%, 71%, .1);
-				resize: none;
-				display: inline-block;
-				vertical-align: top;
-				outline-style: none;
-			}
+			}*/
+
 		}
 		.comment-list {
 			.comment-box {
