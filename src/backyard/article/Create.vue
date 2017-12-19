@@ -163,6 +163,7 @@
         nbHtmlContent: null,
         user: this.$store.state.user,
         article: new Article(),
+        localStorageStatus: 1,  // 0 表示清空localStorage，表示创建成功后清空localStorage； 1 表示存储localStorage，表示创建时未保存即离开；
         releaseDateOptions: {
           disabledDate (time) {
             return time.getTime() < Date.now() - 24 * 60 * 60 * 1000
@@ -205,22 +206,20 @@
           Notification.success({
             message: that.article.editMode ? '修改文章成功！' : '创建文章成功！'
           })
-
+          that.localStorageStatus = 0
           that.$router.push('/by/article/detail/' + that.article.uuid)
         })
       },
       fetchDetail () {
-        let that = this
-        this.article.httpDetail(function () {
-          if(that.article.isMarkdown){
-            that.nbMarkdownContent = that.article.markdown
-            that.nbHtmlContent = that.article.html
-          }else{
-            that.nbEditorContent = that.archive.html
-          }
-          that.shortTags = JSON.parse(that.article.tags)
-
-        })
+        if (this.article.isMarkdown) {
+          this.nbMarkdownContent = this.article.markdown
+          this.nbHtmlContent = this.article.html
+        } else {
+          this.nbEditorContent = this.archive.html
+        }
+        if (this.article.tags) {
+          this.shortTags = JSON.parse(this.article.tags)
+        }
 
       }
     },
@@ -229,8 +228,32 @@
       this.article.uuid = this.$store.state.route.params.uuid
       if (this.article.uuid) {
         this.article.editMode = true
-        this.fetchDetail()
+        this.article.httpDetail(this.fetchDetail)
+      } else {
+        if (window.localStorage.getItem('blogArticle')) {
+          this.article.render(JSON.parse(window.localStorage.getItem('blogArticle')))
+          this.fetchDetail()
+        }
+
       }
+    },
+    beforeRouteLeave (to, from, next) {
+      if (from.name === 'ArticleCreate') {
+        if (this.localStorageStatus) {
+          this.article.tags = JSON.stringify(this.shortTags)
+          if (this.article.isMarkdown) {
+            this.article.markdown = this.nbMarkdownContent
+            this.article.html = this.nbHtmlContent
+          } else {
+            this.article.html = this.nbEditorContent
+          }
+          window.localStorage.setItem('blogArticle', JSON.stringify(this.article))
+        } else {
+          window.localStorage.removeItem('blogArticle')
+        }
+
+      }
+      next(true)
     }
   }
 
