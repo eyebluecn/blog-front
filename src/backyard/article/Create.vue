@@ -195,9 +195,20 @@
         if (this.article.isMarkdown) {
           this.article.markdown = this.nbMarkdownContent
           this.article.html = this.nbHtmlContent
+	        //统计字数
+	        let editormdMarkdownTextarea = $('.editormd-markdown-textarea')
+	        if(editormdMarkdownTextarea){
+            this.article.words = editormdMarkdownTextarea.val().length
+	        }
         } else {
           this.article.html = this.nbEditorContent
+	        //统计字数
+	        let wangEditorTxt = $('.wangEditor-txt')
+	        if(wangEditorTxt){
+            this.article.words = wangEditorTxt.text().length
+	        }
         }
+
         if (!this.article.validate()) {
           this.showOutline = true
           return

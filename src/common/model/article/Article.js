@@ -42,6 +42,12 @@ export default class Article extends BaseEntity {
     //是否置顶
     this.top = false
 
+    //点赞
+    this.agree = 0
+
+    //字数
+    this.words = 0
+
     //点击数量
     this.hit = 1
 
@@ -59,6 +65,10 @@ export default class Article extends BaseEntity {
       },
       html: {
         rules: [{required: true, message: '内容必填'}, {max: 10000, message: '内容最长10000字'}],
+        error: null
+      },
+      words: {
+        rules: [{required: true, message: '文章字数必填'}],
         error: null
       }
     }
@@ -98,6 +108,7 @@ export default class Article extends BaseEntity {
       releaseTime: simpleDateTime(this.releaseTime),
       markdown: this.markdown,
       html: this.html,
+      words: this.words,
       uuid: this.uuid ? this.uuid : null
     }
   }

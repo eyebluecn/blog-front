@@ -28,7 +28,10 @@
 								<span class="label label-primary mr5" v-for="item in JSON.parse(article.tags)">
 									{{item}}
 								</span>
-								<p class="mt10">{{article.releaseTime | simpleDateTime}}</p>
+								<p class="mt10" style="color: #9d9d9d">
+									<span class="mr20">{{article.releaseTime | simpleDateTime}}</span>
+									<span>{{article.words}}字</span>
+								</p>
 							</div>
 							<div class="">
 								<img :src="article.posterUrl" alt="">

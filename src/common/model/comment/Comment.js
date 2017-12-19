@@ -105,12 +105,12 @@ export default class Comment extends BaseEntity {
     let that = this
     if(this.agreed){
       this.httpPost(Comment.URL_API_COMMENT_CANCEL_AGREE,{'commentUuid':this.uuid},function (response) {
-        that.agree --
+        that.agree = that.agree - 1
         that.agreed = false
       },errorCallback)
     }else{
       this.httpPost(Comment.URL_API_COMMENT_AGREE,{'commentUuid':this.uuid},function (response) {
-        that.agree ++
+        that.agree = that.agree + 1
         that.agreed = true
       },errorCallback)
     }
