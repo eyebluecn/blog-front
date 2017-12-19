@@ -2,8 +2,8 @@ import BaseEntity from '../base/BaseEntity'
 import Filter from '../base/Filter'
 import Pager from '../base/Pager'
 
-export default class Comment extends BaseEntity{
-  constructor (args){
+export default class Comment extends BaseEntity {
+  constructor (args) {
     super(args)
     this.articleUuid = null
     this.userUuid = null
@@ -15,6 +15,8 @@ export default class Comment extends BaseEntity{
     this.content = null
     this.isReport = false
     this.report = null
+    this.agree = 0
+    this.ip = null
     this.commentPager = new Pager(Comment, 10)
     this.validatorSchema = {
       articleUuid: {
@@ -36,12 +38,14 @@ export default class Comment extends BaseEntity{
     }
   }
 
-  render(obj){
+  static URL_API_COMMENT_CREATE = '/comment/create'
+
+  render (obj) {
     super.render(obj)
-    this.renderList('commentPager',Comment)
+    this.renderEntity('commentPager', Pager)
   }
 
-  getFilters(){
+  getFilters () {
     return [
       new Filter(Filter.prototype.Type.SORT, '排序', 'orderSort'),
       new Filter(Filter.prototype.Type.INPUT, '用户uuid', 'userUuid'),
@@ -53,15 +57,16 @@ export default class Comment extends BaseEntity{
       new Filter(Filter.prototype.Type.INPUT, '评论者邮箱', 'email'),
       new Filter(Filter.prototype.Type.INPUT, '评论内容', 'content'),
       new Filter(Filter.prototype.Type.CHECK, '是否被举报', 'isReport'),
-      new Filter(Filter.prototype.Type.INPUT, '举报内容', 'report')
+      new Filter(Filter.prototype.Type.INPUT, '举报内容', 'report'),
+      new Filter(Filter.prototype.Type.CHECK, '是否需要子评论', 'needSubPager')
     ]
   }
 
-  validate(){
+  validate () {
     return super.validate()
   }
 
-  getForm(){
+  getForm () {
     return {
       articleUuid: this.articleUuid,
       isFloor: this.isFloor,
@@ -73,8 +78,24 @@ export default class Comment extends BaseEntity{
     }
   }
 
-  commentRefresh(){
-    this.commentPager.setFilterValue()
+  refreshCommentPager () {
+    let that = this
+    return function () {
+      that.commentPager.setFilterValue('orderSort', 'DESC')
+      that.commentPager.setFilterValue('articleUuid', this.articleUuid)
+      that.commentPager.setFilterValue('floorUuid', this.uuid)
+      that.commentPager.setFilterValue('isFloor', false)
+      that.commentPager.setFilterValue('needSubPager', false)
+      that.commentPager.httpFastPage()
+    }
+
+  }
+
+  httpCreate (successCallback, errorCallback) {
+    let that = this
+    this.httpPost(Comment.URL_API_COMMENT_CREATE, this.getForm(), function (response) {
+      typeof successCallback === 'function' && successCallback(response)
+    }, errorCallback)
   }
 
 }
