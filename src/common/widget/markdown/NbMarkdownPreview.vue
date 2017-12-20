@@ -1,48 +1,92 @@
 <template>
-	<div class="nb-markdown-preview" id="nb-markdown-preview" v-html="html"></div>
+  <div id="editor-md-preview" class="editor-md-preview">
+    <div v-html="html"></div>
+  </div>
 </template>
 
 <script>
-	import '../../../../static/fork/editormd/lib/flowchart.min'
-	import '../../../../static/fork/editormd/lib/jquery.flowchart.min'
-	import '../../../../static/fork/editormd/lib/marked.min'
-	import '../../../../static/fork/editormd/lib/prettify.min'
-	import '../../../../static/fork/editormd/lib/raphael.min'
-  import '../../../../static/fork/editormd/lib/sequence-diagram.min'
-	import '../../../../static/fork/editormd/lib/underscore.min'
-	import $ from 'jquery'
+  import $script from 'scriptjs';
+
   export default {
-    name: 'nb-markdown-preview',
-	  data(){
-      return{
-
+    data() {
+      return {
+        instance: null
       }
-	  },
-	  props:{
-      html:{
+    },
+    props: {
+      editorPath: {
         type: String,
-	      required: true
+        default: '/static/fork/editormd'
+      },
+      jqueryPath: {
+        type: String,
+        default: '/static/fork/jquery'
+      },
+      html: {
+        type: String,
+        required: false
       }
-	  },
-	  methods:{
+    },
+    watch: {},
+    created() {
 
-	  },
-	  mounted(){
-      let editorMdView = editormd.markdownToHTML('nb-markdown-preview',{
-        htmlDecode: "style,script,iframe",
-        emoji: true,
-        taskList: true,
-        tex: true,  // 默认不解析
-        flowChart: true,  // 默认不解析
-        sequenceDiagram: true  // 默认不解析
-      })
-	  }
-  }
+    },
+    methods: {
+      initEditor() {
+        let that = this
+
+        // console.log(this.html);
+        that.instance = window.editormd.markdownToHTML(
+          "editor-md-preview", {
+            htmlDecode: "style,script,iframe",  // you can filter tags decode
+            emoji: true,
+            taskList: true,
+            tex: true,  // 默认不解析
+            flowChart: true,  // 默认不解析
+            sequenceDiagram: true  // 默认不解析
+          });
+
+      }
+    },
+    mounted() {
+      let that = this
+      // async loading js dependencies
+      // editormd depdend on jquery and zepto
+      $script(`${that.jqueryPath}/dist/jquery.min.js`, () => {
+        $script(`${that.editorPath}/lib/marked.min.js`, () => {
+          $script(`${that.editorPath}/lib/prettify.min.js`, () => {
+            $script(`${that.editorPath}/lib/raphael.min.js`, () => {
+              $script(`${that.editorPath}/lib/underscore.min.js`, () => {
+                $script(`${that.editorPath}/lib/sequence-diagram.min.js`, () => {
+                  $script(`${that.editorPath}/lib/flowchart.min.js`, () => {
+                    $script(`${that.editorPath}/lib/jquery.flowchart.min.js`, () => {
+                      $script(`${that.editorPath}/editormd.js`, () => {
+
+                        //设置延时，nextTick不靠谱啊。
+                        setTimeout(function () {
+                          that.initEditor();
+                        }, 100)
+
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+
+
+      //初始化各种插件
+
+    },
+    beforeDestroy() {
+    }
+  };
 </script>
 
 <style lang="less" rel="stylesheet/less">
-	@import '../../../../static/fork/editormd/css/editormd.preview.min.css';
-	.nb-markdown-preview{
+  @import "../../../../static/fork/editormd/css/editormd.css";
 
-	}
 </style>

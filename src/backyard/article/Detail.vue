@@ -1,65 +1,67 @@
 <template>
-	<div class="animated fadeIn">
-		<div class="row">
-			<div class="col-md-12">
+  <div class="animated fadeIn">
+    <div class="row">
+      <div class="col-md-12">
 
-				<div class="pedia-navigation">
-					<span class="item active">文章详情</span>
-				</div>
+        <div class="pedia-navigation">
+          <span class="item active">文章详情</span>
+        </div>
 
-			</div>
-		</div>
+      </div>
+    </div>
 
-		<!--编辑，权限设置-->
-		<div class="text-right mb10">
-			<router-link class="btn btn-primary btn-sm" :to="'/by/article/edit/'+ article.uuid">
-				<i class="fa fa-pencil"></i>
-				编辑文章
-			</router-link>
-		</div>
+    <!--编辑，权限设置-->
+    <div class="text-right mb10">
+      <router-link class="btn btn-primary btn-sm" :to="'/by/article/edit/'+ article.uuid">
+        <i class="fa fa-pencil"></i>
+        编辑文章
+      </router-link>
+    </div>
 
-		<div class="row">
-			<div class="col-md-10 col-md-offset-1 bg-white">
-				<LoadingFrame :loading="article.detailLoading">
-					<div class="row">
-						<div class="col-md-8 col-md-offset-2 ">
-							<h1 class="text-center">{{article.title}}</h1>
-							<div class="text-center">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1 bg-white">
+        <LoadingFrame :loading="article.detailLoading">
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2 ">
+              <h1 class="text-center">{{article.title}}</h1>
+              <div class="text-center">
 								<span class="label label-primary mr5" v-for="item in JSON.parse(article.tags)">
 									{{item}}
 								</span>
-								<p class="mt10" style="color: #9d9d9d">
-									<span class="mr20">{{article.releaseTime | simpleDateTime}}</span>
-									<span>{{article.words}}字</span>
-								</p>
-							</div>
-							<div class="">
-								<img :src="article.posterUrl" alt="">
-							</div>
-							<!--<div>
-								<div v-html="article.html"></div>
-							</div>-->
-							<NbMarkdownPreview :html="article.html"></NbMarkdownPreview>
-						</div>
+                <p class="mt10" style="color: #9d9d9d">
+                  <span class="mr20">{{article.releaseTime | simpleDateTime}}</span>
+                  <span>{{article.words}}字</span>
+                </p>
+              </div>
+              <div class="">
+                <img :src="article.posterUrl" alt="">
+              </div>
+              <!--<div>
+                                <div v-html="article.html"></div>
+                            </div>-->
+              <div v-if="article.html">
+                <NbMarkdownPreview :html="article.html"/>
+              </div>
 
-						<div class="col-md-8 col-md-offset-2 mt100">
-							<CommentList></CommentList>
-						</div>
+            </div>
 
-					</div>
+            <div class="col-md-8 col-md-offset-2 mt100">
+              <CommentList></CommentList>
+            </div>
 
-
-
-				</LoadingFrame>
-			</div>
-
-		</div>
+          </div>
 
 
-	</div>
+        </LoadingFrame>
+      </div>
+
+    </div>
+
+
+  </div>
 </template>
 <script>
-  import { MessageBox, Notification as NotificationBox } from 'element-ui'
+  import {MessageBox, Notification as NotificationBox} from 'element-ui'
   import Article from '../../common/model/article/Article'
   import NbSlidePanel from '../../common/widget/NbSlidePanel.vue'
   import NbExpanding from '../../common/widget/NbExpanding.vue'
@@ -67,13 +69,14 @@
   import LoadingFrame from '../widget/LoadingFrame'
   import CreateSaveButton from '../widget/CreateSaveButton.vue'
   import NbMarkdownPreview from '../../common/widget/markdown/NbMarkdownPreview'
-	import CommentList from '../comment/List'
+  import CommentList from '../comment/List'
+
   export default {
 
-    data () {
+    data() {
       return {
         user: this.$store.state.user,
-	      tags:[],
+        tags: [],
         article: new Article()
       }
     },
@@ -84,7 +87,7 @@
     },
     computed: {},
     methods: {
-      fetchDetail () {
+      fetchDetail() {
         let that = this
         this.article.uuid = this.$store.state.route.params.uuid
         if (this.article.uuid) {
@@ -92,7 +95,7 @@
         }
       }
     },
-    mounted () {
+    mounted() {
       this.fetchDetail()
     }
   }
