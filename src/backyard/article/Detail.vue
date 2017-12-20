@@ -36,9 +36,10 @@
 							<div class="">
 								<img :src="article.posterUrl" alt="">
 							</div>
-							<div class="">
+							<!--<div>
 								<div v-html="article.html"></div>
-							</div>
+							</div>-->
+							<NbMarkdownPreview :html="article.html"></NbMarkdownPreview>
 						</div>
 
 						<div class="col-md-8 col-md-offset-2 mt100">
@@ -65,6 +66,7 @@
   import NbBtnDropdown from '../../common/widget/NbBtnDropdown.vue'
   import LoadingFrame from '../widget/LoadingFrame'
   import CreateSaveButton from '../widget/CreateSaveButton.vue'
+  import NbMarkdownPreview from '../../common/widget/markdown/NbMarkdownPreview'
 	import CommentList from '../comment/List'
   export default {
 
@@ -77,6 +79,7 @@
     },
     components: {
       LoadingFrame,
+      NbMarkdownPreview,
       CommentList
     },
     computed: {},
