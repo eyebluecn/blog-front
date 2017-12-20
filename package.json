@@ -21,6 +21,7 @@
     "element-ui": "^2.0.2",
     "enquire.js": "^2.1.6",
     "font-awesome": "^4.7.0",
+    "fs": "0.0.1-security",
     "icheck": "^1.0.2",
     "jquery": "^3.2.1",
     "perfect-scrollbar": "^1.1.0",

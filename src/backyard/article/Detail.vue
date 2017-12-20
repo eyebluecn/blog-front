@@ -28,14 +28,18 @@
 								<span class="label label-primary mr5" v-for="item in JSON.parse(article.tags)">
 									{{item}}
 								</span>
-								<p class="mt10">{{article.releaseTime | simpleDateTime}}</p>
+								<p class="mt10" style="color: #9d9d9d">
+									<span class="mr20">{{article.releaseTime | simpleDateTime}}</span>
+									<span>{{article.words}}字</span>
+								</p>
 							</div>
 							<div class="">
 								<img :src="article.posterUrl" alt="">
 							</div>
-							<div class="">
+							<!--<div>
 								<div v-html="article.html"></div>
-							</div>
+							</div>-->
+							<NbMarkdownPreview :html="article.html"></NbMarkdownPreview>
 						</div>
 
 						<div class="col-md-8 col-md-offset-2 mt100">
@@ -62,6 +66,7 @@
   import NbBtnDropdown from '../../common/widget/NbBtnDropdown.vue'
   import LoadingFrame from '../widget/LoadingFrame'
   import CreateSaveButton from '../widget/CreateSaveButton.vue'
+  import NbMarkdownPreview from '../../common/widget/markdown/NbMarkdownPreview'
 	import CommentList from '../comment/List'
   export default {
 
@@ -74,6 +79,7 @@
     },
     components: {
       LoadingFrame,
+      NbMarkdownPreview,
       CommentList
     },
     computed: {},
