@@ -1,12 +1,6 @@
 <template>
   <nav ref="menuNav" class="side-navigation" :class="{'show-drawer':showDrawer}" @click.stop.prevent="eatClick">
     <div class="sidebar-collapse">
-      <div class="app-name-box" @click.stop.prevent="$router.push('/')">
-        <router-link to="/">
-          <img class="img-circle img-sm" src="../../assets/img/logo.png"/>
-          <span class="f17 bold">个人博客</span>
-        </router-link>
-      </div>
 
 
       <div class="menu-header" @click="goToProfile">
