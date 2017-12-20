@@ -36,9 +36,7 @@
               <div class="">
                 <img :src="article.posterUrl" alt="">
               </div>
-              <!--<div>
-                                <div v-html="article.html"></div>
-                            </div>-->
+
               <div v-if="article.html">
                 <NbMarkdownPreview :html="article.html"/>
               </div>
