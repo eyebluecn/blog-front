@@ -93,6 +93,12 @@ export default class Tank extends BaseEntity {
       return false
     }
 
+
+    if(this.file.size > this.maxSize){
+      this.errorMessage = '文件超出指定大小'
+      return false
+    }
+
     this.size = this.file.size
     this.type = getMimeType(this.name)
 
@@ -301,6 +307,7 @@ export default class Tank extends BaseEntity {
     newTank.privacy = this.privacy
     newTank.errorMessage = this.errorMessage
     newTank.uploadHint = this.uploadHint
+    newTank.maxSize = this.maxSize
 
     this.render(newTank)
 

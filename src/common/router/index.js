@@ -9,8 +9,11 @@ import ArticleCreate from '../../backyard/article/Create.vue'
 import ArticleDetail from '../../backyard/article/Detail.vue'
 import TagList from '../../backyard/tag/List'
 import TagCreate from '../../backyard/tag/Create'
+import PreferenceIndex from '../../backyard/preference/Index'
+import PreferenceEdit from '../../backyard/preference/Edit'
 import WheelIndex from '../../backyard/wheel/Index.vue'
 import store from '../vuex/index.js'
+import Preference from '../model/preference/Preference'
 
 Vue.use(Router)
 
@@ -39,7 +42,7 @@ const router = new Router({
           }
         },
         {
-          path: 'index',
+          path: '',
           name: 'byIndex',
           component: ByIndexView,
           meta: {
@@ -194,6 +197,39 @@ const router = new Router({
               {
                 name: 'TagEdit',
                 title: '编辑标签'
+              }
+            ]
+          }
+        },
+        {
+          path: 'preference',
+          name: 'PreferenceIndex',
+          component: PreferenceIndex,
+          meta: {
+            title: '网站偏好',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'PreferenceIndex',
+                title: '网站偏好'
+              }
+            ]
+          }
+        },
+        {
+          path: 'preference/edit',
+          name: 'PreferenceEdit',
+          component: PreferenceEdit,
+          meta: {
+            title: '网站偏好设置',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'PreferenceIndex',
+                title: '网站偏好'
+              },{
+                name: 'PreferenceEdit',
+                title: '网站偏好设置'
               }
             ]
           }

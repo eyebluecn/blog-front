@@ -29,6 +29,10 @@ MenuManager.refreshByMenus = function (user) {
     let tagListMenu = new Menu('标签列表', '/by/tag/list', false, 'fa fa-tags')
     byMenus.push(tagListMenu)
 
+    //网站设置
+    let preferenceMenu = new Menu('网站偏好', '/by/preference', false, 'fa fa-dashboard')
+    byMenus.push(preferenceMenu)
+
     //自家轮子
     let wheelMenu = new Menu('自家轮子', '/by/wheel', false, 'fa fa-ge')
     byMenus.push(wheelMenu)
