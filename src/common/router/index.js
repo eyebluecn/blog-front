@@ -3,7 +3,10 @@ import Router from 'vue-router'
 import ByIndexView from '../../backyard/index/Index.vue'
 import ByFrameView from '../../backyard/Frame.vue'
 import UserLogin from '../../backyard/user/Login.vue'
-import UserProfile from '../../backyard/user/Profile.vue'
+/*import UserProfile from '../../backyard/user/Profile.vue'*/
+import UserList from '../../backyard/user/List'
+import UserDetail from '../../backyard/user/Detail'
+import UserCreate from '../../backyard/user/Create'
 import ArticleList from '../../backyard/article/List.vue'
 import ArticleCreate from '../../backyard/article/Create.vue'
 import ArticleDetail from '../../backyard/article/Detail.vue'
@@ -69,11 +72,88 @@ const router = new Router({
         {
           path: 'user/profile/:uuid',
           name: 'UserProfile',
-          component: UserProfile,
+          component: UserDetail,
           meta: {
             title: '用户详情',
             requiresAuth: true,
-            breadcrumbs: []
+            breadcrumbs: [
+              {
+                name: 'UserProfile',
+                title: '用户详情'
+              }
+            ]
+          }
+        },
+        {
+          path: 'user/list',
+          name: 'UserList',
+          component: UserList,
+          meta: {
+            title: '用户列表',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'UserList',
+                title: '用户列表'
+              }
+            ]
+          }
+        },
+        {
+          path: 'user/detail/:uuid',
+          name: 'UserDetail',
+          component: UserDetail,
+          meta: {
+            title: '用户详情',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'UserList',
+                title: '用户列表'
+              },
+              {
+                name: 'UserDetail',
+                title: '用户详情'
+              }
+            ]
+          }
+        },
+        {
+          path: 'user/create',
+          name: 'UserCreate',
+          component: UserCreate,
+          meta: {
+            title: '创建用户',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'UserList',
+                title: '用户列表'
+              },
+              {
+                name: 'UserCreate',
+                title: '创建用户'
+              }
+            ]
+          }
+        },
+        {
+          path: 'user/edit/:uuid',
+          name: 'UserEdit',
+          component: UserCreate,
+          meta: {
+            title: '编辑用户',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'UserList',
+                title: '用户列表'
+              },
+              {
+                name: 'UserEdit',
+                title: '编辑用户'
+              }
+            ]
           }
         },
         {
@@ -230,21 +310,6 @@ const router = new Router({
               },{
                 name: 'PreferenceEdit',
                 title: '网站偏好设置'
-              }
-            ]
-          }
-        },
-        {
-          path: 'wheel',
-          name: 'WheelIndex',
-          component: WheelIndex,
-          meta: {
-            title: '自家轮子',
-            requiresAuth: true,
-            breadcrumbs: [
-              {
-                name: 'WheelIndex',
-                title: '自家轮子'
               }
             ]
           }

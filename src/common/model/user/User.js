@@ -1,8 +1,10 @@
 import BaseEntity from '../base/BaseEntity'
 import Filter from '../base/Filter'
 import $ from 'jquery'
-import {readLocalStorage, removeLocalStorage, saveToLocalStorage} from '../../util/Utils'
-import MenuManager from "../../frontend/MenuManager"
+import { readLocalStorage, removeLocalStorage, saveToLocalStorage } from '../../util/Utils'
+import MenuManager from '../../frontend/MenuManager'
+import Tank from '../tank/Tank'
+import { FeatureType } from '../feature/FeatureType'
 
 let Gender = {
   UNKNOWN: 'UNKNOWN',
@@ -39,7 +41,7 @@ let RoleMap = {
     style: 'primary'
   },
   USER: {
-    name: '注册用户',
+    name: '普通用户',
     value: 'USER',
     style: 'success'
   },
@@ -51,24 +53,26 @@ let RoleMap = {
 }
 
 export default class User extends BaseEntity {
-  constructor(args) {
+  constructor (args) {
     super(args)
 
-    this.username = null;
-    this.password = null;
-    this.role = Role.GUEST;
-    this.email = null;
-    this.phone = null;
+    this.username = null
+    this.password = null
+    this.role = Role.USER
+    this.email = null
+    this.phone = null
     //用户角色
-    this.gender = Gender.UNKNOWN;
-    this.city = null;
-    this.description = null;
-    this.avatarTankUuid = null;
-    this.avatarUrl = null;
+    this.gender = Gender.UNKNOWN
+    this.city = null
+    this.description = null
+    this.avatarTankUuid = null
+    this.avatarUrl = null
     //上次登录IP
-    this.lastIp = null;
+    this.lastIp = null
     //上次登录时间
-    this.lastTime = null;
+    this.lastTime = null
+
+    this.avatar = new Tank('image', false, 1024 * 1024, '图片不能超过1M')
     //local fields.
     this.byMenus = []
 
@@ -76,21 +80,33 @@ export default class User extends BaseEntity {
     this.localPassword = null
     this.createTime = null
 
-
     //编辑用户资料时的验证规则。也是默认的验证规则。
     this.validatorSchema = {
-      phone: {
-        rules: [{required: true, message: '手机号必填'}],
+      username: {
+        rules: [{required: true, message: '用户名必填'}],
         error: null
       },
       password: {
         rules: [{required: true, message: '密码必填'}],
         error: null
       },
-      realname: {
-        rules: [{required: true, message: '用户名必填'}],
+      role: {
+        rules: [{required: true, message: '用户角色必填'}],
+        error: null
+      },
+      email: {
+        rules: [{required: true, message: '邮箱必填'}, {
+          type: 'string',
+          pattern: /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/,
+          message: '邮箱格式不正确'
+        }],
+        error: null
+      },
+      gender: {
+        rules: [{required: true, message: '性别必填'}],
         error: null
       }
+
     }
 
   }
@@ -99,10 +115,10 @@ export default class User extends BaseEntity {
   static URL_LOGOUT = '/user/logout'
   static URL_MEMBER_RESET_PASSWORD = '/user/reset/password'
 
-  getFilters() {
+  getFilters () {
     return [
       new Filter(Filter.prototype.Type.SORT, '序号', 'orderSort'),
-      new Filter(Filter.prototype.Type.HTTP_SELECTION, '角色', 'roleUuid', null, UserRole),
+      new Filter(Filter.prototype.Type.SELECTION, '角色', 'roleUuid', this.getRoleList()),
       new Filter(Filter.prototype.Type.INPUT, '姓名', 'realname'),
       new Filter(Filter.prototype.Type.INPUT, '邮箱', 'email'),
       new Filter(Filter.prototype.Type.INPUT, '电话', 'phone'),
@@ -113,13 +129,14 @@ export default class User extends BaseEntity {
   };
 
   //We use this method to get the full js Object.
-  render(obj) {
+  render (obj) {
     super.render(obj)
     this.renderEntity('lastTime', Date)
+    this.renderEntity('avatar', Tank)
   }
 
   //获取用户头像的url.
-  getAvatarUrl() {
+  getAvatarUrl () {
     if (this.avatarUrl) {
       return this.avatarUrl
     } else {
@@ -127,7 +144,7 @@ export default class User extends BaseEntity {
     }
   }
 
-  refreshMenus() {
+  refreshMenus () {
 
     //后台菜单。不同用户看到的东西不一样。
     this.byMenus = MenuManager.refreshByMenus(this)
@@ -135,7 +152,7 @@ export default class User extends BaseEntity {
   };
 
   //将用户信息存储在本地。
-  renderFromLocalStorage() {
+  renderFromLocalStorage () {
 
     try {
       let userString = readLocalStorage(this.getTAG())
@@ -154,20 +171,19 @@ export default class User extends BaseEntity {
   }
 
   //将用户信息存储在本地。
-  saveToLocalStorage(rawUserObject = null) {
-
+  saveToLocalStorage (rawUserObject = null) {
 
     saveToLocalStorage(this.getTAG(), JSON.stringify(rawUserObject))
   }
 
   //清除本地的user信息
-  clearLocalStorage() {
+  clearLocalStorage () {
 
     removeLocalStorage(this.getTAG())
   }
 
   //更新本地持久化了的个别字段。
-  updateLocalStorage(opt = {}) {
+  updateLocalStorage (opt = {}) {
     try {
       let userString = readLocalStorage(this.getTAG())
 
@@ -183,23 +199,24 @@ export default class User extends BaseEntity {
     }
   }
 
-  getForm() {
+  getForm () {
 
     return {
-      roleUuid: this.role.uuid,
+      username: this.username,
+      password: this.password,
+      role: this.role,
       email: this.email,
       phone: this.phone,
-      password: this.password,
-      realname: this.realname,
-      description: this.description,
       gender: this.gender,
       city: this.city,
-      avatarUrl: this.avatarUrl,
+      description: this.description,
+      avatarTankUuid: this.avatar.uuid,
+      avatarUrl: this.avatar.uuid ? this.avatar.url : null,
       uuid: this.uuid ? this.uuid : null
     }
   }
 
-  validate() {
+  validate () {
 
     if (this.editMode) {
       this.password = true
@@ -208,7 +225,7 @@ export default class User extends BaseEntity {
     return super.validate()
   }
 
-  httpSave(captcha, successCallback, errorCallback) {
+  httpSave (successCallback, errorCallback) {
     let that = this
     let url = this.getUrlCreate()
     if (this.uuid) {
@@ -220,13 +237,7 @@ export default class User extends BaseEntity {
       return
     }
 
-    if (!captcha && !this.editMode) {
-      this.errorMessage = '请先获取短信验证码后进行操作'
-      return
-    }
-
     let form = this.getForm()
-    form.captcha = captcha
 
     this.httpPost(url, form, function (response) {
 
@@ -238,7 +249,7 @@ export default class User extends BaseEntity {
   }
 
   //local logout.
-  innerLogout() {
+  innerLogout () {
 
     this.render(new User())
 
@@ -249,7 +260,7 @@ export default class User extends BaseEntity {
 
   }
 
-  innerLogin(response) {
+  innerLogin (response) {
     let that = this
     that.errorMessage = null
     that.render(response.data.data)
@@ -262,7 +273,7 @@ export default class User extends BaseEntity {
 
   }
 
-  resetValidate() {
+  resetValidate () {
 
     if (!this.phone) {
       this.errorMessage = '手机必填'
@@ -276,25 +287,26 @@ export default class User extends BaseEntity {
     return true
   }
 
+  hasPermission (featureType) {
 
-  hasPermission(featureType) {
-
-    if (this.role) {
-      return this.role.hasPermission(featureType)
+    if (this.role === Role.ADMIN) {
+      return true
+    } else if (this.role === Role.USER) {
+      return featureType === FeatureType.PUBLIC || featureType === FeatureType.USER_MINE
     } else {
-      console.error('该用户没有角色，请及时排查。')
-      return false
+      return featureType === FeatureType.PUBLIC
     }
+
   }
 
-  getResetForm() {
+  getResetForm () {
     return {
       phone: this.phone,
       password: this.password
     }
   }
 
-  httpLogin(captcha, successCallback, errorCallback) {
+  httpLogin (captcha, successCallback, errorCallback) {
 
     let that = this
 
@@ -326,11 +338,11 @@ export default class User extends BaseEntity {
     }, function (response) {
 
       that.errorMessage = that.getErrorMessage(response)
-      errorCallback && errorCallback(response);
+      errorCallback && errorCallback(response)
     })
   }
 
-  httpResetPassword(captcha, successCallback, errorCallback) {
+  httpResetPassword (captcha, successCallback, errorCallback) {
     let that = this
 
     if (!this.resetValidate()) {
@@ -350,7 +362,7 @@ export default class User extends BaseEntity {
 
   }
 
-  httpLogout(successCallback, errorCallback) {
+  httpLogout (successCallback, errorCallback) {
 
     let that = this
 
