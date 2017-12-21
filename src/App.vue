@@ -13,7 +13,9 @@
 
   export default {
     data() {
-      return {}
+      return {
+        preference: this.$store.state.preference
+      }
     },
     computed: {},
     components: {
@@ -22,6 +24,8 @@
     mounted() {
 
       let that = this;
+      this.preference.httpFetch()
+
 
     }
   }

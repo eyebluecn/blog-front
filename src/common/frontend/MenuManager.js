@@ -1,4 +1,5 @@
 import Menu from './Menu'
+import { FeatureType } from '../model/feature/FeatureType'
 
 export default class MenuManager {
 
@@ -9,7 +10,7 @@ MenuManager.refreshByMenus = function (user) {
 
   let byMenus = []
 
-  if (user.role === "GUEST") {
+  if (user.role === 'GUEST') {
 
     //登录
     let loginMenu = new Menu('登录', '/by/user/login', false, 'fa fa-user-circle-o')
@@ -29,17 +30,21 @@ MenuManager.refreshByMenus = function (user) {
     let tagListMenu = new Menu('标签列表', '/by/tag/list', false, 'fa fa-tags')
     byMenus.push(tagListMenu)
 
-    //自家轮子
-    let wheelMenu = new Menu('自家轮子', '/by/wheel', false, 'fa fa-ge')
-    byMenus.push(wheelMenu)
+    //网站设置
+    let preferenceMenu = new Menu('网站偏好', '/by/preference', false, 'fa fa-dashboard')
+    byMenus.push(preferenceMenu)
 
+    if (user.hasPermission(FeatureType.USER_MANAGE)) {
+      //用户列表
+      let userMenu = new Menu('用户列表', '/by/user/list', false, 'fa fa-user')
+      byMenus.push(userMenu)
+    }
 
     //退出登录
     let logoutMenu = new Menu('退出登录', '/by/user/login', false, 'fa fa-power-off')
     byMenus.push(logoutMenu)
 
   }
-
 
   return byMenus
 }

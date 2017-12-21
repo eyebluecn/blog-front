@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import User from "../model/user/User";
+import Preference from '../model/preference/Preference'
 
 Vue.use(Vuex)
 
@@ -27,7 +28,11 @@ const state = {
   //当前用户，即使没有登录依然有游客的用户在。
   user,
 
-  breadcrumbs: []
+  breadcrumbs: [],
+
+  //网站偏好设置
+
+  preference: new Preference()
 
 }
 

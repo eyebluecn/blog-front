@@ -1,0 +1,163 @@
+<template>
+	<div class="animated fadeIn backyard-user-edit">
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="pedia-navigation">
+					<span class="item active">
+						<span v-show="!user.editMode">创建用户</span>
+						<span v-show="user.editMode">编辑用户</span>
+					</span>
+				</div>
+			</div>
+
+			<div class="col-md-12">
+				<div class="bg-white br4 border p10">
+
+					<div class="row">
+						<label class="col-md-2 control-label mt5">头像</label>
+						<div class="col-md-10">
+							<NbTank :tank="user.avatar"/>
+						</div>
+					</div>
+
+					<div class="row mt10" v-validator="user.validatorSchema.username.error">
+						<label class="col-md-2 control-label mt5 compulsory">用户名</label>
+						<div class="col-md-10 validate">
+							<input type="text" class="form-control" v-model="user.username">
+						</div>
+					</div>
+
+					<div class="row mt10" v-if="currentUser.hasPermission(FeatureType.USER_MANAGE)"
+					     v-validator="user.validatorSchema.role.error">
+						<label class="col-md-2 control-label mt5 compulsory">角色</label>
+						<div class="col-md-10 validate">
+							<select class="form-control" v-model="user.role">
+								<option v-for="(item,index) in user.getRoleList()" :value="item.value">{{item.name}}</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row mt10"
+					     v-if="currentUser.hasPermission(FeatureType.USER_MANAGE)" v-validator="user.validatorSchema.email.error">
+						<label class="col-md-2 control-label mt5 compulsory">邮箱</label>
+						<div class="col-md-10 validate">
+							<input type="text" class="form-control" v-model="user.email">
+						</div>
+					</div>
+
+					<div class="row mt10" v-if="!user.editMode" v-validator="user.validatorSchema.password.error">
+						<label class="col-md-2 control-label mt5 compulsory">密码</label>
+						<div class="col-md-10 validate">
+							<input type="password" class="form-control" v-model="user.password">
+						</div>
+					</div>
+
+					<div class="row mt10" v-if="!user.editMode">
+						<label class="col-md-2 control-label mt5 compulsory">确认密码</label>
+						<div class="col-md-10">
+							<input type="password" class="form-control" v-model="repassword">
+						</div>
+					</div>
+
+					<div class="row mt10">
+						<label class="col-md-2 control-label mt5">手机</label>
+						<div class="col-md-10">
+							<input type="text" class="form-control" v-model="user.phone">
+						</div>
+					</div>
+
+					<div class="row mt10">
+						<label class="col-md-2 control-label mt5">性别</label>
+						<div class="col-md-10">
+            <span v-for="gender in user.getGenderList()" class="mr10">
+              <NbRadio v-model="user.gender" :val="gender.value" name="gender"></NbRadio>
+              <label>{{gender.name}}</label>
+            </span>
+						</div>
+					</div>
+
+					<div class="row mt10">
+						<label class="col-md-2 control-label mt5">城市</label>
+						<div class="col-md-10">
+							<input type="text" class="form-control" v-model="user.city">
+						</div>
+					</div>
+
+					<div class="row mt10">
+						<label class="col-md-2 control-label mt5">个人简介</label>
+						<div class="col-md-10">
+						<textarea class="form-control" rows="6" v-model="user.description" style="resize: none"
+						          placeholder="此处填写个人简介……"></textarea>
+						</div>
+					</div>
+
+					<div class="row mt10">
+						<div class="col-md-12">
+							<CreateSaveButton :entity="user" :callback="save"></CreateSaveButton>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</template>
+
+<script>
+  import { Notification } from 'element-ui'
+  import { FeatureType } from '../../common/model/feature/FeatureType'
+  import NbRadio from '../../common/widget/NbRadio.vue'
+  import NbTank from '../../common/widget/NbTank.vue'
+  import CreateSaveButton from '../widget/CreateSaveButton'
+  import User from '../../common/model/user/User'
+
+  export default {
+    name: 'create',
+    data () {
+      return {
+        FeatureType,
+        repassword: null,
+        currentUser: this.$store.state.user,
+        user: new User()
+      }
+    },
+    components: {
+      NbRadio,
+      NbTank,
+      CreateSaveButton
+    },
+    methods: {
+      save () {
+        let that = this
+        if (!this.user.editMode && this.user.password !== this.repassword) {
+          Notification.error('两次密码输入不一致')
+          return
+        }
+
+        this.user.httpSave(function (response) {
+          Notification.success({
+            message: that.user.editMode ? '修改用户成功！' : '创建用户成功！'
+          })
+          that.$router.go(-1)
+        })
+      }
+    },
+    mounted () {
+      let that = this
+      this.user.errorMessage = null
+      this.user.uuid = this.$store.state.route.params.uuid
+      if (this.user.uuid) {
+        this.user.httpDetail()
+      }
+    }
+  }
+</script>
+
+<style lang="less" rel="stylesheet/less">
+	.backyard-user-edit {
+
+	}
+</style>
