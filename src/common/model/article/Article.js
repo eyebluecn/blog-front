@@ -3,6 +3,8 @@ import Filter from '../base/Filter'
 import { simpleDateTime } from '../../filter/time'
 import { Notification } from 'element-ui'
 import Tank from '../tank/Tank'
+import User from '../user/User'
+import Tag from '../tag/Tag'
 
 export default class Article extends BaseEntity {
 
@@ -51,11 +53,23 @@ export default class Article extends BaseEntity {
     //点击数量
     this.hit = 1
 
-    //发布日期
-    this.releaseTime = new Date()
+    //评论数量
+    this.commentNum = 0
+
+    //是否接受评论的邮件通知
+    this.needNotify = true
 
     //封面图片
     this.posterTank = new Tank('image', false, 1024 * 1024, '图片不能超过1M')
+
+    //作者
+    this.user = new User()
+
+    //当前用户是否已经对这篇文章点赞了
+    this.agreed = false
+
+    //标签数组对象
+    this.tagArray = []
 
     //编辑和修改文章时的验证规则。也是默认的验证规则。
     this.validatorSchema = {
@@ -91,8 +105,9 @@ export default class Article extends BaseEntity {
 
   render (obj) {
     super.render(obj)
-    this.renderEntity('releaseTime', Date)
     this.renderEntity('posterTank', Tank)
+    this.renderEntity('user',User)
+    this.renderList('tagArray',Tag)
   }
 
   getForm () {
@@ -103,12 +118,12 @@ export default class Article extends BaseEntity {
       posterUrl: this.posterUrl,
       digest: this.digest,
       isMarkdown: this.isMarkdown,
-      privacy: this.privacy,
-      top: this.top,
-      releaseTime: simpleDateTime(this.releaseTime),
       markdown: this.markdown,
       html: this.html,
       words: this.words,
+      privacy: this.privacy,
+      top: this.top,
+      needNotify: this.needNotify,
       uuid: this.uuid ? this.uuid : null
     }
   }

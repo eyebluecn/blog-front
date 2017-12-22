@@ -6,6 +6,7 @@ import UserLogin from '../../backyard/user/Login.vue'
 /*import UserProfile from '../../backyard/user/Profile.vue'*/
 import UserList from '../../backyard/user/List'
 import UserDetail from '../../backyard/user/Detail'
+import UserChangePassword from '../../backyard/user/ChangePassword'
 import UserCreate from '../../backyard/user/Create'
 import ArticleList from '../../backyard/article/List.vue'
 import ArticleCreate from '../../backyard/article/Create.vue'
@@ -114,6 +115,21 @@ const router = new Router({
               {
                 name: 'UserDetail',
                 title: '用户详情'
+              }
+            ]
+          }
+        },
+        {
+          path: 'user/change/password',
+          name: 'UserChangePassword',
+          component: UserChangePassword,
+          meta: {
+            title: '修改密码',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'UserChangePassword',
+                title: '修改密码'
               }
             ]
           }

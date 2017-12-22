@@ -113,18 +113,18 @@ export default class User extends BaseEntity {
 
   static URL_LOGIN = '/user/login'
   static URL_LOGOUT = '/user/logout'
-  static URL_MEMBER_RESET_PASSWORD = '/user/reset/password'
+  static URL_USER_CHANGE_PASSWORD = '/user/change/password'
+  static URL_USER_RESET_PASSWORD = '/user/reset/password'
 
   getFilters () {
     return [
       new Filter(Filter.prototype.Type.SORT, '序号', 'orderSort'),
-      new Filter(Filter.prototype.Type.SELECTION, '角色', 'roleUuid', this.getRoleList()),
-      new Filter(Filter.prototype.Type.INPUT, '姓名', 'realname'),
+      new Filter(Filter.prototype.Type.SORT, '最近', 'orderLastTime'),
+      new Filter(Filter.prototype.Type.INPUT, '姓名', 'username'),
       new Filter(Filter.prototype.Type.INPUT, '邮箱', 'email'),
       new Filter(Filter.prototype.Type.INPUT, '电话', 'phone'),
-      new Filter(Filter.prototype.Type.INPUT, '关键字', 'keyword'),
-      new Filter(Filter.prototype.Type.INPUT, '简单选择', 'simpleSelection', null, null, false, null),
-      new Filter(Filter.prototype.Type.INPUT, '角色详情', 'needRoleDetail', null, null, false, null)
+      new Filter(Filter.prototype.Type.SELECTION, '角色', 'role', this.getRoleList()),
+      new Filter(Filter.prototype.Type.INPUT, '关键字', 'keyword')
     ]
   };
 
@@ -371,6 +371,23 @@ export default class User extends BaseEntity {
     this.httpPost(User.URL_LOGOUT, {}, function (response) {
 
       successCallback && successCallback(response)
+    }, errorCallback)
+  }
+
+  httpUserChangePassword(oldPassword,newPassword,successCallback,errorCallback){
+    let that = this
+    this.httpPost(User.URL_USER_CHANGE_PASSWORD, {
+      'oldPassword': oldPassword,
+      'newPassword': newPassword
+    }, function (response) {
+      typeof successCallback === 'function' && successCallback(response)
+    }, errorCallback)
+  }
+
+  httpUserResetPassword(newPassword,successCallback,errorCallback){
+    let that = this
+    this.httpPost(User.URL_USER_RESET_PASSWORD, {'userUuid': this.uuid, 'newPassword': newPassword}, function (response) {
+      typeof successCallback === 'function' && successCallback(response)
     }, errorCallback)
   }
 
