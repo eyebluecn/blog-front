@@ -45,7 +45,7 @@
 							<div class="row">
 								<label class="col-md-12 control-label mt5">标签</label>
 								<div class="col-md-12">
-									<NbTags :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false" q
+									<NbTags :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"
 									        :initFilter="{'orderSort':'DESC'}"/>
 								</div>
 							</div>
@@ -190,8 +190,12 @@
 
       save () {
         let that = this
+        let tagsUuidArr = []
         this.article.errorMessage = null
-        this.article.tags = JSON.stringify(this.shortTags)
+	      this.shortTags.forEach(function (i,index) {
+          tagsUuidArr.push(i.uuid)
+        })
+        this.article.tags = JSON.stringify(tagsUuidArr)
         if (this.article.isMarkdown) {
           this.article.markdown = this.nbMarkdownContent
           this.article.html = this.nbHtmlContent
@@ -226,10 +230,12 @@
           this.nbMarkdownContent = this.article.markdown
           this.nbHtmlContent = this.article.html
         } else {
-          this.nbEditorContent = this.archive.html
+          this.nbEditorContent = this.article.html
         }
         if (this.article.tags) {
-          this.shortTags = JSON.parse(this.article.tags)
+          /*this.shortTags = JSON.parse(this.article.tags)
+	        console.log(this.shortTags)*/
+          this.shortTags = this.article.tagArray
         }
 
       }

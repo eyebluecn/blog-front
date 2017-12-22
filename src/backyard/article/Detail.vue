@@ -25,11 +25,11 @@
             <div class="col-md-8 col-md-offset-2 ">
               <h1 class="text-center">{{article.title}}</h1>
               <div class="text-center">
-								<span class="label label-primary mr5" v-for="item in JSON.parse(article.tags)">
-									{{item}}
+								<span class="label label-primary mr5" v-for="item in article.tagArray">
+									{{item.name}}
 								</span>
                 <p class="mt10" style="color: #9d9d9d">
-                  <span class="mr20">{{article.releaseTime | simpleDateTime}}</span>
+                  <span class="mr20">{{article.createTime | simpleDateTime}}</span>
                   <span>{{article.words}}字</span>
                 </p>
               </div>

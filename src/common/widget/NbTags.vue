@@ -9,6 +9,7 @@
 			             deselectLabel="点击移除"
 			             selectLabel="点击选择"
 			             :options="options"
+			             label="name"
 			             :multiple="true"
 			             :taggable="taggable"
 			             :max="max"
@@ -102,7 +103,7 @@
             that.options.splice(0, that.options.length)
             list.forEach(item => {
 
-              that.options.push(item.name)
+              that.options.push(item)
 
             })
           }
