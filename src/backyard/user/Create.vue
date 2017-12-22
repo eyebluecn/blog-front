@@ -33,7 +33,7 @@
 						<label class="col-md-2 control-label mt5 compulsory">角色</label>
 						<div class="col-md-10 validate">
 							<select class="form-control" v-model="user.role">
-								<option v-for="(item,index) in user.getRoleList()" :value="item.value">{{item.name}}</option>
+								<option v-for="(item,index) in user.getRoleList()" v-if="item.value !== 'GUEST'" :value="item.value">{{item.name}}</option>
 							</select>
 						</div>
 					</div>
