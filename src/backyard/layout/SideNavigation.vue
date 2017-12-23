@@ -23,11 +23,8 @@
   </nav>
 </template>
 <script>
-  import {mapGetters} from 'vuex'
   import SideMenu from "./SideMenu.vue"
-  import AvatarSideNaviDropdown from "./widget/AvatarSideNaviDropdown.vue";
 
-  import $ from "jquery";
 
 
   export default {
@@ -48,8 +45,7 @@
     },
 
     components: {
-      SideMenu,
-      AvatarSideNaviDropdown
+      SideMenu
     },
     methods: {
       goToProfile() {
