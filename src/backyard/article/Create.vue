@@ -62,18 +62,6 @@
 
 						<div class="col-md-3">
 							<div class="row">
-								<label class="col-md-12 control-label mt5">发布日期</label>
-								<div class="col-md-12">
-									<DatePicker
-										v-model="article.releaseTime" type="datetime" placeholder="发布日期"
-										:picker-options="releaseDateOptions">
-									</DatePicker>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-3">
-							<div class="row">
 								<label class="col-md-12 control-label mt5">私有文章</label>
 								<div class="col-md-12">
 									<NbSwitcher v-model="article.privacy" type="primary"></NbSwitcher>
@@ -86,6 +74,15 @@
 								<label class="col-md-12 control-label mt5">置顶</label>
 								<div class="col-md-12">
 									<NbSwitcher v-model="article.top" type="primary"></NbSwitcher>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="row">
+								<label class="col-md-12 control-label mt5">接受评论通知</label>
+								<div class="col-md-12">
+									<NbSwitcher v-model="article.needNotify" type="primary"></NbSwitcher>
 								</div>
 							</div>
 						</div>
@@ -164,11 +161,7 @@
         user: this.$store.state.user,
         article: new Article(),
         localStorageStatus: 1,  // 0 表示清空localStorage，表示创建成功后清空localStorage； 1 表示存储localStorage，表示创建时未保存即离开；
-        releaseDateOptions: {
-          disabledDate (time) {
-            return time.getTime() < Date.now() - 24 * 60 * 60 * 1000
-          }
-        }
+        articleWords: null    //文章
       }
     },
     components: {
@@ -199,18 +192,23 @@
         if (this.article.isMarkdown) {
           this.article.markdown = this.nbMarkdownContent
           this.article.html = this.nbHtmlContent
-	        //统计字数
 	        let editormdMarkdownTextarea = $('.editormd-markdown-textarea')
 	        if(editormdMarkdownTextarea){
-            this.article.words = editormdMarkdownTextarea.val().length
+            this.articleWords = editormdMarkdownTextarea.val()
 	        }
         } else {
           this.article.html = this.nbEditorContent
-	        //统计字数
 	        let wangEditorTxt = $('.wangEditor-txt')
 	        if(wangEditorTxt){
-            this.article.words = wangEditorTxt.text().length
+            this.articleWords = wangEditorTxt.text()
 	        }
+        }
+
+        //统计字数
+	      this.article.words = this.articleWords.length
+        //如果没用填摘要，默认选择文章的前二百字
+        if(!this.article.digest){
+          this.article.digest = this.articleWords.slice(0,200)
         }
 
         if (!this.article.validate()) {
