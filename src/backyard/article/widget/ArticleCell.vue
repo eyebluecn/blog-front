@@ -1,45 +1,7 @@
 <template>
 	<div class="article-cell">
-		<div class="media" v-if="showUser">
-			<div class="pull-left">
-				<router-link :to="'/by/user/detail/'+article.user.uuid">
-					<img class="img-circle w40 h40" :src="article.user.getAvatarUrl()"/>
-				</router-link>
-			</div>
-			<div class="media-body">
-				<div class="f16">
-					<router-link :to="'/by/user/detail/'+article.user.uuid">
-						{{article.user.username}}
-					</router-link>
-				</div>
-				<div class="mix">
-          <span class="mr10">
-            {{article.createTime | simpleDateHourMinute}}
-          </span>
-					<span class="mr10">
-            字数 {{article.words}}
-          </span>
-					<span class="mr10">
-            阅读 {{article.hit}}
-          </span>
-					<span class="mr10">
-            评论 {{article.commentNum}}
-          </span>
-					<span class="mr10">
-            点赞 {{article.agree}}
-          </span>
 
-					<span class="pull-right action-buttons">
-						<router-link :to="'/by/article/edit/'+article.uuid">
-								<i class="fa fa-pencil text-info f18"></i>
-						</router-link>
-						<a href="javascript:void(0)" title="删除" @click.stop.prevent="article.confirmDel(delCallback)">
-								<i class="fa fa-trash text-danger f18"></i>
-            </a>
-					</span>
-				</div>
-			</div>
-		</div>
+		<ArticleInfo :article="article" :showUser="showUser" :showOperate="showOperate" :delCallback="delCallback"/>
 
 		<div class="media">
 			<div v-if="article.posterUrl" class="pull-right">
@@ -65,32 +27,14 @@
 
 		</div>
 
-		<div v-if="!showUser">
-			<div>
-          <span class="mr10">
-            {{article.createTime | simpleDateHourMinute}}
-          </span>
-				<span class="mr10">
-            字数 {{article.words}}
-          </span>
-				<span class="mr10">
-            阅读 {{article.hit}}
-          </span>
-				<span class="mr10">
-            评论 {{article.commentNum}}
-          </span>
-				<span class="mr10">
-            点赞 {{article.agree}}
-          </span>
-			</div>
-		</div>
-
 	</div>
 </template>
 
 <script>
 	import Tag from '../../tag/widget/Tag'
+  import ArticleInfo from '../widget/ArticleInfo'
   import Article from '../../../common/model/article/Article'
+
 
   export default {
     name: 'article-cell',
@@ -109,6 +53,11 @@
         required: false,
         default: true
       },
+      showOperate: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
       activeTagUuid: {
         type: String,
 	      required: false,
@@ -120,7 +69,8 @@
 		  }
 	  },
 	  components:{
-      Tag
+      Tag,
+      ArticleInfo
 	  }
   }
 </script>

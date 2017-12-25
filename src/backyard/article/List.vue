@@ -19,7 +19,7 @@
 			</div>
 
 			<div class="col-md-8 col-md-offset-2" v-for="(article,index) in pager.data">
-				<ArticleCell :article="article" :delCallback="refresh"/>
+				<ArticleCell :article="article" :showUser="true" :showOperate="true" :delCallback="refresh"/>
 			</div>
 
 			<div class="col-md-12 mt20">
