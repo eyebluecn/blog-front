@@ -2,7 +2,7 @@
 
 ### 1.修改默认端口
 
-`config/index.js` 8080变更为6002
+`config/index.js` 8080变更为6025
 
 ### 2.Eslint语法检查太过严格，使用自己的规则。
 
@@ -36,7 +36,7 @@ b.不需要做任何操作了，因为只要安装了less，vue-cli就会把less
 ```
 proxyTable: {
       '/api': {
-        target: 'http://127.0.0.1:9090',
+        target: 'http://127.0.0.1:6020',
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/api'
