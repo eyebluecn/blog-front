@@ -155,7 +155,7 @@
           //设置延时，nextTick不靠谱啊。
           setTimeout(function () {
             that.initEditor();
-          }, 100)
+          }, 300)
 
         });
       });

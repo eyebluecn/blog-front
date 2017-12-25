@@ -22,8 +22,6 @@
   </div>
 </template>
 <script>
-  import AvatarNaviBarDropdown from './widget/AvatarNaviBarDropdown.vue'
-  import Dropdown from './widget/AvatarSideNaviDropdown'
 
   export default {
     data() {
@@ -32,8 +30,7 @@
       }
     },
     components: {
-      AvatarNaviBarDropdown,
-      Dropdown
+
     },
     methods: {}
   }
