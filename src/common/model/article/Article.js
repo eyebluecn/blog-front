@@ -77,6 +77,10 @@ export default class Article extends BaseEntity {
         rules: [{required: true, message: '标题必填'}, {max: 255, message: '标题最长255字'}],
         error: null
       },
+      tags: {
+        rules: [{required: true, message: '标签必填'}, {max: 10000, message: '标签最长1024字'}],
+        error: null
+      },
       html: {
         rules: [{required: true, message: '内容必填'}, {max: 10000, message: '内容最长10000字'}],
         error: null
@@ -97,6 +101,7 @@ export default class Article extends BaseEntity {
       new Filter('SORT', '是否共有', 'orderPrivacy'),
       new Filter('SORT', '发布日期', 'orderReleaseTime'),
       new Filter('INPUT', '用户', 'userUuid'),
+      new Filter('CHECK', '私有', 'privacy'),
       new Filter('INPUT', '标题', 'title'),
       new Filter('INPUT', '标签', 'tag'),
       new Filter('INPUT', '关键词', 'keyword')

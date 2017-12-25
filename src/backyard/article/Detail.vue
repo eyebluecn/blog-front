@@ -19,38 +19,37 @@
     </div>
 
     <div class="row">
-      <div class="col-md-10 col-md-offset-1 bg-white">
-        <LoadingFrame :loading="article.detailLoading">
-          <div class="row">
-            <div class="col-md-8 col-md-offset-2 ">
-              <h1 class="text-center">{{article.title}}</h1>
-              <div class="text-center">
-								<span class="label label-primary mr5" v-for="item in article.tagArray">
-									{{item.name}}
-								</span>
-                <p class="mt10" style="color: #9d9d9d">
-                  <span class="mr20">{{article.createTime | simpleDateTime}}</span>
-                  <span>{{article.words}}字</span>
-                </p>
+      <div class="col-md-8 col-md-offset-2 article-detail">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <LoadingFrame :loading="article.detailLoading">
+
+              <div class="article-title">
+                {{article.title}}
               </div>
-              <div class="">
-                <img :src="article.posterUrl" alt="">
-              </div>
+
+              <ArticleInfo :article="article" :showUser="true"/>
 
               <div v-if="article.html">
                 <NbMarkdownPreview :html="article.html"/>
               </div>
 
-            </div>
+              <div class="mt20">
+                <i class="fa fa-tags"></i>本文分类：
+                <span v-for="(tag,index) in article.tagArray">
+                  <Tag :tag="tag" />
+                </span>
+              </div>
 
-            <div class="col-md-8 col-md-offset-2 mt100">
-              <CommentList></CommentList>
-            </div>
+              <div class="mt100">
+                <CommentList></CommentList>
+              </div>
 
+            </LoadingFrame>
           </div>
+        </div>
 
 
-        </LoadingFrame>
       </div>
 
     </div>
@@ -64,9 +63,11 @@
   import NbSlidePanel from '../../common/widget/NbSlidePanel.vue'
   import NbExpanding from '../../common/widget/NbExpanding.vue'
   import NbBtnDropdown from '../../common/widget/NbBtnDropdown.vue'
+  import ArticleInfo from './widget/ArticleInfo'
   import LoadingFrame from '../widget/LoadingFrame'
   import CreateSaveButton from '../widget/CreateSaveButton.vue'
   import NbMarkdownPreview from '../../common/widget/markdown/NbMarkdownPreview'
+  import Tag from '../tag/widget/Tag'
   import CommentList from '../comment/List'
 
   export default {
@@ -81,7 +82,9 @@
     components: {
       LoadingFrame,
       NbMarkdownPreview,
-      CommentList
+      CommentList,
+      ArticleInfo,
+      Tag
     },
     computed: {},
     methods: {
@@ -98,3 +101,36 @@
     }
   }
 </script>
+<style lang="less" rel="stylesheet/less">
+  .article-detail{
+    background: white;
+    padding: 20px;
+    border-radius: 4px;
+    .article-title {
+      word-break: break-all;
+      margin: 20px 0;
+      font-size: 28px;
+      color: black;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .article-info {
+      border-top: 1px solid #eeeeee;
+      padding-top: 20px;
+      .author {
+        a {
+          font-size: 20px;
+          color: #555;
+          &:hover {
+            color: #000;
+            text-decoration: underline;
+          }
+        }
+
+      }
+      .mix {
+      }
+    }
+  }
+</style>
