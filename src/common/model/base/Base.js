@@ -533,6 +533,19 @@ export default class Base {
     if (temp !== null && typeof temp === 'object') {
       if (temp['code'] === -400) {
 
+        //如果当前本身就是登录页面，自然没有必要提示
+        if (Vue.store.state.route.path === "/by/user/login") {
+          return true
+        }
+        //这个问题不能报的太频繁，比如一个页面请求了两个接口，两个接口都报没有登录。
+        if ((new Date().getTime()) - Vue.store.state.lastLoginErrorTimestamp < 3000) {
+          return true
+        } else {
+          Vue.store.state.lastLoginErrorTimestamp = (new Date().getTime());
+        }
+
+
+
         Notification.error({
           message: '您已退出，请登录后再访问。'
         })
@@ -541,7 +554,7 @@ export default class Base {
         Vue.store.state.user.innerLogout()
 
         Vue.router.push({
-          path: '/user/login',
+          path: '/by/user/login',
           query: {redirect: Vue.store.state.route.fullPath}
         })
 
