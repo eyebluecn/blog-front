@@ -37,7 +37,7 @@
               <div class="mt20">
                 <i class="fa fa-tags"></i>本文分类：
                 <span v-for="(tag,index) in article.tagArray">
-                  <Tag :tag="tag" />
+                  <TagCell :tag="tag" />
                 </span>
               </div>
 
@@ -67,7 +67,7 @@
   import LoadingFrame from '../widget/LoadingFrame'
   import CreateSaveButton from '../widget/CreateSaveButton.vue'
   import NbMarkdownPreview from '../../common/widget/markdown/NbMarkdownPreview'
-  import Tag from '../tag/widget/Tag'
+  import TagCell from '../tag/widget/TagCell'
   import CommentList from '../comment/List'
 
   export default {
@@ -84,7 +84,7 @@
       NbMarkdownPreview,
       CommentList,
       ArticleInfo,
-      Tag
+      TagCell
     },
     computed: {},
     methods: {
