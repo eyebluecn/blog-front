@@ -20,38 +20,8 @@
 
 			<div class="col-md-6" v-for="(tag,index) in pager.data">
 
-				<div class="bg-white border br4 p10 mb10">
-					<div class="media">
-						<div class="pull-left">
-							<span v-if="tag.logoUrl">
-								<img class="img-circle img-md" :src="tag.logoUrl" alt="">
-							</span>
-							<span v-else>
-								<img class="img-circle img-md" src="../../assets/img/tag.png" alt="">
-							</span>
-						</div>
+				<TagCell :tag="tag" size="detail-lg" :operate="true" :delCallback="refresh"/>
 
-						<div class="media-body">
-							<div class="cell-title cursor">
-								<span class="ln64 ml10">{{tag.name}}</span>
-							</div>
-						</div>
-						<div>
-
-							<span class="pull-right action-buttons">
-								<router-link :to="'/by/tag/edit/'+tag.uuid">
-									<i class="fa fa-pencil text-info f18"></i>
-								</router-link>
-								<a href="javascript:void(0)" title="删除" @click.stop.prevent="tag.confirmDel(refresh)">
-									<i class="fa fa-trash text-danger f18"></i>
-                </a>
-							</span>
-
-						</div>
-					</div>
-
-
-				</div>
 			</div>
 
 
@@ -70,6 +40,7 @@
   import { MessageBox, Notification } from 'element-ui'
   import Pager from '../../common/model/base/Pager'
   import Tag from '../../common/model/tag/Tag'
+  import TagCell from './widget/TagCell'
 
   export default {
     name: 'list',
@@ -81,7 +52,8 @@
     },
     components: {
       NbFilter,
-      NbPager
+      NbPager,
+      TagCell
     },
     methods: {
       search () {

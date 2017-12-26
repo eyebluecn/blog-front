@@ -1,7 +1,9 @@
 <template>
 	<div class="article-cell">
 
-		<ArticleInfo :article="article" :showUser="showUser" :showOperate="showOperate" :delCallback="delCallback"/>
+		<div v-if="articleInfoPosition === 'top'">
+			<ArticleInfo :article="article" :showUser="showUser" :showOperate="showOperate" :delCallback="delCallback"/>
+		</div>
 
 		<div class="media">
 			<div v-if="article.posterUrl" class="pull-right">
@@ -20,18 +22,22 @@
 				</div>
 				<div>
 					<span v-for="tag in article.tagArray">
-						<Tag :tag="tag" :active="activeTagUuid === tag.uuid"></Tag>
+						<TagCell :tag="tag" :active="activeTagUuid === tag.uuid" />
 					</span>
 				</div>
 			</div>
 
 		</div>
 
+		<div v-if="articleInfoPosition === 'bottom'">
+			<ArticleInfo :article="article" :showUser="showUser" :showOperate="showOperate" :delCallback="delCallback"/>
+		</div>
+
 	</div>
 </template>
 
 <script>
-	import Tag from '../../tag/widget/Tag'
+	import TagCell from '../../tag/widget/TagCell'
   import ArticleInfo from '../widget/ArticleInfo'
   import Article from '../../../common/model/article/Article'
 
@@ -48,6 +54,11 @@
         type: Article,
 	      required: true
       },
+		  articleInfoPosition: {
+				type: String,
+			  required: false,
+			  default: 'top'
+		  },
       showUser:{
         type: Boolean,
         required: false,
@@ -65,11 +76,14 @@
       },
 		  delCallback: {
         type: Function,
-			  required: true
+			  required: false,
+			  default: function () {
+				  return true
+        }
 		  }
 	  },
 	  components:{
-      Tag,
+      TagCell,
       ArticleInfo
 	  }
   }

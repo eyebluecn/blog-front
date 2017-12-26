@@ -73,6 +73,22 @@ export default class User extends BaseEntity {
     this.lastTime = null
 
     this.avatar = new Tank('image', false, 1024 * 1024, '图片不能超过1M')
+
+    //总共的文章数量
+    this.articleNum = 0
+
+    //总共收到的点赞数
+    this.articleAgreeNum = 0
+
+    //总共文章字数
+    this.articleWords = 0
+
+    //总阅读量
+    this.articleHit = 0
+
+    //总共收到的评论
+    this.commentNum = 0
+
     //local fields.
     this.byMenus = []
 
