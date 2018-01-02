@@ -18,11 +18,13 @@
       </router-link>
     </div>
 
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2 article-detail">
-        <div class="row">
-          <div class="col-md-10 col-md-offset-1">
-            <LoadingFrame :loading="article.detailLoading">
+    <LoadingFrame :loading="article.detailLoading">
+      <div class="row">
+
+        <div class="col-md-8 col-md-offset-2 article-detail">
+          <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+
 
               <div class="article-title">
                 {{article.title}}
@@ -37,7 +39,7 @@
               <div class="mt20">
                 <i class="fa fa-tags"></i>本文分类：
                 <span v-for="(tag,index) in article.tagArray">
-                  <TagCell :tag="tag" />
+                  <TagCell :tag="tag"/>
                 </span>
               </div>
 
@@ -45,15 +47,15 @@
                 <CommentList></CommentList>
               </div>
 
-            </LoadingFrame>
+
+            </div>
           </div>
+
+
         </div>
 
-
       </div>
-
-    </div>
-
+    </LoadingFrame>
 
   </div>
 </template>
@@ -102,7 +104,7 @@
   }
 </script>
 <style lang="less" rel="stylesheet/less">
-  .article-detail{
+  .article-detail {
     background: white;
     padding: 20px;
     border-radius: 4px;
