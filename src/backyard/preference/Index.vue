@@ -132,6 +132,24 @@
 				</div>
 			</div>
 
+			<div class="row p10 border-bottom">
+				<div class="col-md-2 col-sm-2 col-xs-4">
+					底部第一行文字
+				</div>
+				<div class="col-md-10 col-sm-10 col-xs-8">
+					<span v-html="preference.footerLine1"></span>
+				</div>
+			</div>
+
+			<div class="row p10 border-bottom">
+				<div class="col-md-2 col-sm-2 col-xs-4">
+					底部第二行文字
+				</div>
+				<div class="col-md-10 col-sm-10 col-xs-8">
+					<span v-html="preference.footerLine2"></span>
+				</div>
+			</div>
+
 		</div>
 
 	</div>

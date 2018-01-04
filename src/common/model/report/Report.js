@@ -46,7 +46,6 @@ export default class Report extends BaseEntity {
       new Filter(Filter.prototype.Type.INPUT, '主体ID', 'entityUuid'),
       new Filter(Filter.prototype.Type.INPUT, '主体名称', 'entityName'),
       new Filter(Filter.prototype.Type.SELECTION, '类型', 'type', this.getTypeList()),
-      new Filter(Filter.prototype.Type.CHECK, '已处理', 'handled'),
       new Filter(Filter.prototype.Type.INPUT, '内容', 'content'),
       new Filter(Filter.prototype.Type.INPUT, 'IP', 'ip'),
       new Filter(Filter.prototype.Type.CHECK, '需要entity的详情', 'needEntityDetail', null, null, false)

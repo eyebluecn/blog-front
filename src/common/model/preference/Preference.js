@@ -29,6 +29,7 @@ export default class Preference extends BaseEntity {
     //底部第一行文字
     this.footerLine1 = null
     this.footerLine2 = null
+    this.version = null
 
     this.logoTank = new Tank('image', false, 1024 * 1024, '图片不能超过1M')
     this.faviconTank = new Tank('.ico', false, 1024 * 1024, '图片不能超过1M')
@@ -89,6 +90,22 @@ export default class Preference extends BaseEntity {
       that.render(response.data.data)
       typeof successCallback === 'function' && successCallback(response)
     },errorCallback)
+  }
+
+  //修改title和favicon
+  updateTitleAndFavicon() {
+
+    if (this.faviconUrl) {
+      //修改favicon
+      let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+      link.type = 'image/x-icon';
+      link.rel = 'shortcut icon';
+      link.href = this.faviconUrl;
+      document.getElementsByTagName('head')[0].appendChild(link);
+    }
+
+    document.title = this.name
+
   }
 
 }

@@ -102,6 +102,20 @@
 			</div>
 
 			<div class="row mt10">
+				<label class="col-md-2 control-label mt5">底部第一行文字(可使用html)</label>
+				<div class="col-md-10">
+					<input type="text" class="form-control" v-model="preference.footerLine1">
+				</div>
+			</div>
+
+			<div class="row mt10">
+				<label class="col-md-2 control-label mt5">底部第二行文字(可使用html)</label>
+				<div class="col-md-10">
+					<input type="text" class="form-control" v-model="preference.footerLine2">
+				</div>
+			</div>
+
+			<div class="row mt10">
 				<div class="col-md-12">
 					<div>
 						<CreateSaveButton :entity="preference" :callback="save"/>
@@ -123,7 +137,8 @@
     name: 'edit',
 	  data(){
       return{
-        preference: this.$store.state.preference
+        currentPreference: this.$store.state.preference,
+        preference: new Preference()
       }
 	  },
 	  components:{
@@ -137,13 +152,17 @@
           Notification.success({
             message: '修改偏好成功！'
           })
-
+          that.currentPreference.render(response.data.data)
+          that.preference.updateTitleAndFavicon()
           that.$router.go(-1)
         })
       }
 	  },
 	  mounted(){
-
+      let that = this
+      this.preference.httpFetch(function () {
+        that.preference.editMode = true
+      })
 	  }
   }
 </script>
