@@ -15,6 +15,8 @@ import TagList from '../../backyard/tag/List'
 import TagCreate from '../../backyard/tag/Create'
 import PreferenceIndex from '../../backyard/preference/Index'
 import PreferenceEdit from '../../backyard/preference/Edit'
+import ReportList from '../../backyard/report/List'
+
 import WheelIndex from '../../backyard/wheel/Index.vue'
 import store from '../vuex/index.js'
 import Preference from '../model/preference/Preference'
@@ -326,6 +328,21 @@ const router = new Router({
               },{
                 name: 'PreferenceEdit',
                 title: '网站偏好设置'
+              }
+            ]
+          }
+        },
+        {
+          path: 'report/list',
+          name: 'ReportList',
+          component: ReportList,
+          meta: {
+            title: '举报列表',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'ReportList',
+                title: '举报列表'
               }
             ]
           }

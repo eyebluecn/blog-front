@@ -28,10 +28,16 @@ export default class Report extends BaseEntity {
     this.entityName = null
     this.ip = null
     this.type = Type.REPORT_COMMENT
-    this.handled = false
     this.content = null
     this.article = new Article()
     this.comment = new Comment()
+  }
+
+  render (obj) {
+    super.render(obj)
+    this.renderEntity('article', Article)
+    this.renderEntity('comment', Comment)
+
   }
 
   getFilters () {
@@ -49,4 +55,4 @@ export default class Report extends BaseEntity {
   }
 
 }
-Report.registerEnum('type', TypeMap)
+Report.registerEnum('Type', TypeMap)

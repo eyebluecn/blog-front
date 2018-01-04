@@ -40,6 +40,9 @@ MenuManager.refreshByMenus = function (user) {
       byMenus.push(userMenu)
     }
 
+    let reportMenu = new Menu('举报列表', '/by/report/list', false, 'fa fa-warning')
+    byMenus.push(reportMenu)
+
     //退出登录
     let logoutMenu = new Menu('退出登录', '/by/user/login', false, 'fa fa-power-off')
     byMenus.push(logoutMenu)

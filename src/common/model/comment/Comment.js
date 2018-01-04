@@ -13,12 +13,11 @@ export default class Comment extends BaseEntity {
     this.name = null
     this.email = null
     this.content = null
-    this.isReport = false
-    this.report = null
     this.agree = 0
     this.ip = null
     this.agreed = false
     this.commentPager = new Pager(Comment, 10)
+    this.articleTitle = null
     this.validatorSchema = {
       articleUuid: {
         rules: [{required: true, message: '文章ID必填'}],
@@ -51,6 +50,7 @@ export default class Comment extends BaseEntity {
   getFilters () {
     return [
       new Filter(Filter.prototype.Type.SORT, '排序', 'orderSort'),
+      new Filter(Filter.prototype.Type.INPUT, 'uuid', 'uuid', null, null, false),
       new Filter(Filter.prototype.Type.INPUT, '用户uuid', 'userUuid'),
       new Filter(Filter.prototype.Type.INPUT, '文章uuid', 'articleUuid'),
       new Filter(Filter.prototype.Type.CHECK, '是否是楼层评论', 'isFloor'),
@@ -59,8 +59,6 @@ export default class Comment extends BaseEntity {
       new Filter(Filter.prototype.Type.INPUT, '评论者姓名', 'name'),
       new Filter(Filter.prototype.Type.INPUT, '评论者邮箱', 'email'),
       new Filter(Filter.prototype.Type.INPUT, '评论内容', 'content'),
-      new Filter(Filter.prototype.Type.CHECK, '是否被举报', 'isReport'),
-      new Filter(Filter.prototype.Type.INPUT, '举报内容', 'report'),
       new Filter(Filter.prototype.Type.CHECK, '是否需要子评论', 'needSubPager')
     ]
   }
@@ -101,18 +99,18 @@ export default class Comment extends BaseEntity {
     }, errorCallback)
   }
 
-  httpAgreeChange(successCallback, errorCallback){
+  httpAgreeChange (successCallback, errorCallback) {
     let that = this
-    if(this.agreed){
-      this.httpPost(Comment.URL_API_COMMENT_CANCEL_AGREE,{'commentUuid':this.uuid},function (response) {
+    if (this.agreed) {
+      this.httpPost(Comment.URL_API_COMMENT_CANCEL_AGREE, {'commentUuid': this.uuid}, function (response) {
         that.agree = that.agree - 1
         that.agreed = false
-      },errorCallback)
-    }else{
-      this.httpPost(Comment.URL_API_COMMENT_AGREE,{'commentUuid':this.uuid},function (response) {
+      }, errorCallback)
+    } else {
+      this.httpPost(Comment.URL_API_COMMENT_AGREE, {'commentUuid': this.uuid}, function (response) {
         that.agree = that.agree + 1
         that.agreed = true
-      },errorCallback)
+      }, errorCallback)
     }
   }
 

@@ -109,7 +109,7 @@
 		}
 
 		&.detail-lg {
-			@height: 80px;
+			@height: 60px;
 			width: 100%;
 			box-sizing: border-box;
 			margin-bottom: 15px;
@@ -122,11 +122,11 @@
 				height: @height;
 			}
 			.name {
-				font-size: 20px;
+				font-size: 18px;
 				line-height: (@height - 1px);
 			}
 			.operate{
-				font-size: 20px;
+				font-size: 18px;
 				line-height: (@height - 1px);
 			}
 

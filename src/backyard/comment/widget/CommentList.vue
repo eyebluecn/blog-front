@@ -6,15 +6,25 @@
 				<CommentTextarea :comment="floorComment" @success="floorCreateSuccess"></CommentTextarea>
 			</div>
 			<div>
-				<h2 class="black">
+
+				<span class="f24" style="font-weight: 100">
 					共{{pager.totalItems}}条评论
-				</h2>
+				</span>
+				<span class="pull-right" v-if="reportCommentUuid">
+					<button class="btn btn-sm btn-primary" @click.stop.prevent="$router.go(-1)">
+						返回
+					</button>
+					<button class="btn btn-sm btn-primary" @click.stop.prevent="totalComment">
+						所有评论
+					</button>
+				</span>
+
 			</div>
 			<div class="comment-list">
 				<div>
 					<div class="comment-box" v-for="commentFloor in pager.data">
 						<div>
-							<img class="img-circle img-sm pull-left mr10" src="../../assets/img/avatar.png" alt="">
+							<img class="img-circle img-sm pull-left mr10" src="../../../assets/img/avatar.png" alt="">
 							<div>
 								<p class="mb0">
 									<span>{{commentFloor.name}}</span>
@@ -28,16 +38,14 @@
 							</div>
 							<div class="comment-operate mt10">
 								<span class="cursor" @click.stop.prevent="agreeChange(commentFloor)">
-									<em class="fa fa-thumbs-o-up" v-if="!commentFloor.agreed"></em> <em class="fa fa-thumbs-up red" v-else></em> {{commentFloor.agree}}人赞过
+									<em class="fa fa-thumbs-o-up" v-if="!commentFloor.agreed"></em> <em class="fa fa-thumbs-up red"
+									                                                                    v-else></em> {{commentFloor.agree}}人赞过
 								</span>
 								<span class="cursor ml20" @click.stop.prevent="prepareReply(commentFloor)">
 									<em class="fa fa-commenting-o"></em> 回复
 								</span>
 								<span class="cursor ml20" @click.stop.prevent="commentFloor.confirmDel(refresh)">
 									<em class="fa fa-trash-o"></em> 删除
-								</span>
-								<span v-if="commentFloor.isReport">
-									<em class="fa fa-bug red pull-right">被举报</em>
 								</span>
 							</div>
 							<div class="sub-comment-box mt15" v-if="commentFloor.commentPager.totalItems">
@@ -49,16 +57,14 @@
 									<div>
 										<span>{{subComment.createTime | simpleDateTime}}</span>
 										<span class="cursor ml20" @click.stop.prevent="agreeChange(subComment)">
-											<em class="fa fa-thumbs-o-up" v-if="!subComment.agreed"></em> <em class="fa fa-thumbs-up red" v-else></em> {{subComment.agree}}人赞过
+											<em class="fa fa-thumbs-o-up" v-if="!subComment.agreed"></em> <em class="fa fa-thumbs-up red"
+											                                                                  v-else></em> {{subComment.agree}}人赞过
 										</span>
 										<span class="cursor ml20" @click.stop.prevent="prepareReply(subComment)">
 											<em class="fa fa-commenting-o"></em> 回复
 										</span>
 										<span class="cursor ml20" @click.stop.prevent="subComment.confirmDel(refresh)">
 											<em class="fa fa-trash-o"></em> 删除
-										</span>
-										<span v-if="subComment.isReport">
-											<em class="fa fa-bug red pull-right">被举报</em>
 										</span>
 									</div>
 								</div>
@@ -85,12 +91,12 @@
 </template>
 
 <script>
-  import NbPager from '../../common/widget/NbPager.vue'
-  import NbExpanding from '../../common/widget/NbExpanding'
-  import Pager from '../../common/model/base/Pager'
-  import Comment from '../../common/model/comment/Comment'
-  import CommentTextarea from './widget/CommentTextarea'
-  import { simpleDateTime } from '../../common/filter/time'
+  import NbPager from '../../../common/widget/NbPager.vue'
+  import NbExpanding from '../../../common/widget/NbExpanding'
+  import Pager from '../../../common/model/base/Pager'
+  import Comment from '../../../common/model/comment/Comment'
+  import CommentTextarea from './CommentTextarea'
+  import { simpleDateTime } from '../../../common/filter/time'
   import { Message } from 'element-ui'
 
   export default {
@@ -98,13 +104,22 @@
     data () {
       return {
         user: this.$store.state.user,
-        articleUuid: null,
         pager: new Pager(Comment),
         floorComment: new Comment(),
         repliedComment: new Comment(),
-	      replyComment: new Comment(),
-        replyModel: false
-
+        replyComment: new Comment(),
+        replyModel: false,
+	      reportCommentUuid: null
+      }
+    },
+    props: {
+      articleUuid: {
+        type: String,
+        required: true
+      },
+      commentUuid: {
+        type: String,
+        required: false
       }
     },
     methods: {
@@ -119,49 +134,53 @@
         this.pager.httpFastPage()
       },
 
-	    //修改用户点赞状态
-	    agreeChange(comment) {
-				comment.httpAgreeChange()
-	    },
+      //修改用户点赞状态
+      agreeChange (comment) {
+        comment.httpAgreeChange()
+      },
 
-	    //楼层回复成功
-      floorCreateSuccess() {
+      //楼层回复成功
+      floorCreateSuccess () {
         Message.success('评论成功！')
-	      this.refresh()
-	      //清空楼层回复中的内容
-	      this.floorComment.content = null
+        this.refresh()
+        //清空楼层回复中的内容
+        this.floorComment.content = null
       },
 
       //准备回复
-      prepareReply(comment){
+      prepareReply (comment) {
 
-        if(this.replyModel && comment.uuid === this.repliedComment.uuid){
+        if (this.replyModel && comment.uuid === this.repliedComment.uuid) {
           this.replyModel = false
-	        return
+          return
         }
-	      this.replyModel = true
-	      this.repliedComment.render(comment)
-        if(this.repliedComment.isFloor){
+        this.replyModel = true
+        this.repliedComment.render(comment)
+        if (this.repliedComment.isFloor) {
           this.replyComment.floorUuid = this.repliedComment.uuid
-        } else{
+        } else {
           this.replyComment.floorUuid = this.repliedComment.floorUuid
         }
         this.replyComment.puuid = this.repliedComment.uuid
-	      this.replyComment.content = '@' + this.repliedComment.name + ' '
+        this.replyComment.content = '@' + this.repliedComment.name + ' '
       },
 
       //回复成功
-	    replyCreateSuccess(){
+      replyCreateSuccess () {
         Message.success('回复成功！')
         this.refresh()
         //清空非楼层回复中的内容
         this.replyComment.content = null
         this.replyModel = false
-	    }
+      },
 
+      //展开所有评论
+      totalComment () {
+        this.reportCommentUuid = null
+        this.pager.setFilterValue('uuid', this.reportCommentUuid)
+	      this.refresh()
 
-
-
+      }
     },
     components: {
       NbPager,
@@ -169,15 +188,16 @@
       CommentTextarea
     },
     mounted () {
-      if (this.$store.state.route.params.uuid) {
-        this.articleUuid = this.$store.state.route.params.uuid
-        this.pager.setFilterValue('articleUuid', this.articleUuid)
-        this.refresh()
-	      this.floorComment.articleUuid = this.articleUuid
-        this.floorComment.isFloor = true
-        this.replyComment.articleUuid = this.articleUuid
-        this.replyComment.isFloor = false
+      this.pager.setFilterValue('articleUuid', this.articleUuid)
+      this.floorComment.articleUuid = this.replyComment.articleUuid = this.articleUuid
+      this.floorComment.isFloor = true
+      this.replyComment.isFloor = false
+
+      if (this.commentUuid) {
+        this.reportCommentUuid = this.commentUuid
+        this.pager.setFilterValue('uuid', this.reportCommentUuid)
       }
+      this.refresh()
     }
   }
 </script>

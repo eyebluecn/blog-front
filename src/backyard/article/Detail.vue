@@ -1,66 +1,65 @@
 <template>
-  <div class="animated fadeIn">
-    <div class="row">
-      <div class="col-md-12">
+	<div class="animated fadeIn">
+		<div class="row">
+			<div class="col-md-12">
 
-        <div class="pedia-navigation">
-          <span class="item active">文章详情</span>
-        </div>
+				<div class="pedia-navigation">
+					<span class="item active">文章详情</span>
+				</div>
 
-      </div>
-    </div>
+			</div>
+		</div>
 
-    <!--编辑，权限设置-->
-    <div class="text-right mb10">
-      <router-link class="btn btn-primary btn-sm" :to="'/by/article/edit/'+ article.uuid">
-        <i class="fa fa-pencil"></i>
-        编辑文章
-      </router-link>
-    </div>
+		<!--编辑，权限设置-->
+		<div class="text-right mb10">
+			<router-link class="btn btn-primary btn-sm" :to="'/by/article/edit/'+ article.uuid">
+				<i class="fa fa-pencil"></i>
+				编辑文章
+			</router-link>
+		</div>
 
-    <LoadingFrame :loading="article.detailLoading">
-      <div class="row">
+		<LoadingFrame :loading="article.detailLoading">
+			<div class="row">
 
-        <div class="col-md-8 col-md-offset-2 article-detail">
-          <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+				<div class="col-md-8 col-md-offset-2 article-detail">
+					<div class="row">
+						<div class="col-md-10 col-md-offset-1">
 
 
-              <div class="article-title">
-                {{article.title}}
-              </div>
+							<div class="article-title">
+								{{article.title}}
+							</div>
 
-              <ArticleInfo :article="article" :showUser="true"/>
+							<ArticleInfo :article="article" :showUser="true"/>
 
-              <div v-if="article.html">
-                <NbMarkdownPreview :html="article.html"/>
-              </div>
+							<div v-if="article.html">
+								<NbMarkdownPreview :html="article.html" @markdownComplete="markdownComplete"/>
+							</div>
 
-              <div class="mt20">
-                <i class="fa fa-tags"></i>本文分类：
-                <span v-for="(tag,index) in article.tagArray">
+							<div class="mt20">
+								<i class="fa fa-tags"></i>本文分类：
+								<span v-for="(tag,index) in article.tagArray">
                   <TagCell :tag="tag"/>
                 </span>
-              </div>
+							</div>
 
-              <div class="mt100">
-                <CommentList></CommentList>
-              </div>
+							<div class="mt100" v-if="article.uuid" ref="commentList" >
+								<CommentList :articleUuid="article.uuid" :commentUuid="commentUuid"></CommentList>
+							</div>
+
+						</div>
+					</div>
 
 
-            </div>
-          </div>
+				</div>
 
+			</div>
+		</LoadingFrame>
 
-        </div>
-
-      </div>
-    </LoadingFrame>
-
-  </div>
+	</div>
 </template>
 <script>
-  import {MessageBox, Notification as NotificationBox} from 'element-ui'
+  import { MessageBox, Notification as NotificationBox } from 'element-ui'
   import Article from '../../common/model/article/Article'
   import NbSlidePanel from '../../common/widget/NbSlidePanel.vue'
   import NbExpanding from '../../common/widget/NbExpanding.vue'
@@ -70,15 +69,17 @@
   import CreateSaveButton from '../widget/CreateSaveButton.vue'
   import NbMarkdownPreview from '../../common/widget/markdown/NbMarkdownPreview'
   import TagCell from '../tag/widget/TagCell'
-  import CommentList from '../comment/List'
+  import CommentList from '../comment/widget/CommentList'
 
   export default {
 
-    data() {
+    data () {
       return {
         user: this.$store.state.user,
+        article: new Article(),
         tags: [],
-        article: new Article()
+        commentUuid: null
+
       }
     },
     components: {
@@ -88,51 +89,58 @@
       ArticleInfo,
       TagCell
     },
-    computed: {},
-    methods: {
-      fetchDetail() {
-        let that = this
-        this.article.uuid = this.$store.state.route.params.uuid
-        if (this.article.uuid) {
-          this.article.httpDetail()
-        }
+    computed: {
+      commentList(){
+        return this.$refs.commentList
       }
     },
-    mounted() {
-      this.fetchDetail()
+    methods: {
+      markdownComplete(){
+        this.commentList.scrollIntoView()
+      }
+    },
+    mounted () {
+      let that = this
+      this.article.uuid = this.$store.state.route.params.uuid
+	    if(this.$store.state.route.query.commentUuid){
+        this.commentUuid = this.$store.state.route.query.commentUuid
+	    }
+      if (this.article.uuid) {
+        this.article.httpDetail()
+      }
     }
   }
 </script>
 <style lang="less" rel="stylesheet/less">
-  .article-detail {
-    background: white;
-    padding: 20px;
-    border-radius: 4px;
-    .article-title {
-      word-break: break-all;
-      margin: 20px 0;
-      font-size: 28px;
-      color: black;
-      font-weight: 700;
-      line-height: 1.3;
-    }
+	.article-detail {
+		background: white;
+		padding: 20px;
+		border-radius: 4px;
+		.article-title {
+			word-break: break-all;
+			margin: 20px 0;
+			font-size: 28px;
+			color: black;
+			font-weight: 700;
+			line-height: 1.3;
+		}
 
-    .article-info {
-      border-top: 1px solid #eeeeee;
-      padding-top: 20px;
-      .author {
-        a {
-          font-size: 20px;
-          color: #555;
-          &:hover {
-            color: #000;
-            text-decoration: underline;
-          }
-        }
+		.article-info {
+			border-top: 1px solid #eeeeee;
+			padding-top: 20px;
+			.author {
+				a {
+					font-size: 20px;
+					color: #555;
+					&:hover {
+						color: #000;
+						text-decoration: underline;
+					}
+				}
 
-      }
-      .mix {
-      }
-    }
-  }
+			}
+			.mix {
+			}
+		}
+	}
 </style>
