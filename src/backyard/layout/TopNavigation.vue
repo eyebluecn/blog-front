@@ -4,11 +4,16 @@
 
 
 			<div class="navbar-title">
-
-				<router-link to="/">
+				<span v-if="user.uuid">
+					<router-link to="/">
+						<img class="logo" :src="logoUrl"/>
+						<span class="f18 black bold">{{preference.name}}</span>
+					</router-link>
+				</span>
+				<span v-else>
 					<img class="logo" :src="logoUrl"/>
 					<span class="f18 black bold">{{preference.name}}</span>
-				</router-link>
+				</span>
 
 			</div>
 
@@ -42,6 +47,9 @@
         }
       }
     },
+	  watch:{
+
+	  },
     components: {},
     methods: {}
   }

@@ -50,7 +50,7 @@
     methods: {
       goToProfile() {
 
-        if (this.user.role === 'GUEST') {
+        if (!this.user.uuid) {
           this.$router.push("/by/user/login");
         } else {
           this.$router.push("/by/user/profile/" + this.user.uuid);

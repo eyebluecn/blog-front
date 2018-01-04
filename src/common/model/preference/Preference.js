@@ -88,6 +88,7 @@ export default class Preference extends BaseEntity {
     let that = this
     this.httpPost(Preference.URL_API_PREFERENCE_FETCH,{},function (response) {
       that.render(response.data.data)
+      that.updateTitleAndFavicon()
       typeof successCallback === 'function' && successCallback(response)
     },errorCallback)
   }

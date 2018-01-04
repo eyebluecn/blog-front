@@ -152,6 +152,7 @@
           Notification.success({
             message: '修改偏好成功！'
           })
+					console.log(response.data.data)
           that.currentPreference.render(response.data.data)
           that.preference.updateTitleAndFavicon()
           that.$router.go(-1)

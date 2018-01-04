@@ -96,7 +96,9 @@
     },
     methods: {
       markdownComplete(){
-        this.commentList.scrollIntoView()
+        if(this.commentUuid){
+          this.commentList.scrollIntoView()
+        }
       }
     },
     mounted () {

@@ -32,22 +32,7 @@ const router = new Router({
       path: '/by',
       component: ByFrameView,
       children: [
-        {
-          path: '',
-          name: 'byIndexDefault',
-          component: ByIndexView,
-          meta: {
-            title: '个人博客管理系统',
-            requiresAuth: true,
-            breadcrumbs: [
-              {
-                name: 'byIndexDefault',
-                title: '首页'
-              }
-            ]
-          }
-        },
-        {
+        /*{
           path: '',
           name: 'byIndex',
           component: ByIndexView,
@@ -61,7 +46,7 @@ const router = new Router({
               }
             ]
           }
-        },
+        },*/
         {
           path: 'user/login',
           name: 'UserLogin',
@@ -174,8 +159,38 @@ const router = new Router({
             ]
           }
         },
-        {
+        /*{
           path: 'article/list',
+          name: 'ArticleList',
+          component: ArticleList,
+          meta: {
+            title: '文章列表',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'ArticleList',
+                title: '文章列表'
+              }
+            ]
+          }
+        },*/
+        /*{
+          path: '/',
+          name: 'ArticleList',
+          component: ArticleList,
+          meta: {
+            title: '文章列表',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'ArticleList',
+                title: '文章列表'
+              }
+            ]
+          }
+        },*/
+        {
+          path: '',
           name: 'ArticleList',
           component: ArticleList,
           meta: {
@@ -348,7 +363,7 @@ const router = new Router({
           }
         }
       ]
-    },
+    }/*,
     {
       path: '/',
       component: ByFrameView,
@@ -384,7 +399,7 @@ const router = new Router({
           }
         }
       ]
-    }
+    }*/
   ]
 })
 

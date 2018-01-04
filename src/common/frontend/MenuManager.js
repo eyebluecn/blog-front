@@ -18,12 +18,12 @@ MenuManager.refreshByMenus = function (user) {
 
   } else {
 
-    //首页
+   /* //首页
     let indexMenu = new Menu('首页', '/by', false, 'fa fa-home')
-    byMenus.push(indexMenu)
+    byMenus.push(indexMenu)*/
 
     //文章列表
-    let articleListMenu = new Menu('文章列表', '/by/article/list', false, 'fa fa-book')
+    let articleListMenu = new Menu('文章列表', '/by', false, 'fa fa-book')
     byMenus.push(articleListMenu)
 
     //标签列表
