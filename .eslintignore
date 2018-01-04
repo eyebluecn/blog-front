@@ -2,6 +2,7 @@
 /config/
 /dist/
 /static/
+/bystatic/
 /*.js
 
 src/common/fork/*

@@ -1,14 +1,14 @@
 <template>
-	<div id="editor-md-preview" class="editor-md-preview">
-		<div v-html="html"></div>
-	</div>
+  <div id="editor-md-preview" class="editor-md-preview">
+    <div v-html="html"></div>
+  </div>
 </template>
 
 <script>
-  import $script from 'scriptjs'
+  import $script from 'scriptjs';
 
   export default {
-    data () {
+    data() {
       return {
         instance: null
       }
@@ -16,11 +16,11 @@
     props: {
       editorPath: {
         type: String,
-        default: '/static/fork/editormd'
+        default: '/bystatic/fork/editormd'
       },
       jqueryPath: {
         type: String,
-        default: '/static/fork/jquery'
+        default: '/bystatic/fork/jquery'
       },
       html: {
         type: String,
@@ -28,11 +28,11 @@
       }
     },
     watch: {},
-    created () {
+    created() {
 
     },
     methods: {
-      initEditor () {
+      initEditor() {
         let that = this
 
         // console.log(this.html);
@@ -48,7 +48,7 @@
 
       }
     },
-    mounted () {
+    mounted() {
       let that = this
       // async loading js dependencies
       // editormd depdend on jquery and zepto
@@ -68,25 +68,26 @@
                           that.$emit('markdownComplete')
                         }, 100)
 
-                      })
-                    })
-                  })
-                })
-              })
-            })
-          })
-        })
-      })
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+
 
       //初始化各种插件
 
     },
-    beforeDestroy () {
+    beforeDestroy() {
     }
-  }
+  };
 </script>
 
 <style lang="less" rel="stylesheet/less">
-	@import "../../../../static/fork/editormd/css/editormd.css";
+  @import "../../../../bystatic/fork/editormd/css/editormd.css";
 
 </style>

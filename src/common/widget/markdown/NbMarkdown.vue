@@ -24,11 +24,11 @@
     props: {
       editorPath: {
         type: String,
-        default: '/static/fork/editormd'
+        default: '/bystatic/fork/editormd'
       },
       jqueryPath: {
         type: String,
-        default: '/static/fork/jquery'
+        default: '/bystatic/fork/jquery'
       },
       value: {
         type: String,
@@ -67,12 +67,13 @@
         let emPicture = this.emPicture
         let createElement = this.$createElement
 
+
         // Vue 异步执行 DOM 更新，template 里面的 script 标签异步创建
         // 所以，只能在 nextTick 里面初始化 editormd
         this.instance = window.editormd("editor-md", {
           width: '100%',
           height: 530,
-          path: '/static/fork/editormd/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
+          path: '/bystatic/fork/editormd/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
           toolbarIcons: function () {
             // Or return editormd.toolbarModes[name]; // full, simple, mini
             // Using "||" set icons align right.
@@ -169,7 +170,7 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
-  @import "../../../../static/fork/editormd/css/editormd.css";
+  @import "../../../../bystatic/fork/editormd/css/editormd.css";
 
   .main-editor {
     width: 100%;

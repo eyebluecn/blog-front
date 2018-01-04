@@ -139,70 +139,70 @@ export default class Tank extends BaseEntity {
     //给不同的文件准备不同的图标
     if (startWith(this.type, 'application/pdf')) {
       if (inEditor) {
-        return host + '/static/img/file/pdf.png'
+        return host + '/bystatic/img/file/pdf.png'
       } else {
         return 'fa fa-file-pdf-o color-pdf'
       }
     }
     if (startWith(this.type, 'application/msword') || startWith(this.type, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')) {
       if (inEditor) {
-        return host + '/static/img/file/doc.png'
+        return host + '/bystatic/img/file/doc.png'
       } else {
         return 'fa fa-file-word-o color-doc'
       }
     }
     if (startWith(this.type, 'application/vnd.ms-powerpoint') || startWith(this.type, 'application/vnd.openxmlformats-officedocument.presentationml.presentation')) {
       if (inEditor) {
-        return host + '/static/img/file/ppt.png'
+        return host + '/bystatic/img/file/ppt.png'
       } else {
         return 'fa fa-file-powerpoint-o color-ppt'
       }
     }
     if (startWith(this.type, 'application/vnd.ms-excel') || startWith(this.type, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
       if (inEditor) {
-        return host + '/static/img/file/xls.png'
+        return host + '/bystatic/img/file/xls.png'
       } else {
         return 'fa fa-file-excel-o color-xls'
       }
     }
     if (startWith(this.type, 'audio')) {
       if (inEditor) {
-        return host + '/static/img/file/audio.png'
+        return host + '/bystatic/img/file/audio.png'
       } else {
         return 'fa fa-file-audio-o color-audio'
       }
     }
     if (startWith(this.type, 'video')) {
       if (inEditor) {
-        return host + '/static/img/file/video.png'
+        return host + '/bystatic/img/file/video.png'
       } else {
         return 'fa fa-file-movie-o color-video'
       }
     }
     if (startWith(this.type, 'text')) {
       if (inEditor) {
-        return host + '/static/img/file/text.png'
+        return host + '/bystatic/img/file/text.png'
       } else {
         return 'fa fa-file-text-o color-text'
       }
     }
     if (startWith(this.type, 'image')) {
       if (inEditor) {
-        return host + '/static/img/file/image.png'
+        return host + '/bystatic/img/file/image.png'
       } else {
         return 'fa fa-file-image-o color-image'
       }
     }
     if (endWith(this.name, 'zip') || endWith(this.name, 'rar') || endWith(this.name, '7z') || endWith(this.name, 'gz')) {
       if (inEditor) {
-        return host + '/static/img/file/archive.png'
+        return host + '/bystatic/img/file/archive.png'
       } else {
         return 'fa fa-file-archive-o color-archive'
       }
     }
 
     if (inEditor) {
-      return host + '/static/img/file/file.png'
+      return host + '/bystatic/img/file/file.png'
     } else {
       return 'fa fa-file-o text-success'
     }

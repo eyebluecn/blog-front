@@ -6,7 +6,7 @@
       <div class="navbar-title">
 
         <router-link to="/">
-          <img class="w40" src="../../assets/img/eyeblue.png"/>
+          <img class="w40" src="../../assets/img/logo.png"/>
           <span class="f18 black bold">蓝眼博客管理后台</span>
         </router-link>
 
