@@ -70,7 +70,7 @@
 		top: 0;
 		left: 0;
 		right: 0;
-		z-index: 1000;
+		z-index: 1;
 		padding-left: @sidebar-width;
 
 		//手机屏幕

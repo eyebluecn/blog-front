@@ -29,9 +29,11 @@
 
 				</div>
 
-				<TopNavigation/>
+
+
 			</div>
 
+			<TopNavigation/>
 			<BottomNavigation />
 		</div>
 	</div>
@@ -104,7 +106,7 @@
 		top: @top-navigation-height;
 		right: 0;
 		bottom: @power-footer-height;
-		z-index: 1000;
+		z-index: 2001;
 		overflow-y: auto;
 		overflow-x: hidden;
 
@@ -120,10 +122,12 @@
 		//大屏幕
 		@media (min-width: @screen-sm-min) {
 			left: @sidebar-width;
+			z-index: 2001;
 		}
 		//小屏幕
 		@media (max-width: @screen-xs-max) {
 			left: 0;
+			z-index: 1001;
 		}
 
 		&.show-drawer {

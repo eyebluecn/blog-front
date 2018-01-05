@@ -74,7 +74,7 @@
         // 所以，只能在 nextTick 里面初始化 editormd
         this.instance = window.editormd('editor-md', {
           width: '100%',
-         /* height: 530,*/
+          /*height: 530,*/
           path: '/bystatic/fork/editormd/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
           toolbarIcons: function () {
             // Or return editormd.toolbarModes[name]; // full, simple, mini
@@ -192,7 +192,7 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
-		z-index: 9999;
+		z-index: 1000;
 	}
 
 </style>
