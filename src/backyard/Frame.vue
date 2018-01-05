@@ -29,9 +29,9 @@
 
 				</div>
 
-
 				<TopNavigation/>
 			</div>
+
 			<BottomNavigation />
 		</div>
 	</div>
@@ -104,6 +104,7 @@
 		top: @top-navigation-height;
 		right: 0;
 		bottom: @power-footer-height;
+		z-index: 1000;
 		overflow-y: auto;
 		overflow-x: hidden;
 

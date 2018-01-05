@@ -17,48 +17,48 @@
 			</NbFilter>
 		</div>
 
-		<div class="col-md-12" v-for="(user,index) in pager.data">
+		<div class="col-md-12" v-for="(u,index) in pager.data">
 			<div class="bg-white border br4 p10 mb10">
 				<div class="media">
 					<div class="pull-left">
-						<router-link :to="'/by/user/detail/'+user.uuid">
-							<img class="img-circle img-md" :src="user.getAvatarUrl()">
+						<router-link :to="'/by/user/detail/'+u.uuid">
+							<img class="img-circle img-md" :src="u.getAvatarUrl()">
 						</router-link>
 					</div>
 					<div class="media-body">
 						<div>
 							<span class="f16">
-								<router-link class="black" :to="'/by/user/detail/'+user.uuid">
-											{{user.username}}
-										<span v-if="user.uuid === currentUser.uuid"
+								<router-link class="black" :to="'/by/user/detail/'+u.uuid">
+											{{u.username}}
+										<span v-if="u.uuid === user.uuid"
 										      class="text-danger">(It's you)</span>
 								</router-link>
 							</span>
 						</div>
 						<div>
 							<div class="mt5">
-								{{user.getRoleName()}}
+								{{u.getRoleName()}}
 							</div>
 							<div class="mt5">
-								<i class="fa fa-envelope text-success" v-if="user.email"></i>
-								{{user.email}}
+								<i class="fa fa-envelope" :class="{'text-success':u.emailValidate}" :title="u.emailValidate ? '已验证邮箱':'未认证邮箱'" v-if="u.email"></i>
+								{{u.email}}
 
-								<i class="fa fa-phone text-info" v-if="user.phone"></i>
-								{{user.phone}}
+								<i class="fa fa-phone text-info" v-if="u.phone"></i>
+								{{u.phone}}
 							</div>
 						</div>
 						<div class="mv5 text-muted one-line">
-							{{user.description}}
+							{{u.description}}
 						</div>
 						<div>
-							<span class="mr10">上次登录: {{user.lastTime | humanTime}}</span>
-							<span class="mr10">上次IP: {{user.lastIp}}</span>
+							<span class="mr10">上次登录: {{u.lastTime | humanTime}}</span>
+							<span class="mr10">上次IP: {{u.lastIp}}</span>
 
 							<span class="pull-right action-buttons">
-									<router-link :to="'/by/user/edit/'+user.uuid">
+									<router-link :to="'/by/user/edit/'+u.uuid">
 										<i class="fa fa-pencil text-info f18"></i>
 									</router-link>
-									<a href="javascript:void(0)" title="删除" @click.stop.prevent="user.confirmDel(refresh)">
+									<a href="javascript:void(0)" title="删除" @click.stop.prevent="u.confirmDel(refresh)">
                     <i class="fa fa-trash text-danger f18"></i>
 									</a>
 							</span>
@@ -88,7 +88,7 @@
     data () {
       return {
         pager: new Pager(User),
-        currentUser: this.$store.state.user
+        user: this.$store.state.user
       }
     },
     components: {

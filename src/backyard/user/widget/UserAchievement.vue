@@ -10,6 +10,10 @@
 			<div class="f18 bold mv15">
 				{{user.username}}
 			</div>
+			<div class="f18 mv15">
+				<i class="fa fa-envelope f18" :class="{'text-primary' : user.emailValidate}" :title="user.emailValidate ? '已验证邮箱':'未认证邮箱'"></i>
+				<span>{{user.email}}</span>
+			</div>
 		</div>
 		<div>
 			<div class="achievement-cell">

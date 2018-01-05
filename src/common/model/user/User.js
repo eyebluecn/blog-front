@@ -5,6 +5,7 @@ import { readLocalStorage, removeLocalStorage, saveToLocalStorage } from '../../
 import MenuManager from '../../frontend/MenuManager'
 import Tank from '../tank/Tank'
 import { FeatureType } from '../feature/FeatureType'
+import { Notification } from 'element-ui'
 
 let Gender = {
   UNKNOWN: 'UNKNOWN',
@@ -72,6 +73,9 @@ export default class User extends BaseEntity {
     //上次登录时间
     this.lastTime = null
 
+    //邮箱是否已经验证
+    this.emailValidate = false
+
     this.avatar = new Tank('image', false, 1024 * 1024, '图片不能超过1M')
 
     //总共的文章数量
@@ -131,6 +135,7 @@ export default class User extends BaseEntity {
   static URL_LOGOUT = '/user/logout'
   static URL_USER_CHANGE_PASSWORD = '/user/change/password'
   static URL_USER_RESET_PASSWORD = '/user/reset/password'
+  static URL_USER_EMAIL_SEND = '/user/email/send'
 
   getFilters () {
     return [
@@ -390,7 +395,7 @@ export default class User extends BaseEntity {
     }, errorCallback)
   }
 
-  httpUserChangePassword(oldPassword,newPassword,successCallback,errorCallback){
+  httpUserChangePassword (oldPassword, newPassword, successCallback, errorCallback) {
     let that = this
     this.httpPost(User.URL_USER_CHANGE_PASSWORD, {
       'oldPassword': oldPassword,
@@ -400,11 +405,24 @@ export default class User extends BaseEntity {
     }, errorCallback)
   }
 
-  httpUserResetPassword(newPassword,successCallback,errorCallback){
+  httpUserResetPassword (newPassword, successCallback, errorCallback) {
     let that = this
-    this.httpPost(User.URL_USER_RESET_PASSWORD, {'userUuid': this.uuid, 'newPassword': newPassword}, function (response) {
+    this.httpPost(User.URL_USER_RESET_PASSWORD, {
+      'userUuid': this.uuid,
+      'newPassword': newPassword
+    }, function (response) {
       typeof successCallback === 'function' && successCallback(response)
     }, errorCallback)
+  }
+
+  httpConfirmEmail (successCallback, errorCallback) {
+    let that = this
+    this.httpPost(User.URL_USER_EMAIL_SEND,{},function (response) {
+      Notification.success({
+        message: '验证短信发送成功，请登录邮箱查看'
+      })
+      typeof successCallback === 'function' && successCallback(response)
+    },errorCallback)
   }
 
 }

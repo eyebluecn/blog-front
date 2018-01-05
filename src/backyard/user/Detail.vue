@@ -1,25 +1,20 @@
 <template>
 	<div class="backyard-user-detail animated fadeIn ">
 		<div class="row">
-			<div class="col-md-12">
-				<div class="pedia-navigation">
-					<span class="item active" v-if="userLoaded">
-						<span v-if="currentUser.uuid === user.uuid">个人详情</span>
-						<span v-else>他的详情</span>
-					</span>
-				</div>
-			</div>
 
 			<div class="col-md-8 col-md-offset-2">
 				<div class="operation text-right">
-					<button class="btn btn-sm btn-primary" v-if="currentUser.hasPermission(FeatureType.USER_MANAGE)"
+					<button class="btn btn-sm btn-primary" v-if="currentUser.uuid === user.uuid && !currentUser.emailValidate" @click.stop.prevent="currentUser.httpConfirmEmail">
+						验证邮箱
+					</button>
+					<button class="btn btn-sm btn-primary" v-if="user.hasPermission(FeatureType.USER_MANAGE)"
 					        @click.stop.prevent="resetPwd">重置密码
 					</button>
-					<router-link class="btn btn-sm btn-primary" v-if="user.uuid === currentUser.uuid"
+					<router-link class="btn btn-sm btn-primary" v-if="currentUser.uuid === user.uuid"
 					             :to="'/by/user/change/password'">
 						修改密码
 					</router-link>
-					<router-link class="btn btn-sm btn-primary" :to="'/by/user/edit/'+user.uuid">
+					<router-link class="btn btn-sm btn-primary" :to="'/by/user/edit/'+currentUser.uuid">
 						编辑
 					</router-link>
 				</div>
@@ -31,8 +26,8 @@
 
 						<div class="col-sm-4">
 							<div class="p15">
-								<div v-if="user.uuid">
-									<UserAchievement :user="user"/>
+								<div v-if="currentUser.uuid">
+									<UserAchievement :user="currentUser"/>
 								</div>
 								<div class="mt20 mb15">
 									TA的文章分类
@@ -64,53 +59,6 @@
 				</div>
 			</div>
 
-			<!--<div class="col-md-12 mt10">
-				<div class="bg-white border br4 p10">
-					<div class="media">
-						<div class="pull-left">
-							<img class="img-circle img-lg" :src="user.getAvatarUrl()">
-						</div>
-						<div class="media-body">
-							<div class="cell-title">
-								<span>
-									{{user.username}}
-									<span v-if="user.uuid===currentUser.uuid"
-									      class="text-danger">(It's you)</span>
-								</span>
-							</div>
-							<div class="cell-content">
-								<div class="mt5">
-									{{user.getRoleName()}}
-								</div>
-								<div class="mt5">
-									<i class="fa fa-envelope text-success"></i>
-									{{user.email}}
-								</div>
-								<div class="mt5">
-									<i class="fa fa-phone text-info"></i>
-									{{user.phone}}
-								</div>
-								<div class="mt5 text-muted">
-									{{user.description}}
-								</div>
-								<div class="mt5">
-									<span class="mr10">上次登录: {{user.lastTime | humanTime}}</span>
-									<span class="mr10">上次IP: {{user.lastIp}}</span>
-								</div>
-							</div>
-
-
-						</div>
-
-					</div>
-
-					<div class="user-operation mt20 " :class="{'text-right':!$store.state.config.mobile}">
-
-					</div>
-
-				</div>
-			</div>-->
-
 		</div>
 
 	</div>
@@ -134,10 +82,9 @@
     data () {
       return {
         FeatureType,
-        userLoaded: false,
         tagUuid: null,
-        currentUser: this.$store.state.user,
-        user: new User(),
+        user: this.$store.state.user,
+        currentUser: new User(),
         tagPager: new Pager(Tag),
         hotArticlePager: new Pager(Article),
         articlePager: new Pager(Article)
@@ -160,21 +107,21 @@
     methods: {
       refresh () {
         let that = this
-        this.user.uuid = this.$store.state.route.params.uuid
-        if (this.user.uuid) {
-          this.user.httpDetail()
+        this.currentUser.uuid = this.$store.state.route.params.uuid
+        if (this.currentUser.uuid) {
+          this.currentUser.httpDetail()
         }
       },
 	    hotArticleInit(){
-        this.hotArticlePager.setFilterValue('userUuid', this.user.uuid)
+        this.hotArticlePager.setFilterValue('userUuid', this.currentUser.uuid)
         this.hotArticlePager.httpFastPage()
 	    },
       tagRefresh () {
-        this.tagPager.setFilterValue('userUuid', this.user.uuid)
+        this.tagPager.setFilterValue('userUuid', this.currentUser.uuid)
         this.tagPager.httpFastPage()
       },
       articleRefresh () {
-        this.articlePager.setFilterValue('userUuid', this.user.uuid)
+        this.articlePager.setFilterValue('userUuid', this.currentUser.uuid)
         this.articlePager.setFilterValue('tag', this.tagUuid)
         this.articlePager.httpFastPage()
       },
@@ -187,7 +134,7 @@
           inputPattern: /.+/,
           inputErrorMessage: '新密码必填'
         }).then(({value}) => {
-          that.user.httpUserResetPassword(value, function (response) {
+          that.currentUser.httpUserResetPassword(value, function (response) {
             Notification.success({
               message: '重置密码成功！'
             })

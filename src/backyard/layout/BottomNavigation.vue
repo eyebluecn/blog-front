@@ -31,6 +31,7 @@
 		line-height: @power-footer-height;
 		bottom: 0;
 		right: 0;
+		z-index: 1000;
 		left: @sidebar-width;
 		padding: 0 20px;
 		border-top: 1px solid #eee;

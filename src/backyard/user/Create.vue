@@ -5,8 +5,8 @@
 			<div class="col-md-12">
 				<div class="pedia-navigation">
 					<span class="item active">
-						<span v-show="!user.editMode">创建用户</span>
-						<span v-show="user.editMode">编辑用户</span>
+						<span v-show="!currentUser.editMode">创建用户</span>
+						<span v-show="currentUser.editMode">编辑用户</span>
 					</span>
 				</div>
 			</div>
@@ -17,43 +17,43 @@
 					<div class="row">
 						<label class="col-md-2 control-label mt5">头像</label>
 						<div class="col-md-10">
-							<NbTank :tank="user.avatar"/>
+							<NbTank :tank="currentUser.avatar"/>
 						</div>
 					</div>
 
-					<div class="row mt10" v-validator="user.validatorSchema.username.error">
+					<div class="row mt10" v-validator="currentUser.validatorSchema.username.error">
 						<label class="col-md-2 control-label mt5 compulsory">用户名</label>
 						<div class="col-md-10 validate">
-							<input type="text" class="form-control" v-model="user.username">
+							<input type="text" class="form-control" v-model="currentUser.username">
 						</div>
 					</div>
 
-					<div class="row mt10" v-if="currentUser.hasPermission(FeatureType.USER_MANAGE)"
-					     v-validator="user.validatorSchema.role.error">
+					<div class="row mt10" v-if="user.hasPermission(FeatureType.USER_MANAGE)"
+					     v-validator="currentUser.validatorSchema.role.error">
 						<label class="col-md-2 control-label mt5 compulsory">角色</label>
 						<div class="col-md-10 validate">
-							<select class="form-control" v-model="user.role">
-								<option v-for="(item,index) in user.getRoleList()" v-if="item.value !== 'GUEST'" :value="item.value">{{item.name}}</option>
+							<select class="form-control" v-model="currentUser.role">
+								<option v-for="(item,index) in currentUser.getRoleList()" v-if="item.value !== 'GUEST'" :value="item.value">{{item.name}}</option>
 							</select>
 						</div>
 					</div>
 
 					<div class="row mt10"
-					     v-if="currentUser.hasPermission(FeatureType.USER_MANAGE)" v-validator="user.validatorSchema.email.error">
+					     v-if="user.hasPermission(FeatureType.USER_MANAGE) && !currentUser.emailValidate" v-validator="currentUser.validatorSchema.email.error">
 						<label class="col-md-2 control-label mt5 compulsory">邮箱</label>
 						<div class="col-md-10 validate">
-							<input type="text" class="form-control" v-model="user.email">
+							<input type="text" class="form-control" v-model="currentUser.email">
 						</div>
 					</div>
 
-					<div class="row mt10" v-if="!user.editMode" v-validator="user.validatorSchema.password.error">
+					<div class="row mt10" v-if="!currentUser.editMode" v-validator="currentUser.validatorSchema.password.error">
 						<label class="col-md-2 control-label mt5 compulsory">密码</label>
 						<div class="col-md-10 validate">
-							<input type="password" class="form-control" v-model="user.password">
+							<input type="password" class="form-control" v-model="currentUser.password">
 						</div>
 					</div>
 
-					<div class="row mt10" v-if="!user.editMode">
+					<div class="row mt10" v-if="!currentUser.editMode">
 						<label class="col-md-2 control-label mt5 compulsory">确认密码</label>
 						<div class="col-md-10">
 							<input type="password" class="form-control" v-model="repassword">
@@ -63,15 +63,15 @@
 					<div class="row mt10">
 						<label class="col-md-2 control-label mt5">手机</label>
 						<div class="col-md-10">
-							<input type="text" class="form-control" v-model="user.phone">
+							<input type="text" class="form-control" v-model="currentUser.phone">
 						</div>
 					</div>
 
 					<div class="row mt10">
 						<label class="col-md-2 control-label mt5">性别</label>
 						<div class="col-md-10">
-            <span v-for="gender in user.getGenderList()" class="mr10">
-              <NbRadio v-model="user.gender" :val="gender.value" name="gender"></NbRadio>
+            <span v-for="gender in currentUser.getGenderList()" class="mr10">
+              <NbRadio v-model="currentUser.gender" :val="gender.value" name="gender"></NbRadio>
               <label>{{gender.name}}</label>
             </span>
 						</div>
@@ -80,21 +80,21 @@
 					<div class="row mt10">
 						<label class="col-md-2 control-label mt5">城市</label>
 						<div class="col-md-10">
-							<input type="text" class="form-control" v-model="user.city">
+							<input type="text" class="form-control" v-model="currentUser.city">
 						</div>
 					</div>
 
 					<div class="row mt10">
 						<label class="col-md-2 control-label mt5">个人简介</label>
 						<div class="col-md-10">
-						<textarea class="form-control" rows="6" v-model="user.description" style="resize: none"
+						<textarea class="form-control" rows="6" v-model="currentUser.description" style="resize: none"
 						          placeholder="此处填写个人简介……"></textarea>
 						</div>
 					</div>
 
 					<div class="row mt10">
 						<div class="col-md-12">
-							<CreateSaveButton :entity="user" :callback="save"></CreateSaveButton>
+							<CreateSaveButton :entity="currentUser" :callback="save"></CreateSaveButton>
 						</div>
 					</div>
 
@@ -120,8 +120,8 @@
       return {
         FeatureType,
         repassword: null,
-        currentUser: this.$store.state.user,
-        user: new User()
+        user: this.$store.state.user,
+        currentUser: new User()
       }
     },
     components: {
@@ -132,14 +132,14 @@
     methods: {
       save () {
         let that = this
-        if (!this.user.editMode && this.user.password !== this.repassword) {
+        if (!this.currentUser.editMode && this.currentUser.password !== this.repassword) {
           Notification.error('两次密码输入不一致')
           return
         }
 
-        this.user.httpSave(function (response) {
+        this.currentUser.httpSave(function (response) {
           Notification.success({
-            message: that.user.editMode ? '修改用户成功！' : '创建用户成功！'
+            message: that.currentUser.editMode ? '修改用户成功！' : '创建用户成功！'
           })
           that.$router.go(-1)
         })
@@ -147,10 +147,10 @@
     },
     mounted () {
       let that = this
-      this.user.errorMessage = null
-      this.user.uuid = this.$store.state.route.params.uuid
-      if (this.user.uuid) {
-        this.user.httpDetail()
+      this.currentUser.errorMessage = null
+      this.currentUser.uuid = this.$store.state.route.params.uuid
+      if (this.currentUser.uuid) {
+        this.currentUser.httpDetail()
       }
     }
   }

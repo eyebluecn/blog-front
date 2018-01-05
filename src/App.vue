@@ -22,12 +22,8 @@
       NprogressContainer
     },
     mounted() {
-
       let that = this;
-      this.preference.httpFetch(function () {
-        console.log(that.preference)
-      })
-
+      this.preference.httpFetch()
 
     }
   }
