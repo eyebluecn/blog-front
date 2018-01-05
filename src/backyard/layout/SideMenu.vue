@@ -92,8 +92,14 @@
             if (this.$store.state.route.path === '/by' || this.$store.state.route.path === '/by/index') {
               return true
             }
-
           }
+
+          if (menu.router.path === '/by') {
+            if (this.$store.state.route.path === '/by/') {
+              return true
+            }
+          }
+
 
         }
 
