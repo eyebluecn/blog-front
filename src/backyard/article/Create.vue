@@ -23,77 +23,76 @@
 				<div class="bg-white br4 p20 mt10" v-show="showOutline">
 					<div class="row">
 
-						<div class="col-md-6">
-							<div class="row" v-validator="article.validatorSchema.title.error">
-								<label class="col-md-12 control-label mt5 compulsory">文章名称</label>
-								<div class="col-md-12 validate">
-									<input type="text" class="form-control" v-model="article.title">
-								</div>
-							</div>
-						</div>
+            <div class="col-md-6">
+
+              <div class="row" v-validator="article.validatorSchema.title.error">
+                <label class="col-md-12 control-label mt5 compulsory">文章名称</label>
+                <div class="col-md-12 validate">
+                  <input type="text" class="form-control" v-model="article.title">
+                </div>
+              </div>
+
+              <div class="row">
+                <label class="col-md-12 control-label mt5">摘要</label>
+                <div class="col-md-12">
+                  <input type="text" class="form-control" v-model="article.digest">
+                </div>
+              </div>
+
+              <div class="row">
+                <label class="col-md-12 control-label mt5">标签</label>
+                <div class="col-md-12">
+                  <NbTags :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"
+                          :initFilter="{'orderSort':'DESC'}"/>
+                </div>
+              </div>
+
+            </div>
 
 						<div class="col-md-6">
-							<div class="row">
-								<label class="col-md-12 control-label mt5">摘要</label>
-								<div class="col-md-12">
-									<input type="text" class="form-control" v-model="article.digest">
-								</div>
-							</div>
-						</div>
 
-						<div class="col-md-6">
-							<div class="row">
-								<label class="col-md-12 control-label mt5">标签</label>
-								<div class="col-md-12">
-									<NbTags :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"
-									        :initFilter="{'orderSort':'DESC'}"/>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-6">
 							<div class="row">
 								<label class="col-md-12 control-label mt5">封面图片</label>
 								<div class="col-md-12">
 									<NbTank :tank="article.posterTank"/>
 								</div>
 							</div>
-						</div>
 
-						<div class="col-md-3">
-							<div class="row">
-								<label class="col-md-12 control-label mt5">私有文章</label>
-								<div class="col-md-12">
-									<NbSwitcher v-model="article.privacy" type="primary"></NbSwitcher>
-								</div>
-							</div>
-						</div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <label class="col-md-12 control-label mt5">私有文章</label>
+                    <div class="col-md-12">
+                      <NbSwitcher v-model="article.privacy" type="primary"></NbSwitcher>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <label class="col-md-12 control-label mt5">置顶</label>
+                    <div class="col-md-12">
+                      <NbSwitcher v-model="article.top" type="primary"></NbSwitcher>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <label class="col-md-12 control-label mt5">接受评论通知</label>
+                    <div class="col-md-12">
+                      <NbSwitcher v-model="article.needNotify" type="primary"></NbSwitcher>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row" v-if="!article.editMode">
+                    <label class="col-md-12 control-label mt5">Markdown格式</label>
+                    <div class="col-md-12 ">
+                      <NbSwitcher v-model="article.isMarkdown" type="primary"></NbSwitcher>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-						<div class="col-md-3">
-							<div class="row">
-								<label class="col-md-12 control-label mt5">置顶</label>
-								<div class="col-md-12">
-									<NbSwitcher v-model="article.top" type="primary"></NbSwitcher>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-3">
-							<div class="row">
-								<label class="col-md-12 control-label mt5">接受评论通知</label>
-								<div class="col-md-12">
-									<NbSwitcher v-model="article.needNotify" type="primary"></NbSwitcher>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-3" v-if="!article.editMode">
-							<div class="row">
-								<label class="col-md-12 control-label mt5">Markdown格式</label>
-								<div class="col-md-12 ">
-									<NbSwitcher v-model="article.isMarkdown" type="primary"></NbSwitcher>
-								</div>
-							</div>
 						</div>
 
 					</div>

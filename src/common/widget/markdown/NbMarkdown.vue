@@ -1,5 +1,5 @@
 <template>
-	<div id="editor-md" class="main-editor" :class="{'full-screen' : fullScreen}">
+	<div id="editor-md" class="main-editor">
 		<textarea></textarea>
 	</div>
 </template>
@@ -11,8 +11,7 @@
   import EMAttachment from './EMAttachment.js'
   //引入自定义的“插入图片”插件
   import EMPicture from './EMPicture.js'
-  //引入自定义的“全屏编辑”插件
-  import EMFullScreen from './EMFullScreen'
+
 
   export default {
     data () {
@@ -20,9 +19,7 @@
         instance: null,
         emAttachment: new EMAttachment(),
         emPicture: new EMPicture(),
-	      emFullScreen: new EMFullScreen(),
-        innerValue: null,
-        fullScreen: false
+        innerValue: null
       }
     },
     props: {
@@ -67,14 +64,13 @@
         let that = this
         let emAttachment = this.emAttachment
         let emPicture = this.emPicture
-	      let emFullScreen = this.emFullScreen
         let createElement = this.$createElement
 
         // Vue 异步执行 DOM 更新，template 里面的 script 标签异步创建
         // 所以，只能在 nextTick 里面初始化 editormd
         this.instance = window.editormd('editor-md', {
           width: '100%',
-          /*height: 530,*/
+          height: 530,
           path: '/bystatic/fork/editormd/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
           toolbarIcons: function () {
             // Or return editormd.toolbarModes[name]; // full, simple, mini
@@ -83,14 +79,13 @@
               'bold', 'del', 'italic', 'quote', 'ucwords', 'uppercase', 'lowercase', '|',
               'h1', 'h2', 'h3', 'h4', 'h5', 'h6', '|',
               'list-ul', 'list-ol', 'hr', '|',
-              'link', 'reference-link', emPicture.name, emAttachment.name, emFullScreen.name, 'code', 'preformatted-text', 'code-block', 'table', 'datetime', 'pagebreak', '|', 'watch', 'preview', 'clear', '|', 'undo', 'redo'
+              'link', 'reference-link', emPicture.name, emAttachment.name, 'code', 'preformatted-text', 'code-block', 'table', 'datetime', 'pagebreak', '|', 'watch', 'preview', 'fullscreen', 'clear', '|', 'undo', 'redo'
             ]
           },
           //自定义一个附件上传的动作
           toolbarIconsClass: {
             attachment: emAttachment.icon,  // 指定一个FontAawsome的图标类
-            picture: emPicture.icon,  // 指定一个FontAawsome的图标类
-            fullScreen: emFullScreen.icon  // 指定一个FontAawsome的图标类
+            picture: emPicture.icon  // 指定一个FontAawsome的图标类
           },
           // 自定义工具栏按钮的事件处理
           toolbarHandlers: {
@@ -101,15 +96,13 @@
              * @param {String}      selection  编辑器选中的文本
              */
             attachment: emAttachment.handler(createElement),
-            picture: emPicture.handler(createElement),
-            fullScreen: this.fullScreenToggle
+            picture: emPicture.handler(createElement)
           },
           //自定义菜单hover提示
           lang: {
             toolbar: {
               attachment: emAttachment.title,
-              picture: emPicture.title,
-	            fullScreen: emFullScreen.title
+              picture: emPicture.title
             }
           },
 
@@ -147,10 +140,6 @@
           }
         })
 
-      },
-      fullScreenToggle(){
-        this.fullScreen = !this.fullScreen
-	      this.initEditor()
       }
     },
     mounted () {
@@ -165,12 +154,13 @@
           //设置延时，nextTick不靠谱啊。
           setTimeout(function () {
             that.initEditor()
-          }, 300)
+          }, 600)
 
         })
       })
 
       //初始化各种插件
+
 
     },
     beforeDestroy () {
