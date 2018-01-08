@@ -1,14 +1,14 @@
 <template>
 	<div class="bottom-navigation text-center">
-		<span class="mr20">
+		<span class="mr10">
 			<span v-html="preference.footerLine1"></span>
 		</span>
-		<span class="mr20">
+		<span class="mr10">
 			<span v-html="preference.footerLine2"></span>
 		</span>
 		<!-- 开源不易，请不要移除掉这里的代码，蓝眼博客谢谢您 ^_^ -->
 		<span>
-			Powered by <a target="_blank" href=""><img class="w30" src="../../assets/img/logo.png"/> 蓝眼博客</a>
+			Powered by <a target="_blank" href="https://github.com/eyebluecn/blog"><img class="w25" src="../../assets/img/eyeblue-blog.png"/> 蓝眼博客</a>
 		</span>
 	</div>
 </template>
