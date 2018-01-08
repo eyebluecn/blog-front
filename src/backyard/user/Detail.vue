@@ -84,6 +84,7 @@
         FeatureType,
         tagUuid: null,
         user: this.$store.state.user,
+        breadcrumbs: this.$store.state.breadcrumbs,
         currentUser: new User(),
         tagPager: new Pager(Tag),
         hotArticlePager: new Pager(Article),
@@ -140,6 +141,15 @@
             })
           })
         }).catch(() => {
+        })
+      }
+    },
+    created(){
+      if(!this.user.hasPermission(FeatureType.USER_MANAGE)){
+        this.breadcrumbs.splice(0, this.breadcrumbs.length)
+        this.breadcrumbs.push({
+          name: 'UserDetail',
+          title: '用户详情'
         })
       }
     },

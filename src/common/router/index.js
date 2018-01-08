@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ByIndexView from '../../backyard/index/Index.vue'
 import ByFrameView from '../../backyard/Frame.vue'
 import UserLogin from '../../backyard/user/Login.vue'
-/*import UserProfile from '../../backyard/user/Profile.vue'*/
 import UserList from '../../backyard/user/List'
 import UserDetail from '../../backyard/user/Detail'
 import UserChangePassword from '../../backyard/user/ChangePassword'
@@ -16,8 +14,6 @@ import TagCreate from '../../backyard/tag/Create'
 import PreferenceIndex from '../../backyard/preference/Index'
 import PreferenceEdit from '../../backyard/preference/Edit'
 import ReportList from '../../backyard/report/List'
-
-import WheelIndex from '../../backyard/wheel/Index.vue'
 import store from '../vuex/index.js'
 import Preference from '../model/preference/Preference'
 
@@ -112,21 +108,6 @@ const router = new Router({
             title: '登录',
             requiresAuth: false,
             breadcrumbs: []
-          }
-        },
-        {
-          path: 'user/profile/:uuid',
-          name: 'UserProfile',
-          component: UserDetail,
-          meta: {
-            title: '用户详情',
-            requiresAuth: true,
-            breadcrumbs: [
-              {
-                name: 'UserProfile',
-                title: '用户详情'
-              }
-            ]
           }
         },
         {
@@ -295,7 +276,7 @@ const router = new Router({
               {
                 name: 'PreferenceIndex',
                 title: '网站偏好'
-              },{
+              }, {
                 name: 'PreferenceEdit',
                 title: '网站偏好设置'
               }
