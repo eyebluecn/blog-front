@@ -114,7 +114,7 @@
     left: -@sidebar-width;
     top: 0;
     bottom: 0;
-    z-index: 2000;
+    z-index: 1050;
 
     background: darken(@nav-bg, 3%);
 

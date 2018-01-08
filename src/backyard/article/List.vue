@@ -73,11 +73,24 @@
         this.pager.httpFastPage()
       }
     },
+    created() {
+      /*初始化Filter inputSelection*/
+      if (this.user.role === 'ADMIN') {
+        this.pager.getFilter('userUuid').visible = true
+      } else {
+        this.pager.setFilterValue('userUuid', this.user.uuid)
+      }
+    },
     mounted () {
       this.pager.enableHistory()
       //默认按照sort倒序排列。
       if (this.pager.getFilter('orderReleaseTime').isEmpty()) {
         this.pager.setFilterValue('orderReleaseTime', 'DESC')
+      }
+
+      //如果没有设置用户的话，那么默认显示当前登录用户的资料
+      if (!this.pager.getFilterValue('userUuid')) {
+        this.pager.setFilterValue('userUuid', this.user.uuid)
       }
 
       this.refresh()

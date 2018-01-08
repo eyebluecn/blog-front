@@ -137,6 +137,17 @@ export default class User extends BaseEntity {
   static URL_USER_RESET_PASSWORD = '/user/reset/password'
   static URL_USER_EMAIL_SEND = '/user/email/send'
 
+  static getLegalRoleList(){
+    let getLegalRoleList = []
+    for (let key in RoleMap) {
+      if (RoleMap.hasOwnProperty(key) && key !== 'GUEST') {
+        getLegalRoleList.push(RoleMap[key]);
+      }
+    }
+    return getLegalRoleList
+  }
+
+
   getFilters () {
     return [
       new Filter(Filter.prototype.Type.SORT, '序号', 'orderSort'),
@@ -144,7 +155,7 @@ export default class User extends BaseEntity {
       new Filter(Filter.prototype.Type.INPUT, '姓名', 'username'),
       new Filter(Filter.prototype.Type.INPUT, '邮箱', 'email'),
       new Filter(Filter.prototype.Type.INPUT, '电话', 'phone'),
-      new Filter(Filter.prototype.Type.SELECTION, '角色', 'role', this.getRoleList()),
+      new Filter(Filter.prototype.Type.SELECTION, '角色', 'role', User.getLegalRoleList()),
       new Filter(Filter.prototype.Type.INPUT, '关键字', 'keyword')
     ]
   };
@@ -155,6 +166,9 @@ export default class User extends BaseEntity {
     this.renderEntity('lastTime', Date)
     this.renderEntity('avatar', Tank)
   }
+
+
+
 
   //获取用户头像的url.
   getAvatarUrl () {

@@ -54,6 +54,15 @@
 
           this.callback && this.callback()
         }
+      },
+      'filter.value'(newVal, oldVal) {
+
+        if (newVal && newVal === this.activeItem.uuid) {
+          //inner change. ignore
+        } else {
+          //outer change.
+          this.activeItem.uuid = newVal
+        }
       }
     },
     computed: {},

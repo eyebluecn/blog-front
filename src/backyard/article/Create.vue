@@ -13,6 +13,14 @@
 
 		<div class="row">
 			<div class="col-md-12 text-right">
+				<button class="btn btn-sm btn-primary mr5" @click.stop.prevent="showOutline = !showOutline">
+					<span v-show="!showOutline">
+						展开基本信息
+					</span>
+					<span v-show="showOutline">
+						收起基本信息
+					</span>
+				</button>
 				<CreateSaveButton :entity="article" :callback="save"/>
 			</div>
 		</div>
@@ -42,8 +50,10 @@
               <div class="row">
                 <label class="col-md-12 control-label mt5">标签</label>
                 <div class="col-md-12">
-                  <NbTags :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"
-                          :initFilter="{'orderSort':'DESC'}"/>
+                  <NbTags v-if="article.editMode && article.userUuid" :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"
+                          :initFilter="{'orderSort':'DESC','userUuid': article.userUuid}"/>
+	                <NbTags v-if="!article.editMode" :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"
+	                        :initFilter="{'orderSort':'DESC','userUuid': user.uuid}"/>
                 </div>
               </div>
 
@@ -100,27 +110,13 @@
 				</div>
 			</NbExpanding>
 
-			<div class="row">
-				<div class="col-md-12 text-center">
-					<div class="bg-white h50 ln50 f16 mt10 br5 text-primary cursor" v-show="!showOutline"
-					     @click.stop.prevent="showOutline = !showOutline">
-						展开基本信息
-					</div>
-					<div class="w100 h30 center-block bg-white ln30 cursor pack-up" v-show="showOutline"
-					     @click.stop.prevent="showOutline = !showOutline">
-						<span>
-							<span class="fa fa-angle-double-up"></span>
-								收起
-						</span>
-					</div>
-				</div>
-			</div>
+
 
 			<div class="row">
-				<div class="col-md-12 mt15" v-if="!article.isMarkdown">
+				<div class="col-md-12 mt10" v-if="!article.isMarkdown">
 					<NbEditor v-model="nbEditorContent"/>
 				</div>
-				<div class="col-md-12 mt15" v-if="article.isMarkdown">
+				<div class="col-md-12 mt10" v-if="article.isMarkdown">
 					<NbMarkdown v-model="nbMarkdownContent" v-on:htmlChange="nbHtmlContent = $event"/>
 				</div>
 			</div>
@@ -230,8 +226,6 @@
           this.nbEditorContent = this.article.html
         }
         if (this.article.tags) {
-          /*this.shortTags = JSON.parse(this.article.tags)
-	        console.log(this.shortTags)*/
           this.shortTags = this.article.tagArray
         }
 

@@ -106,7 +106,7 @@
 		top: @top-navigation-height;
 		right: 0;
 		bottom: @power-footer-height;
-		z-index: 2001;
+		z-index: 1051;
 		overflow-y: auto;
 		overflow-x: hidden;
 
@@ -122,7 +122,7 @@
 		//大屏幕
 		@media (min-width: @screen-sm-min) {
 			left: @sidebar-width;
-			z-index: 2001;
+			z-index: 1051;
 		}
 		//小屏幕
 		@media (max-width: @screen-xs-max) {
