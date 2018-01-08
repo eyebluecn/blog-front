@@ -104,7 +104,6 @@ export default class Article extends BaseEntity {
       new Filter(Filter.prototype.Type.HTTP_INPUT_SELECTION, '用户', 'userUuid', null, User, false, UserInputSelection),
       new Filter(Filter.prototype.Type.CHECK, '私有', 'privacy'),
       new Filter(Filter.prototype.Type.INPUT, '标题', 'title'),
-      new Filter(Filter.prototype.Type.INPUT, '标签', 'tag'),
       new Filter(Filter.prototype.Type.INPUT, '关键词', 'keyword')
     ]
   };

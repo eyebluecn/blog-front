@@ -34,7 +34,7 @@ export default function PluginIndent(WangEditor, $) {
 		// 菜单选中状态下，点击将触发该事件
 		menu.clickEventSelected = function (e) {
 
-			console.log("暂时不做任何事情");
+
 		};
 
 		// 根据当前选区，自定义更新菜单的选中状态或者正常状态

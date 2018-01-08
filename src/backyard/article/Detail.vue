@@ -11,43 +11,49 @@
 		</div>
 
 		<!--编辑，权限设置-->
-		<div class="text-right mb10">
-			<router-link class="btn btn-primary btn-sm" :to="'/by/article/edit/'+ article.uuid">
-				<i class="fa fa-pencil"></i>
-				编辑文章
-			</router-link>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 text-right mb10">
+				<router-link class="btn btn-primary btn-sm" :to="'/by/article/edit/'+ article.uuid">
+					<i class="fa fa-pencil"></i>
+					编辑文章
+				</router-link>
+			</div>
 		</div>
+
 
 		<LoadingFrame :loading="article.detailLoading">
 			<div class="row">
 
-				<div class="col-md-8 col-md-offset-2 article-detail">
-					<div class="row">
-						<div class="col-md-10 col-md-offset-1">
+				<div class="col-md-8 col-md-offset-2">
+					<div class="article-detail">
+						<div class="row">
+							<div class="col-md-10 col-md-offset-1">
 
 
-							<div class="article-title">
-								{{article.title}}
-							</div>
+								<div class="article-title">
+									{{article.title}}
+								</div>
 
-							<ArticleInfo :article="article" :showUser="true"/>
+								<ArticleInfo :article="article" :showUser="true"/>
 
-							<div v-if="article.html">
-								<NbMarkdownPreview :html="article.html" @markdownComplete="markdownComplete"/>
-							</div>
+								<div v-if="article.html">
+									<NbMarkdownPreview :html="article.html" @markdownComplete="markdownComplete"/>
+								</div>
 
-							<div class="mt20">
-								<i class="fa fa-tags"></i>本文分类：
-								<span v-for="(tag,index) in article.tagArray">
+								<div class="mt20">
+									<i class="fa fa-tags"></i>本文分类：
+									<span v-for="(tag,index) in article.tagArray">
                   <TagCell :tag="tag"/>
                 </span>
-							</div>
+								</div>
 
-							<div class="mt100" v-if="article.uuid" ref="commentList" >
-								<CommentList :articleUuid="article.uuid" :commentUuid="commentUuid"></CommentList>
-							</div>
+								<div class="mt100" v-if="article.uuid" ref="commentList" >
+									<CommentList :articleUuid="article.uuid" :commentUuid="commentUuid"></CommentList>
+								</div>
 
+							</div>
 						</div>
+
 					</div>
 
 

@@ -7,12 +7,12 @@
 				<span v-if="user.uuid">
 					<router-link to="/">
 						<img class="logo" :src="logoUrl"/>
-						<span class="f18 black bold">{{preference.name}}</span>
+						<span class="f18 black bold title">{{preference.name}}</span>
 					</router-link>
 				</span>
 				<span v-else>
 					<img class="logo" :src="logoUrl"/>
-					<span class="f18 black bold">{{preference.name}}</span>
+					<span class="f18 black bold title">{{preference.name}}</span>
 				</span>
 
 			</div>
@@ -85,6 +85,16 @@
 
 			.logo {
 				height: @top-navigation-height - 2;
+				padding: 3px;
+			}
+
+			.title{
+				font-size: 18px;
+				color: black;
+				font-weight: bold;
+				display: inline-block;
+				line-height: @top-navigation-height;
+				vertical-align: middle;
 			}
 
 			.logo-img {

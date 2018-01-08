@@ -31,8 +31,8 @@ export default class Preference extends BaseEntity {
     this.footerLine2 = null
     this.version = null
 
-    this.logoTank = new Tank('image', false, 1024 * 1024, '图片不能超过1M')
-    this.faviconTank = new Tank('.ico', false, 1024 * 1024, '图片不能超过1M')
+    this.logoTank = new Tank('image', false, 1024 * 1024, 'logo请使用正方形图片，否则在显示时会裁剪成正方形，图片不能超过1M')
+    this.faviconTank = new Tank('.ico', false, 1024 * 1024, '只允许上传.ico图标')
 
     this.validatorSchema = {
       name: {

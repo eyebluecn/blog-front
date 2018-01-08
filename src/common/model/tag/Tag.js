@@ -1,7 +1,9 @@
+import { simpleDateTime } from '../../filter/time'
+import UserInputSelection from '../../../backyard/user/widget/UserInputSelection'
 import BaseEntity from '../base/BaseEntity'
 import Filter from '../base/Filter'
-import { simpleDateTime } from '../../filter/time'
 import Tank from '../tank/Tank'
+import User from '../user/User'
 
 export default class Tag extends BaseEntity {
   constructor (args) {
@@ -29,8 +31,7 @@ export default class Tag extends BaseEntity {
     return [
       new Filter(Filter.prototype.Type.SORT, '排序', 'orderSort'),
       new Filter(Filter.prototype.Type.INPUT, '名称', 'name'),
-      new Filter(Filter.prototype.Type.INPUT, '用户ID', 'userUuid', null, null, false, null)
-
+      new Filter(Filter.prototype.Type.HTTP_INPUT_SELECTION, '用户', 'userUuid', null, User, false, UserInputSelection)
     ]
   }
 

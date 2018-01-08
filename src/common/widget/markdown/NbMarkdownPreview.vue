@@ -35,7 +35,6 @@
       initEditor() {
         let that = this
 
-        // console.log(this.html);
         that.instance = window.editormd.markdownToHTML(
           'editor-md-preview', {
             htmlDecode: 'style,script,iframe',  // you can filter tags decode

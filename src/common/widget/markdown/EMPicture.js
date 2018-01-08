@@ -50,7 +50,7 @@ export default class EMPicture {
           }
         }
       }).then(action => {
-        console.log("取消了。");
+
       });
 
     }

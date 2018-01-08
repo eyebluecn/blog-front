@@ -64,8 +64,19 @@
         this.pager.httpFastPage()
       }
     },
+    created() {
+      if (this.user.role === 'ADMIN') {
+        this.pager.getFilter('userUuid').visible = true
+      } else {
+        this.pager.setFilterValue('userUuid', this.user.uuid)
+      }
+    },
     mounted () {
       this.pager.enableHistory()
+      if (!this.pager.getFilterValue('userUuid')) {
+        this.pager.setFilterValue('userUuid', this.user.uuid)
+      }
+
       this.refresh()
     }
   }

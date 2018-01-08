@@ -50,7 +50,7 @@ export default class EMAttachment {
           }
         }
       }).then(action => {
-        console.log("取消了。");
+
       });
 
     }

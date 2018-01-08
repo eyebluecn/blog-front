@@ -42,7 +42,7 @@
 
         if (that.innerValue === newVal) {
           //内部变化引起的
-          console.log('内部引起的变化，不管')
+
 
         } else {
 

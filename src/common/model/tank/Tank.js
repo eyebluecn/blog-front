@@ -390,7 +390,6 @@ export default class Tank extends BaseEntity {
         //去服务器确认文件
         that.httpConfirm(function (response) {
 
-          console.log("确认成功啦！")
           that.procedure = Procedure.FREE
 
           //已经被自己服务器确认过了
@@ -412,9 +411,6 @@ export default class Tank extends BaseEntity {
         })
 
       }, function (response) {
-
-        console.log("上传到tank服务器失败", response.data)
-        console.log(response)
 
         that.procedure = Procedure.FREE
         that.errorMessage = '上传出错，请稍后重试'

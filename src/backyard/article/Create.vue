@@ -31,33 +31,34 @@
 				<div class="bg-white br4 p20 mt10" v-show="showOutline">
 					<div class="row">
 
-            <div class="col-md-6">
+						<div class="col-md-6">
 
-              <div class="row" v-validator="article.validatorSchema.title.error">
-                <label class="col-md-12 control-label mt5 compulsory">文章名称</label>
-                <div class="col-md-12 validate">
-                  <input type="text" class="form-control" v-model="article.title">
-                </div>
-              </div>
+							<div class="row" v-validator="article.validatorSchema.title.error">
+								<label class="col-md-12 control-label mt5 compulsory">文章名称</label>
+								<div class="col-md-12 validate">
+									<input type="text" class="form-control" v-model="article.title">
+								</div>
+							</div>
 
-              <div class="row">
-                <label class="col-md-12 control-label mt5">摘要</label>
-                <div class="col-md-12">
-                  <input type="text" class="form-control" v-model="article.digest">
-                </div>
-              </div>
+							<div class="row">
+								<label class="col-md-12 control-label mt5">摘要</label>
+								<div class="col-md-12">
+									<input type="text" class="form-control" v-model="article.digest">
+								</div>
+							</div>
 
-              <div class="row">
-                <label class="col-md-12 control-label mt5">标签</label>
-                <div class="col-md-12">
-                  <NbTags v-if="article.editMode && article.userUuid" :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"
-                          :initFilter="{'orderSort':'DESC','userUuid': article.userUuid}"/>
-	                <NbTags v-if="!article.editMode" :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"
-	                        :initFilter="{'orderSort':'DESC','userUuid': user.uuid}"/>
-                </div>
-              </div>
+							<div class="row">
+								<label class="col-md-12 control-label mt5">标签</label>
+								<div class="col-md-12">
+									<NbTags v-if="article.editMode && article.userUuid" :Clazz="ArticleTag" :tags="shortTags" :max="5"
+									        :taggable="false"
+									        :initFilter="{'orderSort':'DESC','userUuid': article.userUuid}"/>
+									<NbTags v-if="!article.editMode" :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"
+									        :initFilter="{'orderSort':'DESC','userUuid': user.uuid}"/>
+								</div>
+							</div>
 
-            </div>
+						</div>
 
 						<div class="col-md-6">
 
@@ -68,40 +69,40 @@
 								</div>
 							</div>
 
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="row">
-                    <label class="col-md-12 control-label mt5">私有文章</label>
-                    <div class="col-md-12">
-                      <NbSwitcher v-model="article.privacy" type="primary"></NbSwitcher>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="row">
-                    <label class="col-md-12 control-label mt5">置顶</label>
-                    <div class="col-md-12">
-                      <NbSwitcher v-model="article.top" type="primary"></NbSwitcher>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="row">
-                    <label class="col-md-12 control-label mt5">接受评论通知</label>
-                    <div class="col-md-12">
-                      <NbSwitcher v-model="article.needNotify" type="primary"></NbSwitcher>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="row" v-if="!article.editMode">
-                    <label class="col-md-12 control-label mt5">Markdown格式</label>
-                    <div class="col-md-12 ">
-                      <NbSwitcher v-model="article.isMarkdown" type="primary"></NbSwitcher>
-                    </div>
-                  </div>
-                </div>
-              </div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="row">
+										<label class="col-md-12 control-label mt5">私有文章</label>
+										<div class="col-md-12">
+											<NbSwitcher v-model="article.privacy" type="primary"></NbSwitcher>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="row">
+										<label class="col-md-12 control-label mt5">置顶</label>
+										<div class="col-md-12">
+											<NbSwitcher v-model="article.top" type="primary"></NbSwitcher>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="row">
+										<label class="col-md-12 control-label mt5">接受评论通知</label>
+										<div class="col-md-12">
+											<NbSwitcher v-model="article.needNotify" type="primary"></NbSwitcher>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="row" v-if="!article.editMode">
+										<label class="col-md-12 control-label mt5">Markdown格式</label>
+										<div class="col-md-12 ">
+											<NbSwitcher v-model="article.isMarkdown" type="primary"></NbSwitcher>
+										</div>
+									</div>
+								</div>
+							</div>
 
 						</div>
 
@@ -109,7 +110,6 @@
 
 				</div>
 			</NbExpanding>
-
 
 
 			<div class="row">
@@ -180,30 +180,31 @@
         let that = this
         let tagsUuidArr = []
         this.article.errorMessage = null
-	      this.shortTags.forEach(function (i,index) {
+        this.shortTags.forEach(function (i, index) {
           tagsUuidArr.push(i.uuid)
         })
         this.article.tags = JSON.stringify(tagsUuidArr)
         if (this.article.isMarkdown) {
           this.article.markdown = this.nbMarkdownContent
           this.article.html = this.nbHtmlContent
-	        let editormdMarkdownTextarea = $('.editormd-markdown-textarea')
-	        if(editormdMarkdownTextarea){
+          let editormdMarkdownTextarea = $('.editormd-markdown-textarea')
+          if (editormdMarkdownTextarea) {
             this.articleWords = editormdMarkdownTextarea.val()
-	        }
+          }
         } else {
           this.article.html = this.nbEditorContent
-	        let wangEditorTxt = $('.wangEditor-txt')
-	        if(wangEditorTxt){
+          let wangEditorTxt = $('.wangEditor-txt')
+          if (wangEditorTxt) {
             this.articleWords = wangEditorTxt.text()
-	        }
+          }
         }
 
         //统计字数
-	      this.article.words = this.articleWords.length
+        this.article.words = this.articleWords.length
         //如果没用填摘要，默认选择文章的前二百字
-        if(!this.article.digest){
-          this.article.digest = this.articleWords.slice(0,200)
+        if (!this.article.digest) {
+          let articleContent = this.article.html.replace(/<.+?>/g, '')
+          this.article.digest = articleContent.slice(0, 200)
         }
 
         if (!this.article.validate()) {

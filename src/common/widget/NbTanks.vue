@@ -176,8 +176,6 @@
       },
       del (tank, tankIndex) {
         let that = this
-        console.log('del')
-        console.log(tank)
         MessageBox.confirm('是否删除此文件?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
