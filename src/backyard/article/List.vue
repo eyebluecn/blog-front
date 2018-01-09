@@ -83,10 +83,15 @@
     },
     mounted () {
       this.pager.enableHistory()
-      //默认按照sort倒序排列。
-      if (this.pager.getFilter('orderReleaseTime').isEmpty()) {
-        this.pager.setFilterValue('orderReleaseTime', 'DESC')
+      //默认按照置顶倒序排列。
+      if (this.pager.getFilter('orderTop').isEmpty()) {
+        this.pager.setFilterValue('orderTop', 'DESC')
       }
+      //默认按照sort倒序排列。
+      if (this.pager.getFilter('orderCreateTime').isEmpty()) {
+        this.pager.setFilterValue('orderCreateTime', 'DESC')
+      }
+
 
       //如果没有设置用户的话，那么默认显示当前登录用户的资料
       if (!this.pager.getFilterValue('userUuid')) {

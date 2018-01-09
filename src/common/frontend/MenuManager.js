@@ -1,5 +1,5 @@
 import Menu from './Menu'
-import { FeatureType } from '../model/feature/FeatureType'
+import {FeatureType} from '../model/feature/FeatureType'
 
 export default class MenuManager {
 
