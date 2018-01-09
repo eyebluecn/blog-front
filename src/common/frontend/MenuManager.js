@@ -40,6 +40,9 @@ MenuManager.refreshByMenus = function (user) {
       byMenus.push(reportMenu)
     }
 
+    //回到首页
+    let IndexMenu = new Menu('进入首页', '/', false, 'fa fa-home')
+    byMenus.push(IndexMenu)
 
     //退出登录
     let logoutMenu = new Menu('退出登录', '/by/user/login', false, 'fa fa-power-off')
