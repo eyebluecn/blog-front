@@ -1,7 +1,7 @@
 <template>
-	<div id="editor-md" class="main-editor">
-		<textarea></textarea>
-	</div>
+  <div id="editor-md" class="main-editor">
+    <textarea></textarea>
+  </div>
 </template>
 
 <script>
@@ -14,7 +14,7 @@
 
 
   export default {
-    data () {
+    data() {
       return {
         instance: null,
         emAttachment: new EMAttachment(),
@@ -37,7 +37,7 @@
       }
     },
     watch: {
-      'value' (newVal, oldVal) {
+      'value'(newVal, oldVal) {
         let that = this
 
         if (that.innerValue === newVal) {
@@ -56,11 +56,11 @@
 
       }
     },
-    created () {
+    created() {
 
     },
     methods: {
-      initEditor () {
+      initEditor() {
         let that = this
         let emAttachment = this.emAttachment
         let emPicture = this.emPicture
@@ -76,10 +76,10 @@
             // Or return editormd.toolbarModes[name]; // full, simple, mini
             // Using "||" set icons align right.
             return [
-              'bold', 'del', 'italic', 'quote', 'ucwords', 'uppercase', 'lowercase', '|',
+              'undo', 'redo', '|', 'bold', 'del', 'italic', 'quote', 'ucwords', 'uppercase', 'lowercase', '|',
               'h1', 'h2', 'h3', 'h4', 'h5', 'h6', '|',
               'list-ul', 'list-ol', 'hr', '|',
-              'link', 'reference-link', emPicture.name, emAttachment.name, 'code', 'preformatted-text', 'code-block', 'table', 'datetime', 'pagebreak', '|', 'watch', 'preview', 'fullscreen', 'clear', '|', 'undo', 'redo'
+              'link', 'reference-link', emPicture.name, emAttachment.name, 'code', 'preformatted-text', 'code-block', 'table', 'datetime', 'pagebreak', '|', 'watch', 'preview', 'clear', 'fullscreen'
             ]
           },
           //自定义一个附件上传的动作
@@ -142,7 +142,7 @@
 
       }
     },
-    mounted () {
+    mounted() {
       let that = this
       // async loading js dependencies
       // editormd depdend on jquery and zepto
@@ -163,26 +163,26 @@
 
 
     },
-    beforeDestroy () {
+    beforeDestroy() {
     }
   }
 </script>
 
 <style lang="less" rel="stylesheet/less">
-	@import "../../../../bystatic/fork/editormd/css/editormd.css";
+  @import "../../../../bystatic/fork/editormd/css/editormd.css";
 
-	.main-editor {
-		width: 100%;
-		height: 100%;
-	}
+  .main-editor {
+    width: 100%;
+    height: 100%;
+  }
 
-	.full-screen {
-		position: fixed;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		z-index: 1000;
-	}
+  .full-screen {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
 
 </style>

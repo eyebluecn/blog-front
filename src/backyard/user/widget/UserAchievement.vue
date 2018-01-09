@@ -4,18 +4,21 @@
 		<div class="text-center">
 			<div>
 				<a target="_blank" :href="user.getAvatarUrl()">
-					<img class="img-circle w100 h100" :src="user.getAvatarUrl()" alt="">
+					<img class="img-circle w150 h150" :src="user.getAvatarUrl()" alt="">
 				</a>
 			</div>
 			<div class="f18 bold mv15">
 				{{user.username}}
 			</div>
-			<div class="f18 mv15">
-				<i class="fa fa-envelope f18" :class="{'text-primary' : user.emailValidate}" :title="user.emailValidate ? '已验证邮箱':'未认证邮箱'"></i>
+			<div class="f16 mv15">
+				<i class="fa fa-envelope" :class="{'text-primary' : user.emailValidate}" :title="user.emailValidate ? '已验证邮箱':'未认证邮箱'"></i>
 				<span>{{user.email}}</span>
 			</div>
 		</div>
 		<div>
+      <div class="mt20 mb15">
+        TA的公开文章统计
+      </div>
 			<div class="achievement-cell">
 				<i class="fa fa-pencil-square"></i>
 				<span>撰写了 {{user.articleNum}} 篇文章</span>

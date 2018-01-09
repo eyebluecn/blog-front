@@ -2,7 +2,7 @@
 	<div class="backyard-user-detail animated fadeIn ">
 		<div class="row">
 
-			<div class="col-md-8 col-md-offset-2">
+			<div class="col-md-12">
 				<div class="operation text-right">
 					<button class="btn btn-sm btn-primary" v-if="currentUser.uuid === user.uuid && !currentUser.emailValidate" @click.stop.prevent="currentUser.httpConfirmEmail">
 						验证邮箱
@@ -20,11 +20,11 @@
 				</div>
 			</div>
 
-			<div class="col-md-8 col-md-offset-2 mt10">
+			<div class="col-md-12 mt10">
 				<div class="user-detail">
 					<div class="row">
 
-						<div class="col-sm-4">
+						<div class="col-md-4">
 							<div class="p15">
 								<div v-if="currentUser.uuid">
 									<UserAchievement :user="currentUser"/>
@@ -46,7 +46,7 @@
 							</div>
 						</div>
 
-						<div class="col-sm-8">
+						<div class="col-md-8">
 							<div v-for="article in articlePager.data">
 								<ArticleCell :article="article" :showUser="false" :activeTagUuid="tagUuid" articleInfoPosition="bottom"/>
 							</div>

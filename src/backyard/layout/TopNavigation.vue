@@ -2,19 +2,13 @@
 	<div class="top-navigation-bar">
 		<nav class="navbar">
 
-
 			<div class="navbar-title">
-				<span v-if="user.uuid">
-					<router-link to="/">
+				<span>
+					<router-link to="/by">
 						<img class="logo" :src="logoUrl"/>
-						<span class="f18 black bold title">{{preference.name}}</span>
+						<span class="title">{{preference.name}}</span>
 					</router-link>
 				</span>
-				<span v-else>
-					<img class="logo" :src="logoUrl"/>
-					<span class="f18 black bold title">{{preference.name}}</span>
-				</span>
-
 			</div>
 
 			<button class="drawer-trigger btn btn-primary btn-sm"
@@ -84,8 +78,7 @@
 			margin-left: 10px;
 
 			.logo {
-				height: @top-navigation-height - 2;
-				padding: 3px;
+				height: @top-navigation-height;
 			}
 
 			.title{

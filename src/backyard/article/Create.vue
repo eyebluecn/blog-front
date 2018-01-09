@@ -40,14 +40,14 @@
 								</div>
 							</div>
 
-							<div class="row">
-								<label class="col-md-12 control-label mt5">摘要</label>
+							<div class="row mt10">
+								<label class="col-md-12 control-label mt5">摘要(最长500字，如未填写则自动截取正文前200字)</label>
 								<div class="col-md-12">
-									<input type="text" class="form-control" v-model="article.digest">
+                  <textarea class="form-control" v-model="article.digest" rows="6"></textarea>
 								</div>
 							</div>
 
-							<div class="row">
+							<div class="row mt10">
 								<label class="col-md-12 control-label mt5">标签</label>
 								<div class="col-md-12">
 									<NbTags v-if="article.editMode && article.userUuid" :Clazz="ArticleTag" :tags="shortTags" :max="5"
@@ -70,31 +70,25 @@
 							</div>
 
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-6 mt10">
 									<div class="row">
-										<label class="col-md-12 control-label mt5">私有文章</label>
+										<label class="col-md-12 control-label mt5">私有文章(文章仅自己可见)</label>
 										<div class="col-md-12">
 											<NbSwitcher v-model="article.privacy" type="primary"></NbSwitcher>
 										</div>
 									</div>
 								</div>
-								<div class="col-md-6">
+
+								<div class="col-md-6 mt10">
 									<div class="row">
-										<label class="col-md-12 control-label mt5">置顶</label>
-										<div class="col-md-12">
-											<NbSwitcher v-model="article.top" type="primary"></NbSwitcher>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="row">
-										<label class="col-md-12 control-label mt5">接受评论通知</label>
+										<label class="col-md-12 control-label mt5">接受通知(邮箱验证后会收到评论通知)</label>
 										<div class="col-md-12">
 											<NbSwitcher v-model="article.needNotify" type="primary"></NbSwitcher>
 										</div>
 									</div>
 								</div>
-								<div class="col-md-6">
+
+								<div class="col-md-6 mt10">
 									<div class="row" v-if="!article.editMode">
 										<label class="col-md-12 control-label mt5">Markdown格式</label>
 										<div class="col-md-12 ">
