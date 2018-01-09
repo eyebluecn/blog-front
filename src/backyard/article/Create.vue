@@ -43,7 +43,7 @@
 							<div class="row mt10">
 								<label class="col-md-12 control-label mt5">摘要(最长500字，如未填写则自动截取正文前200字)</label>
 								<div class="col-md-12">
-                  <textarea class="form-control" v-model="article.digest" rows="6"></textarea>
+                  <textarea class="form-control" v-model="article.digest" rows="6" style="resize: none"></textarea>
 								</div>
 							</div>
 

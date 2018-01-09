@@ -30,6 +30,12 @@
           </span>
 
 					<span v-if="showOperate" class="pull-right action-buttons">
+						<span v-if="user.hasPermission(FeatureType.USER_MANAGE)">
+							<a href="javascript:void(0)" :title="article.top ? '取消置顶':'置顶'" @click.stop.prevent="article.httpChangeTop(delCallback)">
+								<i class="fa fa-rocket f18" v-if="!article.top"></i>
+								<i class="fa fa-rocket f18 text-muted" v-else></i>
+              </a>
+						</span>
 						<router-link :to="'/by/article/edit/'+article.uuid">
 								<i class="fa fa-pencil text-info f18"></i>
 						</router-link>
@@ -64,12 +70,14 @@
 
 <script>
   import Article from '../../../common/model/article/Article'
+  import { FeatureType } from '../../../common/model/feature/FeatureType'
 
   export default {
     name: 'article-info',
 	  data(){
       return{
-
+        FeatureType,
+				user: this.$store.state.user
       }
 	  },
 	  props:{

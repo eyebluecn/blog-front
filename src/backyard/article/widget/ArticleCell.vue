@@ -14,7 +14,8 @@
       </div>
       <div class="media-body">
         <div class="title">
-          <i class="fa fa-lock f18" v-if="article.privacy" title="私有文章，只有自己可见"></i>
+          <i class="fa fa-rocket text-danger f18 mr5" v-if="article.top" title="置顶文章"></i>
+          <i class="fa fa-lock f18 mr5" v-if="article.privacy" title="私有文章，只有自己可见"></i>
           <router-link :to="'/by/article/detail/' + article.uuid">
             {{article.title}}
           </router-link>

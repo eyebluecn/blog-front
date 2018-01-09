@@ -1,5 +1,5 @@
 import { simpleDateTime } from '../../filter/time'
-import { Notification } from 'element-ui'
+import { MessageBox,Notification } from 'element-ui'
 import UserInputSelection from '../../../backyard/user/widget/UserInputSelection'
 import BaseEntity from '../base/BaseEntity'
 import Filter from '../base/Filter'
@@ -94,6 +94,10 @@ export default class Article extends BaseEntity {
 
   }
 
+
+  static URL_API_ARTICLE_TOP = '/article/top'
+  static URL_API_ARTICLE_CANCEL_TOP = '/article/cancel/top'
+
   getFilters () {
     return [
       new Filter(Filter.prototype.Type.SORT, '排序', 'orderSort'),
@@ -146,6 +150,28 @@ export default class Article extends BaseEntity {
     }
 
     return super.validate()
+  }
+
+
+  httpChangeTop(successCallback,errorCallback){
+    let that = this
+    let confirmText = '将该文章置顶？'
+    if(this.top){
+      confirmText = '取消该文章置顶？'
+    }
+    MessageBox.confirm(confirmText, '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(function () {
+        that.httpPost(that.top ? Article.URL_API_ARTICLE_CANCEL_TOP : Article.URL_API_ARTICLE_TOP, {articleUuid: that.uuid},function (response) {
+          typeof successCallback === 'function' && successCallback(response)
+        })
+
+      },
+      function () {
+      }
+    )
   }
 
 }

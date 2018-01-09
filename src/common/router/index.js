@@ -15,7 +15,6 @@ import PreferenceIndex from '../../backyard/preference/Index'
 import PreferenceEdit from '../../backyard/preference/Edit'
 import ReportList from '../../backyard/report/List'
 import store from '../vuex/index.js'
-import Preference from '../model/preference/Preference'
 
 Vue.use(Router)
 
