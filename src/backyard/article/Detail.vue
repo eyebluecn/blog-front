@@ -31,6 +31,7 @@
 
 
 								<div class="article-title">
+                  <i class="fa fa-lock" v-if="article.privacy" title="私有文章，只有自己可见"></i>
 									{{article.title}}
 								</div>
 
