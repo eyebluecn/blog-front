@@ -4,7 +4,7 @@
 
 #### [在线Demo](http://blog.eyeblue.cn)
 
-#### [配套前端blog-front](https://github.com/eyebluecn/blog-front)
+#### [配套后端blog](https://github.com/eyebluecn/blog)
 
 ### 简介
 蓝眼博客是 [蓝眼系列开源软件](https://github.com/eyebluecn) 中的第二个
@@ -49,7 +49,7 @@ npm run build
 ### 部分截图
 
 博客网站的个性化设置、备案信息、logo等都在里面，在这里面最多可以自定义五个菜单显示在博客展示页面的右上方
-![蓝眼博客后台](https://github.com/eyebluecn/blog-front/tree/dev/screenshots/preference.jpg)
+![蓝眼博客后台](https://github.com/eyebluecn/blog-front/blob/dev/screenshots/preference.png)
 
 博客展示页面
 ![蓝眼博客首页](https://github.com/eyebluecn/blog/blob/master/doc/screenshot/home.png)
@@ -58,13 +58,13 @@ npm run build
 ![蓝眼博客后台](https://github.com/eyebluecn/blog/blob/master/doc/screenshot/backyard.png)
 
 文章列表页
-![蓝眼博客后台](https://github.com/eyebluecn/blog-front/tree/dev/screenshots/article-list.jpg)
+![蓝眼博客后台](https://github.com/eyebluecn/blog-front/blob/dev/screenshots/article_list.png)
 
 文章详情页
-![蓝眼博客后台](https://github.com/eyebluecn/blog-front/tree/dev/screenshots/article-detail.jpg)
+![蓝眼博客后台](https://github.com/eyebluecn/blog-front/blob/dev/screenshots/article_detail.png)
 
 用户详情页
-![蓝眼博客后台](https://github.com/eyebluecn/blog-front/tree/dev/screenshots/user-detail.jpg)
+![蓝眼博客后台](https://github.com/eyebluecn/blog-front/blob/dev/screenshots/user_detail.png)
 
 
 ### Contribution
