@@ -2,7 +2,6 @@ import BaseEntity from '../base/BaseEntity'
 import Filter from '../base/Filter'
 import $ from 'jquery'
 import { readLocalStorage, removeLocalStorage, saveToLocalStorage } from '../../util/Utils'
-import MenuManager from '../../frontend/MenuManager'
 import Tank from '../tank/Tank'
 import { FeatureType } from '../feature/FeatureType'
 import { Notification } from 'element-ui'
@@ -59,7 +58,7 @@ export default class User extends BaseEntity {
 
     this.username = null
     this.password = null
-    this.role = Role.USER
+    this.role = Role.GUEST
     this.email = null
     this.phone = null
     //用户角色
@@ -92,9 +91,6 @@ export default class User extends BaseEntity {
 
     //总共收到的评论
     this.commentNum = 0
-
-    //local fields.
-    this.byMenus = []
 
     //登录的密码，服务器返回字段中没有密码
     this.localPassword = null
@@ -179,12 +175,6 @@ export default class User extends BaseEntity {
     }
   }
 
-  refreshMenus () {
-
-    //后台菜单。不同用户看到的东西不一样。
-    this.byMenus = MenuManager.refreshByMenus(this)
-
-  };
 
   //将用户信息存储在本地。
   renderFromLocalStorage () {
@@ -201,8 +191,6 @@ export default class User extends BaseEntity {
     } catch (e) {
       removeLocalStorage(this.getTAG())
     }
-    //从本地加载user之后，可以去访问后台菜单了
-    this.refreshMenus()
   }
 
   //将用户信息存储在本地。
@@ -288,8 +276,6 @@ export default class User extends BaseEntity {
 
     this.render(new User())
 
-    //菜单刷新一次。
-    /*this.refreshMenus()*/
 
     this.clearLocalStorage()
 
@@ -299,9 +285,6 @@ export default class User extends BaseEntity {
     let that = this
     that.errorMessage = null
     that.render(response.data.data)
-
-    //用户登陆后我们认为可以去访问后台菜单了
-    this.refreshMenus()
 
     //登录成功后去本地保存一下用户的简单信息，方便下次自动填入个别字段。
     this.saveToLocalStorage(response.data.data)

@@ -9,7 +9,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
+			<div class="col-md-12">
 				<NbFilter :pager="pager" :callback="search">
 					<router-link class="btn btn-primary btn-sm" to="/by/article/create">
 						<i class="fa fa-plus"></i>
@@ -18,11 +18,11 @@
 				</NbFilter>
 			</div>
 
-			<div class="col-md-8 col-md-offset-2" v-for="(article,index) in pager.data">
+			<div class="col-md-12" v-for="(article,index) in pager.data">
 				<ArticleCell :article="article" :showUser="true" :showOperate="true" :delCallback="refresh"/>
 			</div>
 
-			<div class="col-md-8 col-md-offset-2 mt20">
+			<div class="col-md-12">
 				<NbPager :pager="pager" :callback="refresh"/>
 			</div>
 

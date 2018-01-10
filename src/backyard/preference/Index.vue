@@ -15,7 +15,7 @@
 		</div>
 		<div class="mt10 bg-white br4 border">
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					网站名称
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8">
@@ -24,7 +24,7 @@
 			</div>
 
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					logo
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8" v-if="preference.logoUrl">
@@ -33,7 +33,7 @@
 			</div>
 
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					favicon
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8" v-if="preference.faviconUrl">
@@ -43,7 +43,7 @@
 
 
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					菜单一
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8">
@@ -52,7 +52,7 @@
 			</div>
 
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					菜单一Url
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8">
@@ -61,7 +61,7 @@
 			</div>
 
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					菜单二
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8">
@@ -70,7 +70,7 @@
 			</div>
 
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					菜单二Url
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8">
@@ -79,7 +79,7 @@
 			</div>
 
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					菜单三
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8">
@@ -88,7 +88,7 @@
 			</div>
 
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					菜单三Url
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8">
@@ -97,7 +97,7 @@
 			</div>
 
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					菜单四
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8">
@@ -106,7 +106,7 @@
 			</div>
 
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					菜单四Url
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8">
@@ -115,7 +115,7 @@
 			</div>
 
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					菜单五
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8">
@@ -124,7 +124,7 @@
 			</div>
 
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					菜单五Url
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8">
@@ -133,7 +133,7 @@
 			</div>
 
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					底部第一行文字
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8">
@@ -142,7 +142,7 @@
 			</div>
 
 			<div class="row p10 border-bottom">
-				<div class="col-md-2 col-sm-2 col-xs-4">
+				<div class="col-md-2 col-sm-2 col-xs-4 bold">
 					底部第二行文字
 				</div>
 				<div class="col-md-10 col-sm-10 col-xs-8">

@@ -17,6 +17,8 @@
 			</NbFilter>
 		</div>
 
+
+
 		<div class="col-md-12" v-for="(u,index) in pager.data">
 			<div class="bg-white border br4 p10 mb10">
 				<div class="media">

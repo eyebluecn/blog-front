@@ -14,6 +14,7 @@ import TagCreate from '../../backyard/tag/Create'
 import PreferenceIndex from '../../backyard/preference/Index'
 import PreferenceEdit from '../../backyard/preference/Edit'
 import ReportList from '../../backyard/report/List'
+import NotFound from '../../backyard/layout/NotFound'
 import store from '../vuex/index.js'
 
 Vue.use(Router)
@@ -296,9 +297,28 @@ const router = new Router({
               }
             ]
           }
+        },
+        //未被上面处理的route被视为404
+        {
+          path: '*',
+          component: NotFound,
+          meta: {requiresAuth: false}
+        }
+      ]
+    },
+    {
+      path: '/',
+      component: ByFrameView,
+      children: [
+        //未被上面处理的route被视为404
+        {
+          path: '*',
+          component: NotFound,
+          meta: {requiresAuth: false}
         }
       ]
     }
+
   ]
 })
 

@@ -2,7 +2,6 @@
   <nav ref="menuNav" class="side-navigation" :class="{'show-drawer':showDrawer}" @click.stop.prevent="eatClick">
     <div class="sidebar-collapse">
 
-
       <div class="menu-header" @click="goToProfile">
         <div class="logo-area">
           <img alt="image" class="img-circle w80" :src="user.getAvatarUrl()"/>
@@ -15,7 +14,66 @@
       </div>
 
       <ul class="nav mt20">
-        <SideMenu v-for="(menu,index) in user.byMenus" :key="index" :menu="menu"/>
+
+        <li v-if="!user.hasPermission(FeatureType.USER_MINE)">
+          <router-link to="/by/user/login">
+            <i class="w14 fa fa-user-circle-o"></i>
+            <span>登录</span>
+          </router-link>
+        </li>
+
+        <li v-if="user.hasPermission(FeatureType.USER_MINE)">
+          <router-link to="/by">
+            <i class="w14 fa fa-book"></i>
+            <span>文章列表</span>
+          </router-link>
+        </li>
+
+
+        <li v-if="user.hasPermission(FeatureType.USER_MINE)">
+          <router-link to="/by/tag/list">
+            <i class="w14 fa fa-tags"></i>
+            <span>标签列表</span>
+          </router-link>
+        </li>
+
+        <li v-if="user.hasPermission(FeatureType.USER_MANAGE)">
+          <router-link to="/by/preference">
+            <i class="w14 fa fa-dashboard"></i>
+            <span>网站偏好</span>
+          </router-link>
+        </li>
+
+        <li v-if="user.hasPermission(FeatureType.USER_MANAGE)">
+          <router-link to="/by/user/list">
+            <i class="w14 fa fa-user"></i>
+            <span>用户列表</span>
+          </router-link>
+        </li>
+
+
+        <li v-if="user.hasPermission(FeatureType.USER_MANAGE)">
+          <router-link to="/by/report/list">
+            <i class="w14 fa fa-warning"></i>
+            <span>举报列表</span>
+          </router-link>
+        </li>
+
+
+        <li>
+          <a href="/" @click.stop.prevent="goHome">
+            <i class="w14 fa fa-home"></i>
+            <span>网站前台</span>
+          </a>
+        </li>
+
+        <li v-if="user.hasPermission(FeatureType.USER_MINE)">
+          <router-link to="/by/user/login">
+            <i class="w14 fa fa-power-off"></i>
+            <span>退出登录</span>
+          </router-link>
+        </li>
+
 
       </ul>
 
@@ -23,14 +81,14 @@
   </nav>
 </template>
 <script>
-  import SideMenu from "./SideMenu.vue"
-
+  import {FeatureType} from "../../common/model/feature/FeatureType";
 
 
   export default {
 
     data() {
       return {
+        FeatureType,
         user: this.$store.state.user
       }
     },
@@ -44,9 +102,7 @@
 
     },
 
-    components: {
-      SideMenu
-    },
+    components: {},
     methods: {
       goToProfile() {
 
@@ -59,8 +115,12 @@
 
       },
       eatClick() {
-
+        console.info("eat click")
       },
+      goHome() {
+        window.open("/")
+      },
+
       updateBody() {
         if (this.showDrawer && this.mobile) {
         } else {
@@ -177,14 +237,6 @@
     .nav {
       li {
 
-        &.active {
-
-          //只有紧接的这一层a才会高亮。
-          > a {
-            color: @font-highlight-color;
-          }
-        }
-
         a {
 
           color: @nav-text-color;
@@ -198,42 +250,13 @@
           i {
             margin-right: 6px;
           }
-        }
-      }
 
-      .nav-first-level {
-        &.active {
-        }
-        &.current {
-          background-color: black;
-        }
-      }
-      &.nav-second-level {
-
-        > li {
-
-          > a {
-            padding-left: 43px;
-          }
-          &.active {
-            border: none;
-          }
-          &.current {
+          &.router-link-exact-active {
             background-color: black;
           }
         }
       }
-      &.nav-third-level {
 
-        > li {
-          > a {
-            padding-left: 57px;
-          }
-          &.current {
-            background-color: black;
-          }
-        }
-      }
     }
   }
 
