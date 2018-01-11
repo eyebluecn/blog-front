@@ -9,7 +9,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-lg-8 col-lg-offset-2">
 				<NbFilter :pager="pager" :callback="search">
 					<router-link class="btn btn-primary btn-sm" to="/by/tag/create">
 						<i class="fa fa-plus"></i>
@@ -17,15 +17,19 @@
 					</router-link>
 				</NbFilter>
 			</div>
+      <div class="col-lg-8 col-lg-offset-2">
+        <div class="row">
+          <div class="col-md-6" v-for="(tag,index) in pager.data">
 
-			<div class="col-md-6" v-for="(tag,index) in pager.data">
+            <TagCell :tag="tag" size="detail-lg" :operate="true" :delCallback="refresh"/>
 
-				<TagCell :tag="tag" size="detail-lg" :operate="true" :delCallback="refresh"/>
+          </div>
+        </div>
+      </div>
 
-			</div>
 
 
-			<div class="col-md-12 mt20">
+			<div class="col-lg-8 col-lg-offset-2 mt20">
 				<NbPager :pager="pager" :callback="refresh"/>
 			</div>
 

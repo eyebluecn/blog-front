@@ -12,7 +12,7 @@
 
 		<!--编辑，权限设置-->
 		<div class="row">
-			<div class="col-md-8 col-md-offset-2 text-right mb10">
+			<div class="col-lg-8 col-lg-offset-2 text-right mb10">
 				<router-link class="btn btn-primary btn-sm" :to="'/by/article/edit/'+ article.uuid">
 					<i class="fa fa-pencil"></i>
 					编辑文章
@@ -24,7 +24,7 @@
 		<LoadingFrame :loading="article.detailLoading">
 			<div class="row">
 
-				<div class="col-md-8 col-md-offset-2">
+				<div class="col-lg-8 col-lg-offset-2">
 					<div class="article-detail">
 						<div class="row">
 							<div class="col-md-10 col-md-offset-1">

@@ -52,7 +52,8 @@
     <NbExpanding>
       <div class="tiny-block"
            v-if="tank.exist()">
-        <div class="w200 p10 mb10 bg-white br5 border" v-show="preview && tank.publicImgUrl()">
+        <div class="p10 mb10 bg-white br5 border" :style="'width:'+previewWidth+'px'"
+             v-show="preview && tank.publicImgUrl()">
           <img class="wp100" :src="tank.publicImgUrl()"/>
         </div>
         <div>
@@ -95,6 +96,11 @@
         type: Boolean,
         required: false,
         'default': true
+      },
+      previewWidth: {
+        type: Number,
+        required: false,
+        'default': 200
       },
       //当前是否是编辑状态（编辑状态可以上传，非编辑状态只能下载）
       edit: {

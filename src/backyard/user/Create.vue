@@ -2,7 +2,7 @@
   <div class="animated fadeIn backyard-user-edit">
 
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-lg-12">
         <div class="pedia-navigation">
 					<span class="item active">
 						<span v-show="!currentUser.editMode">创建用户</span>
@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <div class="col-md-12">
+      <div class="col-lg-8 col-lg-offset-2">
         <div class="bg-white br4 border p10">
 
           <div class="row">

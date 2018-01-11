@@ -112,11 +112,10 @@
 		}
 
 		&.detail-lg {
-			@height: 60px;
+			@height: 40px;
 			width: 100%;
 			box-sizing: border-box;
 			margin-bottom: 15px;
-			background-color: #fff;
 			height: @height;
 			border-radius: @height/2 2px 2px @height/2;
 

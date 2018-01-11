@@ -9,31 +9,34 @@
 					</span>
 				</div>
 			</div>
-		</div>
-		<div class="bg-white br4 p20 mt10">
+      <div class="col-lg-8 col-lg-offset-2">
+        <div class="bg-white br4 p20 mt10">
 
-			<div class="row" v-validator="tag.validatorSchema.name.error">
-				<label class="col-md-2 control-label mt5 compulsory">标签名称</label>
-				<div class="col-md-10 validate">
-					<input type="text" class="form-control" v-model="tag.name">
-				</div>
-			</div>
+          <div class="row" v-validator="tag.validatorSchema.name.error">
+            <label class="col-md-2 control-label mt5 compulsory">标签名称</label>
+            <div class="col-md-10 validate">
+              <input type="text" class="form-control" v-model="tag.name">
+            </div>
+          </div>
 
-			<div class="row mt10">
-				<label class="col-md-2 control-label mt5">标签logo</label>
-				<div class="col-md-10">
-					<NbTank :tank="tag.logoTank"/>
-				</div>
-			</div>
+          <div class="row mt10">
+            <label class="col-md-2 control-label mt5">标签logo</label>
+            <div class="col-md-10">
+              <NbTank :tank="tag.logoTank"/>
+            </div>
+          </div>
 
-			<div class="row mt10">
-				<div class="col-md-12">
-					<div>
-						<CreateSaveButton :entity="tag" :callback="save"/>
-					</div>
-				</div>
-			</div>
+          <div class="row mt10">
+            <div class="col-md-12">
+              <div>
+                <CreateSaveButton :entity="tag" :callback="save"/>
+              </div>
+            </div>
+          </div>
 
+        </div>
+
+      </div>
 		</div>
 
 	</div>
