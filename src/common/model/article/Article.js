@@ -79,11 +79,7 @@ export default class Article extends BaseEntity {
         error: null
       },
       tags: {
-        rules: [{required: true, message: '标签必填'}, {max: 10000, message: '标签最长1024字'}],
-        error: null
-      },
-      html: {
-        rules: [{required: true, message: '内容必填'}, {max: 10000, message: '内容最长10000字'}],
+        rules: [{required: true, message: '标签必填'}, {max: 1024, message: '标签最长1024字'}],
         error: null
       },
       words: {
@@ -143,9 +139,15 @@ export default class Article extends BaseEntity {
       this.posterUrl = this.posterTank.url
     }
 
-    if (!this.html || this.html.length > 10000) {
+    if (!this.markdown || this.markdown.length > 2147483647) {
       Notification.error({
-        message: '文章内容必填且不超过10000字'
+        message: '文章内容必填且不超过2147483647字'
+      })
+    }
+
+    if (!this.html || this.html.length > 2147483647) {
+      Notification.error({
+        message: '文章内容必填且不超过2147483647字'
       })
     }
 
