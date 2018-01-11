@@ -27,7 +27,13 @@
 							<img class="img-circle img-sm pull-left mr10" src="../../../assets/img/avatar.png" alt="">
 							<div>
 								<p class="mb0">
-									<span>{{commentFloor.name}}</span>
+                  <span class="text-primary" v-if="commentFloor.userUuid">
+                     <a :href="'/by/user/detail/'+commentFloor.userUuid" title="站内用户">
+                        {{commentFloor.name}}
+                        <span class="text-warning" v-if="commentFloor.userUuid === article.userUuid">(作者)</span>
+                     </a>
+                  </span>
+                  <span class="black" v-else >{{commentFloor.name}}</span>
 								</p>
 								<p class="comment-date">
 									<span>{{ commentFloor.createTime | simpleDateTime}}</span>
@@ -51,7 +57,16 @@
 							<div class="sub-comment-box mt15" v-if="commentFloor.commentPager.totalItems">
 								<div v-for="subComment in commentFloor.commentPager.data" class="sub-comment">
 									<div class="mb10 black">
-										<span>{{subComment.name}}：</span>
+										<span>
+                      <span class="text-primary" v-if="subComment.userUuid">
+                      <a :href="'/by/user/detail/'+subComment.userUuid" title="站内用户">
+                        {{subComment.name}}
+                        <span class="text-warning" v-if="subComment.userUuid === article.userUuid">(作者)</span>
+                      </a>
+                      </span>
+                      <span class="black" v-else >{{subComment.name}}</span>
+                      <span>：</span>
+                    </span>
 										<span>{{subComment.content}}</span>
 									</div>
 									<div>
@@ -98,6 +113,7 @@
   import CommentTextarea from './CommentTextarea'
   import { simpleDateTime } from '../../../common/filter/time'
   import { Message } from 'element-ui'
+  import Article from '../../../common/model/article/Article'
 
   export default {
     name: 'list',
@@ -113,8 +129,8 @@
       }
     },
     props: {
-      articleUuid: {
-        type: String,
+      article: {
+        type: Article,
         required: true
       },
       commentUuid: {
@@ -188,8 +204,8 @@
       CommentTextarea
     },
     mounted () {
-      this.pager.setFilterValue('articleUuid', this.articleUuid)
-      this.floorComment.articleUuid = this.replyComment.articleUuid = this.articleUuid
+      this.pager.setFilterValue('articleUuid', this.article.uuid)
+      this.floorComment.articleUuid = this.replyComment.articleUuid = this.article.uuid
       this.floorComment.isFloor = true
       this.replyComment.isFloor = false
 

@@ -49,7 +49,7 @@
 								</div>
 
 								<div class="mt100" v-if="article.uuid" ref="commentList" >
-									<CommentList :articleUuid="article.uuid" :commentUuid="commentUuid"></CommentList>
+									<CommentList :article="article" :commentUuid="commentUuid"></CommentList>
 								</div>
 
 							</div>
