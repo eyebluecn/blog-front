@@ -11,6 +11,8 @@ export default class Comment extends BaseEntity {
     this.floorUuid = null
     this.puuid = null
     this.name = null
+    //评论者头像：TODO：show in the view.
+    this.avatarUrl = null
     this.email = null
     this.content = null
     this.agree = 0
