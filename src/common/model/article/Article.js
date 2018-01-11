@@ -1,5 +1,5 @@
-import { simpleDateTime } from '../../filter/time'
-import { MessageBox,Notification } from 'element-ui'
+import {simpleDateTime} from '../../filter/time'
+import {MessageBox, Notification} from 'element-ui'
 import UserInputSelection from '../../../backyard/user/widget/UserInputSelection'
 import BaseEntity from '../base/BaseEntity'
 import Filter from '../base/Filter'
@@ -9,7 +9,7 @@ import Tag from '../tag/Tag'
 
 export default class Article extends BaseEntity {
 
-  constructor (args) {
+  constructor(args) {
     super(args)
 
     //发布者
@@ -72,21 +72,6 @@ export default class Article extends BaseEntity {
     //标签数组对象
     this.tagArray = []
 
-    //编辑和修改文章时的验证规则。也是默认的验证规则。
-    this.validatorSchema = {
-      title: {
-        rules: [{required: true, message: '标题必填'}, {max: 255, message: '标题最长255字'}],
-        error: null
-      },
-      tags: {
-        rules: [{required: true, message: '标签必填'}, {max: 1024, message: '标签最长1024字'}],
-        error: null
-      },
-      words: {
-        rules: [{required: true, message: '文章字数必填'}],
-        error: null
-      }
-    }
 
   }
 
@@ -94,7 +79,7 @@ export default class Article extends BaseEntity {
   static URL_API_ARTICLE_TOP = '/article/top'
   static URL_API_ARTICLE_CANCEL_TOP = '/article/cancel/top'
 
-  getFilters () {
+  getFilters() {
     return [
       new Filter(Filter.prototype.Type.SORT, '排序', 'orderSort'),
       new Filter(Filter.prototype.Type.SORT, '置顶', 'orderTop'),
@@ -108,14 +93,14 @@ export default class Article extends BaseEntity {
     ]
   };
 
-  render (obj) {
+  render(obj) {
     super.render(obj)
     this.renderEntity('posterTank', Tank)
-    this.renderEntity('user',User)
-    this.renderList('tagArray',Tag)
+    this.renderEntity('user', User)
+    this.renderList('tagArray', Tag)
   }
 
-  getForm () {
+  getForm() {
     return {
       title: this.title,
       tags: this.tags,
@@ -133,32 +118,39 @@ export default class Article extends BaseEntity {
     }
   }
 
-  validate () {
+  validate() {
     if (this.posterTank) {
       this.posterTankUuid = this.posterTank.uuid
       this.posterUrl = this.posterTank.url
     }
 
+    if (!this.title) {
+      this.errorMessage = "标题必填";
+      return false
+    }
+
     if (!this.markdown || this.markdown.length > 2147483647) {
-      Notification.error({
-        message: '文章内容必填且不超过2147483647字'
-      })
+      this.errorMessage = "文章内容必填且不超过2147483647字";
+      return false
     }
 
     if (!this.html || this.html.length > 2147483647) {
-      Notification.error({
-        message: '文章内容必填且不超过2147483647字'
-      })
+
+      this.errorMessage = "文章内容必填且不超过2147483647字";
+      return false
     }
 
-    return super.validate()
+
+
+    this.errorMessage = null;
+    return true
   }
 
 
-  httpChangeTop(successCallback,errorCallback){
+  httpChangeTop(successCallback, errorCallback) {
     let that = this
     let confirmText = '将该文章置顶？'
-    if(this.top){
+    if (this.top) {
       confirmText = '取消该文章置顶？'
     }
     MessageBox.confirm(confirmText, '提示', {
@@ -166,7 +158,7 @@ export default class Article extends BaseEntity {
       cancelButtonText: '取消',
       type: 'warning'
     }).then(function () {
-        that.httpPost(that.top ? Article.URL_API_ARTICLE_CANCEL_TOP : Article.URL_API_ARTICLE_TOP, {articleUuid: that.uuid},function (response) {
+        that.httpPost(that.top ? Article.URL_API_ARTICLE_CANCEL_TOP : Article.URL_API_ARTICLE_TOP, {articleUuid: that.uuid}, function (response) {
           typeof successCallback === 'function' && successCallback(response)
         })
 

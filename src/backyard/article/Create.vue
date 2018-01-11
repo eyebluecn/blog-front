@@ -1,128 +1,137 @@
 <template>
-	<div class="animated fadeIn backyard-article-create">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="pedia-navigation">
+  <div class="animated fadeIn backyard-article-create">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="pedia-navigation">
 					<span class="item active">
 						<span v-show="!article.editMode">新建文章</span>
 						<span v-show="article.editMode">编辑文章</span>
 					</span>
-				</div>
-			</div>
-		</div>
+        </div>
+      </div>
+    </div>
 
-		<div class="row">
-			<div class="col-md-12 text-right">
-				<button class="btn btn-sm btn-primary mr5" @click.stop.prevent="showOutline = !showOutline">
+    <div class="row">
+      <div class="col-md-12 text-right">
+        <button class="btn btn-sm btn-primary mr5" @click.stop.prevent="showOutline = !showOutline">
 					<span v-show="!showOutline">
 						展开基本信息
 					</span>
-					<span v-show="showOutline">
+          <span v-show="showOutline">
 						收起基本信息
 					</span>
-				</button>
-				<CreateSaveButton :entity="article" :callback="save"/>
-			</div>
-		</div>
+        </button>
+        <CreateSaveButton :entity="article" :callback="save"/>
+      </div>
+    </div>
 
 
-		<LoadingFrame :loading="article.detailLoading">
-			<NbExpanding>
-				<div class="bg-white br4 p20 mt10" v-show="showOutline">
-					<div class="row">
+    <LoadingFrame :loading="article.detailLoading">
+      <NbExpanding>
+        <div class="bg-white br4 p20 mt10" v-show="showOutline">
+          <div class="row">
 
-						<div class="col-md-6">
+            <div class="col-md-6">
 
-							<div class="row" v-validator="article.validatorSchema.title.error">
-								<label class="col-md-12 control-label mt5 compulsory">文章名称</label>
-								<div class="col-md-12 validate">
-									<input type="text" class="form-control" v-model="article.title">
-								</div>
-							</div>
+              <div class="row">
+                <label class="col-md-12 control-label mt5 compulsory">文章名称</label>
+                <div class="col-md-12">
+                  <input type="text" class="form-control" v-model="article.title">
+                </div>
+              </div>
 
-							<div class="row mt10">
-								<label class="col-md-12 control-label mt5">摘要(最长500字，如未填写则自动截取正文前200字)</label>
-								<div class="col-md-12">
+              <div class="row mt10">
+                <label class="col-md-12 control-label mt5">摘要(最长500字，如未填写则自动截取正文前200字)</label>
+                <div class="col-md-12">
                   <textarea class="form-control" v-model="article.digest" rows="6" style="resize: none"></textarea>
-								</div>
-							</div>
+                </div>
+              </div>
 
-							<div class="row mt10">
-								<label class="col-md-12 control-label mt5">标签</label>
-								<div class="col-md-12">
-									<NbTags v-if="article.editMode && article.userUuid" :Clazz="ArticleTag" :tags="shortTags" :max="5"
-									        :taggable="false"
-									        :initFilter="{'orderSort':'DESC','userUuid': article.userUuid}"/>
-									<NbTags v-if="!article.editMode" :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"
-									        :initFilter="{'orderSort':'DESC','userUuid': user.uuid}"/>
-								</div>
-							</div>
+              <div class="row mt10">
+                <label class="col-md-12 control-label mt5">标签</label>
+                <div class="col-md-12">
+                  <NbTags v-if="article.editMode && article.userUuid" :Clazz="ArticleTag" :tags="shortTags" :max="5"
+                          :taggable="false"
+                          :initFilter="{'orderSort':'DESC','userUuid': article.userUuid}"/>
+                  <NbTags v-if="!article.editMode" :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"
+                          :initFilter="{'orderSort':'DESC','userUuid': user.uuid}"/>
+                </div>
+              </div>
 
-						</div>
+            </div>
 
-						<div class="col-md-6">
+            <div class="col-md-6">
 
-							<div class="row">
-								<label class="col-md-12 control-label mt5">封面图片</label>
-								<div class="col-md-12">
-									<NbTank :tank="article.posterTank"/>
-								</div>
-							</div>
+              <div class="row">
+                <label class="col-md-12 control-label mt5">封面图片</label>
+                <div class="col-md-12">
+                  <NbTank :tank="article.posterTank"/>
+                </div>
+              </div>
 
-							<div class="row">
-								<div class="col-md-6 mt10">
-									<div class="row">
-										<label class="col-md-12 control-label mt5">私有文章(文章仅自己可见)</label>
-										<div class="col-md-12">
-											<NbSwitcher v-model="article.privacy" type="primary"></NbSwitcher>
-										</div>
-									</div>
-								</div>
+              <div class="row">
+                <div class="col-md-6 mt10">
+                  <div class="row">
+                    <label class="col-md-12 control-label mt5">私有文章(文章仅自己可见)</label>
+                    <div class="col-md-12">
+                      <NbSwitcher v-model="article.privacy" type="primary"></NbSwitcher>
+                    </div>
+                  </div>
+                </div>
 
-								<div class="col-md-6 mt10">
-									<div class="row">
-										<label class="col-md-12 control-label mt5">接受通知(邮箱验证后会收到评论通知)</label>
-										<div class="col-md-12">
-											<NbSwitcher v-model="article.needNotify" type="primary"></NbSwitcher>
-										</div>
-									</div>
-								</div>
+                <div class="col-md-6 mt10">
+                  <div class="row">
+                    <label class="col-md-12 control-label mt5">接受通知(邮箱验证后会收到评论通知)</label>
+                    <div class="col-md-12">
+                      <NbSwitcher v-model="article.needNotify" type="primary"></NbSwitcher>
+                    </div>
+                  </div>
+                </div>
 
-								<div class="col-md-6 mt10">
-									<div class="row" v-if="!article.editMode">
-										<label class="col-md-12 control-label mt5">Markdown格式</label>
-										<div class="col-md-12 ">
-											<NbSwitcher v-model="article.isMarkdown" type="primary"></NbSwitcher>
-										</div>
-									</div>
-								</div>
-							</div>
-
-						</div>
-
-					</div>
-
-				</div>
-			</NbExpanding>
+                <div class="col-md-6 mt10">
+                  <div class="row" v-if="!article.editMode">
+                    <label class="col-md-12 control-label mt5">Markdown格式</label>
+                    <div class="col-md-12 ">
+                      <NbSwitcher v-model="article.isMarkdown" type="primary"></NbSwitcher>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
 
-			<div class="row">
-				<div class="col-md-12 mt10" v-if="!article.isMarkdown">
-					<NbEditor v-model="nbEditorContent"/>
-				</div>
-				<div class="col-md-12 mt10" v-if="article.isMarkdown">
-					<NbMarkdown v-model="nbMarkdownContent" v-on:htmlChange="nbHtmlContent = $event"/>
-				</div>
-			</div>
+              <div class="row mt15" v-if="article.errorMessage">
+                <div class="col-md-12">
+                  <div class="alert alert-danger">
+                    {{article.errorMessage}}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </NbExpanding>
 
 
-		</LoadingFrame>
-	</div>
+      <div class="row">
+        <div class="col-md-12 mt10" v-if="!article.isMarkdown">
+          <NbEditor v-model="nbEditorContent"/>
+        </div>
+        <div class="col-md-12 mt10" v-if="article.isMarkdown">
+          <NbMarkdown v-model="nbMarkdownContent" v-on:htmlChange="nbHtmlContent = $event"/>
+        </div>
+      </div>
+
+
+    </LoadingFrame>
+  </div>
 </template>
 <script>
 
-  import { simpleDateTime, str2Date } from '../../common/filter/time'
-  import { Notification, MessageBox, DatePicker } from 'element-ui'
+  import {simpleDateTime, str2Date} from '../../common/filter/time'
+  import {Notification, MessageBox, DatePicker} from 'element-ui'
   import Article from '../../common/model/article/Article'
   import NbSlidePanel from '../../common/widget/NbSlidePanel.vue'
   import NbEditor from '../../common/widget/NbEditor.vue'
@@ -139,7 +148,7 @@
 
   export default {
 
-    data () {
+    data() {
       return {
         ArticleTag,
         shortTags: [],
@@ -170,7 +179,7 @@
     watch: {},
     methods: {
 
-      save () {
+      save() {
         let that = this
         let tagsUuidArr = []
         this.article.errorMessage = null
@@ -201,10 +210,12 @@
           this.article.digest = articleContent.slice(0, 200)
         }
 
+        console.log("开始验证啦！")
         if (!this.article.validate()) {
           this.showOutline = true
           return
         }
+        console.log("验证工作结束了。")
         this.article.httpSave(function (response) {
           Notification.success({
             message: that.article.editMode ? '修改文章成功！' : '创建文章成功！'
@@ -213,7 +224,7 @@
           that.$router.push('/by/article/detail/' + that.article.uuid)
         })
       },
-      fetchDetail () {
+      fetchDetail() {
         if (this.article.isMarkdown) {
           this.nbMarkdownContent = this.article.markdown
           this.nbHtmlContent = this.article.html
@@ -226,7 +237,7 @@
 
       }
     },
-    mounted () {
+    mounted() {
       let that = this
       this.article.uuid = this.$store.state.route.params.uuid
       if (this.article.uuid) {
@@ -240,7 +251,7 @@
 
       }
     },
-    beforeRouteLeave (to, from, next) {
+    beforeRouteLeave(to, from, next) {
       if (from.name === 'ArticleCreate') {
         if (this.localStorageStatus) {
           this.article.tags = JSON.stringify(this.shortTags)
@@ -261,18 +272,17 @@
   }
 
 
-
 </script>
 <style lang="less" rel="stylesheet/less">
-	@import "../../assets/css/global/variables";
+  @import "../../assets/css/global/variables";
 
-	.backyard-article-create {
-		.pack-up {
-			color: @brand-primary;
-			border-radius: 0 0 5px 5px;
-			border-left: 1px solid @brand-primary;
-			border-right: 1px solid @brand-primary;
-			border-bottom: 1px solid @brand-primary;
-		}
-	}
+  .backyard-article-create {
+    .pack-up {
+      color: @brand-primary;
+      border-radius: 0 0 5px 5px;
+      border-left: 1px solid @brand-primary;
+      border-right: 1px solid @brand-primary;
+      border-bottom: 1px solid @brand-primary;
+    }
+  }
 </style>

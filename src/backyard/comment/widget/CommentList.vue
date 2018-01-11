@@ -24,7 +24,15 @@
 				<div>
 					<div class="comment-box" v-for="commentFloor in pager.data">
 						<div>
-							<img class="img-circle img-sm pull-left mr10" src="../../../assets/img/avatar.png" alt="">
+
+              <div class="pull-left mr10">
+                <a :href="'/by/user/detail/'+commentFloor.userUuid" v-if="commentFloor.userUuid" title="站内用户">
+                  <img v-if="commentFloor.avatarUrl" class="img-circle img-sm" :src="commentFloor.avatarUrl+'?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200'"/>
+                  <img class="img-circle img-sm" src="../../../assets/img/avatar.png" v-else />
+                </a>
+                <img class="img-circle img-sm" src="../../../assets/img/avatar.png" v-else />
+              </div>
+
 							<div>
 								<p class="mb0">
                   <span class="text-primary" v-if="commentFloor.userUuid">
