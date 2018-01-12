@@ -13,6 +13,11 @@
 		<!--编辑，权限设置-->
 		<div class="row">
 			<div class="col-lg-8 col-lg-offset-2 text-right mb10">
+
+				<a class="btn btn-primary btn-sm" :href="'/home/article/'+ article.uuid">
+					<i class="fa fa-arrow-right"></i>
+					前台文章
+				</a>
 				<router-link class="btn btn-primary btn-sm" :to="'/by/article/edit/'+ article.uuid">
 					<i class="fa fa-pencil"></i>
 					编辑文章
