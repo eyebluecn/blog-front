@@ -8,7 +8,7 @@
     <div class="media">
       <div v-if="article.posterUrl" class="pull-right">
         <router-link :to="'/by/article/detail/' + article.uuid">
-          <img :src="article.posterUrl + '?imageProcess=resize&imageResizeM=fill&imageResizeW=100&imageResizeH=100'"
+          <img :src="article.posterUrl + '?imageProcess=resize&imageResizeM=fit&imageResizeW=100'"
                alt="">
         </router-link>
       </div>
