@@ -3,6 +3,7 @@ import Vue from 'vue'
 import {Notification} from 'element-ui'
 import {lowerCamel, lowerSlash, startWith, toPlural} from '../../filter/str'
 import {str2Date} from '../../filter/time'
+import {functionName} from "../../util/Utils";
 
 export default class Base {
 
@@ -543,7 +544,6 @@ export default class Base {
         }
 
 
-
         Notification.error({
           message: '您已退出，请登录后再访问。'
         })
@@ -692,6 +692,11 @@ export default class Base {
   getTAG() {
 
     let className = this.constructor.name
+
+    //IE无法直接通过this.constructor.name获取到相应名称
+    if (!className) {
+      className = functionName(this.constructor)
+    }
 
     return lowerCamel(className)
   }
