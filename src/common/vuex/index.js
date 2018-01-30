@@ -21,8 +21,8 @@ const state = {
   version: {
     identifier: 'cn.eyeblue.blog',
     platform: 'WEB',
-    versionCode: '2',
-    versionName: '1.0.2'
+    versionCode: '3',
+    versionName: '1.0.3'
   },
 
   //当前用户，即使没有登录依然有游客的用户在。
