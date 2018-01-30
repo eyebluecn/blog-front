@@ -1,5 +1,4 @@
-import {simpleDateTime} from '../../filter/time'
-import {MessageBox, Notification} from 'element-ui'
+import {MessageBox} from 'element-ui'
 import UserInputSelection from '../../../backyard/user/widget/UserInputSelection'
 import BaseEntity from '../base/BaseEntity'
 import Filter from '../base/Filter'
@@ -129,9 +128,11 @@ export default class Article extends BaseEntity {
       return false
     }
 
-    if (!this.markdown || this.markdown.length > 2147483647) {
-      this.errorMessage = "文章内容必填且不超过2147483647字";
-      return false
+    if (this.isMarkdown) {
+      if (!this.markdown || this.markdown.length > 2147483647) {
+        this.errorMessage = "文章内容必填且不超过2147483647字";
+        return false
+      }
     }
 
     if (!this.html || this.html.length > 2147483647) {

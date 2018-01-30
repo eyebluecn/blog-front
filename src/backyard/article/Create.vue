@@ -116,11 +116,12 @@
 
 
       <div class="row">
-        <div class="col-md-12 mt10" v-if="!article.isMarkdown">
-          <NbEditor v-model="nbEditorContent"/>
-        </div>
-        <div class="col-md-12 mt10" v-if="article.isMarkdown">
+
+        <div class="col-md-12 mt10" v-show="article.isMarkdown">
           <NbMarkdown v-model="nbMarkdownContent" v-on:htmlChange="nbHtmlContent = $event"/>
+        </div>
+        <div class="col-md-12 mt10" v-show="!article.isMarkdown">
+          <NbEditor v-model="nbEditorContent"/>
         </div>
       </div>
 
@@ -130,7 +131,6 @@
 </template>
 <script>
 
-  import {simpleDateTime, str2Date} from '../../common/filter/time'
   import {Notification, MessageBox, DatePicker} from 'element-ui'
   import Article from '../../common/model/article/Article'
   import NbSlidePanel from '../../common/widget/NbSlidePanel.vue'
