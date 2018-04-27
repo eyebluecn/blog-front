@@ -17,6 +17,9 @@ export default class Article extends BaseEntity {
     //标题
     this.title = null
 
+    //路径
+    this.path = null
+
     //标签
     this.tags = null
 
@@ -102,6 +105,7 @@ export default class Article extends BaseEntity {
   getForm() {
     return {
       title: this.title,
+      path: this.path,
       tags: this.tags,
       posterTankUuid: this.posterTankUuid,
       posterUrl: this.posterUrl,

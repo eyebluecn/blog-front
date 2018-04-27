@@ -23,7 +23,8 @@
           <div class="media">
             <div class="pull-left">
               <router-link :to="'/by/user/detail/'+u.uuid">
-                <img class="img-circle img-md" :src="u.getAvatarUrl()">
+                <img class="img-circle img-md"
+                     :src="u.getAvatarUrl()+'?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200'">
               </router-link>
             </div>
             <div class="media-body">

@@ -40,6 +40,14 @@
                 </div>
               </div>
 
+              <div class="row">
+                <label class="col-md-12 control-label mt5 compulsory">访问路径（只允许数字，小写字母，"-"和"_"）</label>
+                <div class="col-md-12">
+                  <input type="text" class="form-control" v-model="article.path">
+                </div>
+              </div>
+
+
               <div class="row mt10">
                 <label class="col-md-12 control-label mt5">摘要(最长500字，如未填写则自动截取正文前200字)</label>
                 <div class="col-md-12">
@@ -131,7 +139,7 @@
 </template>
 <script>
 
-  import {Notification, MessageBox, DatePicker} from 'element-ui'
+  import {DatePicker, Notification} from 'element-ui'
   import Article from '../../common/model/article/Article'
   import NbSlidePanel from '../../common/widget/NbSlidePanel.vue'
   import NbEditor from '../../common/widget/NbEditor.vue'
@@ -145,6 +153,7 @@
   import LoadingFrame from '../widget/LoadingFrame.vue'
   import ArticleTag from '../../common/model/tag/Tag'
   import $ from 'jquery'
+  import {simpleDate} from "../../common/filter/time";
 
   export default {
 
@@ -237,7 +246,7 @@
 
       }
     },
-    mounted() {
+    mounted: function () {
       let that = this
       this.article.uuid = this.$store.state.route.params.uuid
       if (this.article.uuid) {
@@ -248,6 +257,11 @@
           this.article.render(JSON.parse(window.localStorage.getItem('blogArticle')))
           this.fetchDetail()
         }
+        //新建的时候是用日期作为path
+        if (!this.article.path) {
+          this.article.path = simpleDate(new Date())
+        }
+
 
       }
     },

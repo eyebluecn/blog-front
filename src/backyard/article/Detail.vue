@@ -14,7 +14,7 @@
 		<div class="row">
 			<div class="col-lg-8 col-lg-offset-2 text-right mb10">
 
-				<a class="btn btn-primary btn-sm" :href="'/home/article/'+ article.uuid">
+        <a class="btn btn-primary btn-sm" :href="'/a/'+article.user.username+'/'+ article.path">
 					<i class="fa fa-arrow-right"></i>
 					前台文章
 				</a>
@@ -71,14 +71,9 @@
 	</div>
 </template>
 <script>
-  import { MessageBox, Notification as NotificationBox } from 'element-ui'
   import Article from '../../common/model/article/Article'
-  import NbSlidePanel from '../../common/widget/NbSlidePanel.vue'
-  import NbExpanding from '../../common/widget/NbExpanding.vue'
-  import NbBtnDropdown from '../../common/widget/NbBtnDropdown.vue'
   import ArticleInfo from './widget/ArticleInfo'
   import LoadingFrame from '../widget/LoadingFrame'
-  import CreateSaveButton from '../widget/CreateSaveButton.vue'
   import NbMarkdownPreview from '../../common/widget/markdown/NbMarkdownPreview'
   import TagCell from '../tag/widget/TagCell'
   import CommentList from '../comment/widget/CommentList'
