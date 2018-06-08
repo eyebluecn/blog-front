@@ -33,21 +33,6 @@
       </div>
 
 
-      <div class="col-lg-8 col-lg-offset-2 mt20">
-        <h2>NbTank</h2>
-
-        <div>
-          <NbTank :preview="true" :tank="tank"/>
-        </div>
-
-        <h2>NbTanks</h2>
-        <div>
-          <NbTanks :tanks="tanks" :maxNum="3"/>
-        </div>
-
-
-      </div>
-
     </div>
 
   </div>

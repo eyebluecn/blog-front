@@ -22,9 +22,19 @@
           </div>
 
           <div class="row mt10" v-validator="currentUser.validatorSchema.username.error">
-            <label class="col-md-2 control-label mt5 compulsory">用户名</label>
+            <label class="col-md-2 control-label mt5 compulsory">用户名<i class="fa fa-question-circle"
+                                                                       title="出现在url路径中，只能包含数字，小写字母，'-'和'_'"></i>
+            </label>
             <div class="col-md-10 validate">
               <input type="text" class="form-control" v-model="currentUser.username">
+            </div>
+          </div>
+
+          <div class="row mt10" v-validator="currentUser.validatorSchema.nickname.error">
+            <label class="col-md-2 control-label mt5 compulsory">昵称<i class="fa fa-question-circle"
+                                                                      title="作为作者名用于显示"></i></label>
+            <div class="col-md-10 validate">
+              <input type="text" class="form-control" v-model="currentUser.nickname">
             </div>
           </div>
 
@@ -110,8 +120,8 @@
 </template>
 
 <script>
-  import { Notification } from 'element-ui'
-  import { FeatureType } from '../../common/model/feature/FeatureType'
+  import {Notification} from 'element-ui'
+  import {FeatureType} from '../../common/model/feature/FeatureType'
   import NbRadio from '../../common/widget/NbRadio.vue'
   import NbTank from '../../common/widget/NbTank.vue'
   import CreateSaveButton from '../widget/CreateSaveButton'
@@ -119,7 +129,7 @@
 
   export default {
     name: 'create',
-    data () {
+    data() {
       return {
         FeatureType,
         repassword: null,
@@ -134,7 +144,7 @@
       CreateSaveButton
     },
     methods: {
-      save () {
+      save() {
         let that = this
         if (!this.currentUser.editMode && this.currentUser.password !== this.repassword) {
           Notification.error('两次密码输入不一致')
@@ -149,19 +159,19 @@
         })
       }
     },
-    created () {
+    created() {
       if (!this.user.hasPermission(FeatureType.USER_MANAGE)) {
         this.breadcrumbs.splice(0, this.breadcrumbs.length)
         this.breadcrumbs.push({
           name: 'UserDetail',
           title: '用户详情'
-        },{
+        }, {
           name: 'UserEdit',
           title: '编辑资料'
         })
       }
     },
-    mounted () {
+    mounted() {
       let that = this
       this.currentUser.errorMessage = null
       this.currentUser.uuid = this.$store.state.route.params.uuid

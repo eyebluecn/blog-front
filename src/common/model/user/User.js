@@ -1,10 +1,10 @@
 import BaseEntity from '../base/BaseEntity'
 import Filter from '../base/Filter'
 import $ from 'jquery'
-import { readLocalStorage, removeLocalStorage, saveToLocalStorage } from '../../util/Utils'
+import {readLocalStorage, removeLocalStorage, saveToLocalStorage} from '../../util/Utils'
 import Tank from '../tank/Tank'
-import { FeatureType } from '../feature/FeatureType'
-import { Notification } from 'element-ui'
+import {FeatureType} from '../feature/FeatureType'
+import {Notification} from 'element-ui'
 
 let Gender = {
   UNKNOWN: 'UNKNOWN',
@@ -57,6 +57,7 @@ export default class User extends BaseEntity {
     super(args)
 
     this.username = null
+    this.nickname = null
     this.password = null
     this.role = Role.GUEST
     this.email = null
@@ -102,6 +103,11 @@ export default class User extends BaseEntity {
         rules: [{required: true, message: '用户名必填'}],
         error: null
       },
+      nickname: {
+        rules: [{required: true, message: '昵称必填'}],
+        error: null
+      },
+
       password: {
         rules: [{required: true, message: '密码必填'}],
         error: null
@@ -226,6 +232,7 @@ export default class User extends BaseEntity {
 
     return {
       username: this.username,
+      nickname: this.nickname,
       password: this.password,
       role: this.role,
       email: this.email,
