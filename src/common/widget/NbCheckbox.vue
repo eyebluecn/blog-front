@@ -1,6 +1,6 @@
 <template>
   <div class="nb-check-checkbox">
-    <input ref="check" type="checkbox" :value="val">
+    <input ref="check" type="checkbox" :disabled="disabled" :value="val">
   </div>
 </template>
 
@@ -27,6 +27,11 @@
         type: [String, Number, Boolean],
         required: false,
         'default': null
+      },
+      disabled: {
+        type: Boolean,
+        required: false,
+        "default": false
       }
     },
     computed: {

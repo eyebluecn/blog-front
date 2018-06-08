@@ -96,10 +96,6 @@
 
 					return true;
 				}
-			},
-			callback: {
-				type: Function,
-				required: true
 			}
 		},
 		computed: {
@@ -231,9 +227,7 @@
 
 			},
 			refresh(){
-				if (typeof this.callback === "function") {
-					this.callback();
-				}
+				this.$emit("change")
 			}
 		},
 		mounted(){

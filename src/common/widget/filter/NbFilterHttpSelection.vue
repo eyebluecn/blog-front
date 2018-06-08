@@ -39,7 +39,7 @@
 
 
 						<div class="col-xs-12 mt20">
-							<NbPager :pager="pager" :callback="refresh"></NbPager>
+							<NbPager :pager="pager" @change="refresh"></NbPager>
 						</div>
 
 					</div>
@@ -81,9 +81,11 @@
           return true
         }
       },
-      callback: {
-        type: Function,
-        required: false
+      //TODO:不可选择时，需要良好的展现。
+      disabled: {
+        type: Boolean,
+        required: false,
+        "default": false
       }
     },
     components: {
@@ -96,8 +98,7 @@
         this.activeItem.render(new (this.filter.Clazz)())
 
         this.filter.value = null
-
-        this.callback && this.callback()
+        this.$emit("change");
 
       },
       clickItem (item) {
@@ -106,8 +107,7 @@
         this.filter.value = this.activeItem.uuid
 
         this.show = false
-
-        this.callback && this.callback()
+        this.$emit("change");
       },
       search () {
         this.pager.page = 0

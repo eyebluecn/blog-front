@@ -34,9 +34,11 @@
           return true
         }
       },
-      callback: {
-        type: Function,
-        required: false
+      //TODO:不可选择时，需要良好的展现。
+      disabled: {
+        type: Boolean,
+        required: false,
+        "default": false
       }
     },
     components: {
@@ -47,12 +49,10 @@
       'activeItem.uuid' (newVal, oldVal) {
         if (newVal) {
           this.filter.value = this.activeItem.uuid
-
-          this.callback && this.callback()
+          this.$emit("change");
         } else {
           this.filter.value = null
-
-          this.callback && this.callback()
+          this.$emit("change");
         }
       },
       'filter.value'(newVal, oldVal) {

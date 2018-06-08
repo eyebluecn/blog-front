@@ -2,7 +2,7 @@
   <span class="nb-sort" v-show="filter.visible">
 
     <span class="sort-main">
-      <button class="btn" :class="{'btn-info':filter.value !== null,'btn-default':filter.value === null}"
+      <button class="btn" :class="{'btn-info':filter.value !== null,'btn-default':filter.value === null}" :disabled="disabled"
               @click="change">
         <span>
           <i class="fa fa-check-square-o" v-show="filter.value === true"></i>
@@ -10,7 +10,7 @@
         </span>
         {{filter.name}}
       </button>
-      <i class="fa fa-times-circle-o sort-close" v-show="filter.value !== null" @click="clear"></i>
+      <i class="fa fa-times-circle-o sort-close" v-show="filter.value !== null  && !disabled" @click="clear"></i>
     </span>
     <span>&nbsp;</span>
   </span>
@@ -40,10 +40,11 @@
 					return true;
 				}
 			},
-			callback: {
-				type: Function,
-				required: false
-			}
+      disabled: {
+        type: Boolean,
+        required: false,
+        "default": false
+      }
 		},
 		methods: {
 			change(){
@@ -53,12 +54,12 @@
 					this.filter.value = this.filter.value !== true;
 				}
 
-				this.callback && this.callback();
+				this.$emit("change");
 			},
 			clear(){
 				this.filter.value = null;
 
-				this.callback && this.callback();
+        this.$emit("change");
 			}
 		}
 	}

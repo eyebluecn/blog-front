@@ -2392,8 +2392,9 @@
 							// 得不到html，试图获取text
 							pasteHtml = data.getData('text/plain');
 							if (pasteHtml) {
-								// 替换特殊字符
-								pasteHtml = pasteHtml.replace(/[ ]/g, '&nbsp;')
+								// 替换特殊字符 李爽处理。 作者有毛病吗？ 直接替换成 &nbsp;了事儿？
+								//pasteHtml = pasteHtml.replace(/[ ]/g, '&nbsp;')
+								pasteHtml = pasteHtml.replace(/[ ]/g, ' ')
 									.replace(/</g, '&lt;')
 									.replace(/>/g, '&gt;')
 									.replace(/\n/g, '</p><p>');
@@ -3242,6 +3243,7 @@
 			// 'value': 'title'
 			'#880000': '暗红色',
 			'#800080': '紫色',
+			'#C81E4A': '设计学院红',
 			'#ff0000': '红色',
 			'#ff00ff': '鲜粉色',
 			'#000080': '深蓝色',
@@ -3252,6 +3254,7 @@
 			'#808000': '橄榄色',
 			'#00ff00': '浅绿色',
 			'#ffcc00': '橙黄色',
+			'#656464': '深灰色',
 			'#808080': '灰色',
 			'#c0c0c0': '银色',
 			'#000000': '黑色',

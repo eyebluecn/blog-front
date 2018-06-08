@@ -6,7 +6,7 @@
 				<span class="btn btn-primary btn-sm btn-file">
 					<slot name="button">
 						<i class="fa fa-folder-open-o"></i>
-						<span>选择文件</span>
+						<span>{{hint}}</span>
 					</slot>
 					<input ref="refFile" type="file" name="avatar" @change.prevent.stop="fileChanged"/>
 				</span>
@@ -80,10 +80,8 @@
 
 <script>
 
-  import {startWith, endWith, getExtension, containStr} from '../../common/filter/str'
   import Tank from '../../common/model/tank/Tank'
-  import $ from 'jquery'
-  import {MessageBox, Notification} from 'element-ui'
+  import {MessageBox} from 'element-ui'
   import NbExpanding from './NbExpanding.vue'
 
   export default {
@@ -115,6 +113,11 @@
       uploadSuccessCallback: {
         type: Function,
         required: false
+      },
+      hint: {
+        type: String,
+        required: false,
+        "default": "选择文件"
       }
 
     },

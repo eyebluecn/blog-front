@@ -36,10 +36,12 @@
 					return true;
 				}
 			},
-			callback: {
-				type: Function,
-				required: false
-			}
+      //TODO:不可选择时，需要良好的展现。
+      disabled: {
+        type: Boolean,
+        required: false,
+        "default": false
+      }
 		},
 		watch: {
 			"date"(newVal, oldVal){
@@ -50,18 +52,14 @@
 					if (this.filter.value !== simpleDateTime(newVal)) {
 						this.filter.value = simpleDateTime(newVal);
 
-						if (typeof this.callback === "function") {
-							this.callback();
-						}
+            this.$emit("change");
 					}
 				} else {
 
 					//自己主动变化
 					if (this.filter.value) {
 						this.filter.value = null;
-						if (typeof this.callback === "function") {
-							this.callback();
-						}
+            this.$emit("change");
 					}
 				}
 
@@ -81,9 +79,7 @@
 				this.filter.value = null;
 
 
-				if (typeof this.callback === "function") {
-					this.callback();
-				}
+        this.$emit("change");
 			}
 		},
 		mounted(){
