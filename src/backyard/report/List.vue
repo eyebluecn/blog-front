@@ -11,7 +11,7 @@
 
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2">
-        <NbFilter :pager="pager" :callback="search"/>
+        <NbFilter :filters="pager.filters" :callback="search"/>
 
         <div v-for="report in pager.data">
           <ReportCell :report="report" :delCallback="refresh"/>

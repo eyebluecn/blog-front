@@ -10,7 +10,7 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-8 col-lg-offset-2">
-				<NbFilter :pager="pager" :callback="search">
+				<NbFilter :filters="pager.filters" :callback="search">
 					<router-link class="btn btn-primary btn-sm" to="/by/article/create">
 						<i class="fa fa-plus"></i>
 						创建文章

@@ -45,7 +45,7 @@ export default class Pager extends Base {
       if (Clazz.prototype.getFilters) {
 
         //这个地方的Filter不能用同一个，会出问题的。
-        this.FILTERS = Clazz.prototype.getFilters()
+        this.filters = Clazz.prototype.getFilters()
 
       } else {
         console.error('The Clazz MUST define a prototype method named \'getFilters\'')
@@ -59,19 +59,19 @@ export default class Pager extends Base {
 
   //重置Filter。
   resetFilter () {
-    for (let i = 0; i < this.FILTERS.length; i++) {
-      let filter = this.FILTERS[i]
+    for (let i = 0; i < this.filters.length; i++) {
+      let filter = this.filters[i]
       filter.reset()
     }
   };
 
   //手动设置过滤器的值
   setFilterValue (key, value) {
-    if (!this.FILTERS || !this.FILTERS.length) {
+    if (!this.filters || !this.filters.length) {
       return
     }
-    for (let i = 0; i < this.FILTERS.length; i++) {
-      let filter = this.FILTERS[i]
+    for (let i = 0; i < this.filters.length; i++) {
+      let filter = this.filters[i]
       if (filter.key === key) {
         filter.putValue(value)
       }
@@ -80,13 +80,13 @@ export default class Pager extends Base {
 
   //根据key来删除某个Filter
   removeFilter (key) {
-    if (!this.FILTERS || !this.FILTERS.length) {
+    if (!this.filters || !this.filters.length) {
       return
     }
-    for (let i = 0; i < this.FILTERS.length; i++) {
-      let filter = this.FILTERS[i]
+    for (let i = 0; i < this.filters.length; i++) {
+      let filter = this.filters[i]
       if (filter.key === key) {
-        this.FILTERS.splice(i, 1)
+        this.filters.splice(i, 1)
         break
       }
     }
@@ -94,11 +94,11 @@ export default class Pager extends Base {
 
   //隐藏某个Filter，实际上我们可以根据这个filter来筛选，只不过不出现在NbFilter中而已。
   showFilter (key, visible = true) {
-    if (!this.FILTERS || !this.FILTERS.length) {
+    if (!this.filters || !this.filters.length) {
       return
     }
-    for (let i = 0; i < this.FILTERS.length; i++) {
-      let filter = this.FILTERS[i]
+    for (let i = 0; i < this.filters.length; i++) {
+      let filter = this.filters[i]
       if (filter.key === key) {
         filter.visible = visible
         break
@@ -107,22 +107,22 @@ export default class Pager extends Base {
   };
 
   showAllFilter (visible = true) {
-    if (!this.FILTERS || !this.FILTERS.length) {
+    if (!this.filters || !this.filters.length) {
       return
     }
-    for (let i = 0; i < this.FILTERS.length; i++) {
-      let filter = this.FILTERS[i]
+    for (let i = 0; i < this.filters.length; i++) {
+      let filter = this.filters[i]
       filter.visible = visible
     }
   }
 
   //根据一个key来获取某个filter
   getFilter (key) {
-    if (!this.FILTERS || !this.FILTERS.length) {
+    if (!this.filters || !this.filters.length) {
       return null
     }
-    for (let i = 0; i < this.FILTERS.length; i++) {
-      let filter = this.FILTERS[i]
+    for (let i = 0; i < this.filters.length; i++) {
+      let filter = this.filters[i]
       if (filter.key === key) {
         return filter
       }
@@ -147,12 +147,12 @@ export default class Pager extends Base {
       page: this.page,
       pageSize: this.pageSize
     }
-    if (!this.FILTERS || !this.FILTERS.length) {
+    if (!this.filters || !this.filters.length) {
       return params
     }
 
-    for (let i = 0; i < this.FILTERS.length; i++) {
-      let filter = this.FILTERS[i]
+    for (let i = 0; i < this.filters.length; i++) {
+      let filter = this.filters[i]
 
       if (filter.getParam() !== null && filter.getParam() !== '') {
         params[filter.key] = filter.getParam()
@@ -175,8 +175,8 @@ export default class Pager extends Base {
 
   }
 
-  //该方法是在地址栏添加上query参数，参数就是FILTERS中的key和value.
-  //同时地址栏上有的参数也会自动读取到FILTERS中去
+  //该方法是在地址栏添加上query参数，参数就是filters中的key和value.
+  //同时地址栏上有的参数也会自动读取到filters中去
   //因此，启用该方法后返回时可以停留在之前的页码中。
   enableHistory () {
     this.history = true
@@ -198,8 +198,8 @@ export default class Pager extends Base {
     }
 
     //try to fill the filters by query.
-    for (let i = 0; i < this.FILTERS.length; i++) {
-      let filter = this.FILTERS[i]
+    for (let i = 0; i < this.filters.length; i++) {
+      let filter = this.filters[i]
 
       if (typeof query[filter.key] !== 'undefined') {
 
@@ -242,7 +242,7 @@ export default class Pager extends Base {
 
   };
 
-  //use default FILTERS as parameters..
+  //use default filters as parameters..
   httpFastPage (successCallback, errorCallback) {
 
     if (!isInteger(this.page)) {
@@ -258,8 +258,8 @@ export default class Pager extends Base {
       pageSize: this.pageSize
     }
 
-    for (let i = 0; i < this.FILTERS.length; i++) {
-      let filter = this.FILTERS[i]
+    for (let i = 0; i < this.filters.length; i++) {
+      let filter = this.filters[i]
 
       if (filter.getParam() !== null && filter.getParam() !== '') {
         params[filter.key] = filter.getParam()

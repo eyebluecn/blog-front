@@ -21,7 +21,7 @@
           <div class="row">
 
             <div class="col-xs-12">
-              <NbFilter :filters="pager.FILTERS" @change="search"></NbFilter>
+              <NbFilter :filters="pager.filters" @change="search"></NbFilter>
             </div>
 
             <div class="col-xs-12">
