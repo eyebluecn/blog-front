@@ -173,6 +173,6 @@ CodeMirror.defineMode("gherkin", function () {
   };
 });
 
-CodeMirror.defineMIME("text/x-feature", "gherkin");
+CodeMirror.defineMIME("text/x-core", "gherkin");
 
 });

@@ -57,7 +57,7 @@
   import CreateSaveButton from '../widget/CreateSaveButton'
 
   export default {
-    name: 'create',
+
     data() {
       return {
         user: this.$store.state.user,

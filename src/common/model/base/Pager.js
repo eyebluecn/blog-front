@@ -1,11 +1,15 @@
 import Base from './Base'
 import Vue from 'vue'
 import $ from 'jquery'
-import { isInteger } from '../../util/Utils'
+import {isInteger} from '../../util/Utils'
+import Filter from "./Filter";
+import {FilterType} from "./FilterType";
 
 export default class Pager extends Base {
 
-  constructor (Clazz, pageSize = 10, page = 0) {
+  static MAX_PAGE_SIZE = 500
+
+  constructor(Clazz, pageSize = 10, page = 0) {
     super()
 
     this.page = page
@@ -19,6 +23,12 @@ export default class Pager extends Base {
 
     //供nb-pager使用的
     this.offset = 3
+
+    //是否去服务器请求过。主要用来判断hasMore.
+    this.hasRequested = false
+
+    //是否正在加载更多，UI显示的时候需要区分是loading还是moreLoading
+    this.moreLoading = false
 
     //list attributes.
     if (Clazz && (Clazz.prototype instanceof Base)) {
@@ -52,21 +62,44 @@ export default class Pager extends Base {
       }
 
     } else {
-      console.error('You MUST specify a Clazz extended Base')
+      console.error('You MUST specify a Clazz extended Base', Clazz)
+    }
+
+  }
+
+  //hasMore
+  hasMore() {
+
+    if (this.hasRequested) {
+
+      return this.totalPages > this.page + 1;
+
+    } else {
+      return true
     }
 
   }
 
   //重置Filter。
-  resetFilter () {
+  resetFilter() {
     for (let i = 0; i < this.filters.length; i++) {
       let filter = this.filters[i]
       filter.reset()
     }
   };
 
+  //重置Filter。
+  resetSortFilters() {
+    for (let i = 0; i < this.filters.length; i++) {
+      let filter = this.filters[i]
+      if (filter.type === FilterType.SORT) {
+        filter.reset()
+      }
+    }
+  };
+
   //手动设置过滤器的值
-  setFilterValue (key, value) {
+  setFilterValue(key, value) {
     if (!this.filters || !this.filters.length) {
       return
     }
@@ -79,7 +112,7 @@ export default class Pager extends Base {
   };
 
   //根据key来删除某个Filter
-  removeFilter (key) {
+  removeFilter(key) {
     if (!this.filters || !this.filters.length) {
       return
     }
@@ -93,7 +126,7 @@ export default class Pager extends Base {
   };
 
   //隐藏某个Filter，实际上我们可以根据这个filter来筛选，只不过不出现在NbFilter中而已。
-  showFilter (key, visible = true) {
+  showFilter(key, visible = true) {
     if (!this.filters || !this.filters.length) {
       return
     }
@@ -106,7 +139,7 @@ export default class Pager extends Base {
     }
   };
 
-  showAllFilter (visible = true) {
+  showAllFilter(visible = true) {
     if (!this.filters || !this.filters.length) {
       return
     }
@@ -117,7 +150,7 @@ export default class Pager extends Base {
   }
 
   //根据一个key来获取某个filter
-  getFilter (key) {
+  getFilter(key) {
     if (!this.filters || !this.filters.length) {
       return null
     }
@@ -128,6 +161,20 @@ export default class Pager extends Base {
       }
     }
   };
+
+  //获取当前进行sort的那个filter
+  getCurrentSortFilter() {
+    if (!this.filters || !this.filters.length) {
+      return null
+    }
+    for (let i = 0; i < this.filters.length; i++) {
+      let filter = this.filters[i]
+      if (filter.type === FilterType.SORT && !filter.isEmpty()) {
+        return filter
+      }
+    }
+    return null
+  }
 
   //根据一个key来获取某个filter
   getFilterValue(key) {
@@ -163,11 +210,11 @@ export default class Pager extends Base {
   };
 
   //获取当前pager中的list
-  getList () {
+  getList() {
     return this.data
   }
 
-  isEmpty () {
+  isEmpty() {
     if (!this.data) {
       return true
     }
@@ -178,7 +225,7 @@ export default class Pager extends Base {
   //该方法是在地址栏添加上query参数，参数就是filters中的key和value.
   //同时地址栏上有的参数也会自动读取到filters中去
   //因此，启用该方法后返回时可以停留在之前的页码中。
-  enableHistory () {
+  enableHistory() {
     this.history = true
 
     let query = Vue.store.state.route.query
@@ -205,7 +252,7 @@ export default class Pager extends Base {
 
         let value = query[filter.key]
         //check类型的要转成boolean.
-        if (filter.type === filter.Type.CHECK) {
+        if (filter.type === FilterType.CHECK) {
           if (value === 'true') {
             value = true
           } else if (value === 'false') {
@@ -222,7 +269,7 @@ export default class Pager extends Base {
   }
 
   //you can specify the page url here.
-  httpCustomPage (url, params, successCallback, errorCallback) {
+  httpCustomPage(url, params, successCallback, errorCallback) {
     let that = this
     this.loading = true
     this.errorMessage = null
@@ -231,19 +278,21 @@ export default class Pager extends Base {
       history.replaceState({}, '', Vue.store.state.route.path + '?' + $.param(params))
     }
 
+    //是否请求过的标志位变更。
+    this.hasRequested = true
     this.httpGet(url, params, function (response) {
       that.loading = false
 
       that.render(response.data.data)
 
-      successCallback && successCallback(response)
+      that.safeCallback(successCallback)(response)
 
     }, errorCallback)
 
   };
 
   //use default filters as parameters..
-  httpFastPage (successCallback, errorCallback) {
+  httpFastPage(successCallback, errorCallback) {
 
     if (!isInteger(this.page)) {
       this.page = 0
@@ -266,22 +315,41 @@ export default class Pager extends Base {
       }
     }
 
+
     this.httpCustomPage(this.URL_PAGE, params, successCallback, errorCallback)
 
   };
 
   //use default url_page.
-  httpPage (params, successCallback, errorCallback) {
+  httpPage(params, successCallback, errorCallback) {
 
     this.httpCustomPage(this.URL_PAGE, params, successCallback, errorCallback)
 
   };
 
-  render (obj) {
+  render(obj) {
 
     super.render(obj)
     this.renderList('data', this.Clazz)
 
+  }
+
+
+  //加载更多，在h5页面中一般有用到
+  loadMore() {
+    let that = this
+    this.page += 1
+    let oldList = this.data
+    this.moreLoading = true
+    this.httpFastPage(function (response) {
+      that.data.unshift.apply(that.data, oldList)
+
+      that.moreLoading = false
+    }, function (response) {
+
+      that.defaultErrorHandler(response)
+      that.moreLoading = false;
+    })
   }
 
 }

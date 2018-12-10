@@ -1,5 +1,5 @@
 <template>
-	<div class="nb-pager-selection">
+  <div class="nb-pager-selection">
 
     <div class="title-area clearfix">
       <slot name="title"></slot>
@@ -21,7 +21,7 @@
           <div class="row">
 
             <div class="col-xs-12">
-              <NbFilter :filters="pager.filters" @change="search"></NbFilter>
+              <NbPlainFilter :filters="innerFilters" @change="search"></NbPlainFilter>
             </div>
 
             <div class="col-xs-12">
@@ -40,92 +40,118 @@
     </NbExpanding>
 
 
-	</div>
+  </div>
 </template>
 
 
 <script>
   import Pager from "../../common/model/base/Pager";
-  import NbFilter from './filter/NbFilter.vue'
+  import NbPlainFilter from './filter/NbPlainFilter'
   import NbPager from '../../common/widget/NbPager.vue'
   import NbExpanding from '../../common/widget/NbExpanding'
+  import {SortDirection} from "../model/base/SortDirection";
 
   export default {
-		data () {
-			return {
-				show: false
-			}
-		},
-		props: {
-			pager: {
-				type: Pager,
-				required: true
-			},
-			activeItem: {
-				type: Object,
-				required: true
-			},
-			initFilter: {
-				type: Object,
-				required: false
-			},
-			callback: {
-				type: Function,
-				required: false
-			}
+    data() {
+      return {
+        show: false
+      }
+    },
+    computed: {
 
-		},
-		components: {
-			NbFilter,
-			NbPager,
-			NbExpanding
-		},
-		watch: {
-			"activeItem.uuid"(newVal, oldVal){
-				newVal = parseInt(newVal);
-				oldVal = parseInt(oldVal);
+      innerFilters() {
+        if (this.filters === null || this.filters === undefined) {
+          return this.pager.filters;
+        } else {
+          return this.filters;
+        }
+      }
+    },
+    props: {
+      pager: {
+        type: Pager,
+        required: true
+      },
+      activeItem: {
+        type: Object,
+        required: true
+      },
+      //允许用户自定义筛选项
+      filters: {
+        type: Array | undefined | null,
+        required: false
+      },
+      initFilter: {
+        type: Object,
+        required: false
+      },
+      callback: {
+        type: Function,
+        required: false
+      }
 
-				if (newVal !== oldVal) {
-					this.show = false
-				}
-			}
-		},
-		computed: {},
-		methods: {
+    },
+    components: {
+      NbPlainFilter,
+      NbPager,
+      NbExpanding
+    },
+    watch: {
+      "activeItem.uuid"(newVal, oldVal) {
+        newVal = parseInt(newVal);
+        oldVal = parseInt(oldVal);
 
-			search(){
-				this.pager.page = 0;
-				this.refresh()
-			},
-			refresh(){
-				this.pager.httpFastPage();
-			}
-		},
-		mounted(){
-			if (this.initFilter) {
-				for (let key in this.initFilter) {
-					this.pager.setFilterValue(key, this.initFilter[key]);
-				}
-			}
+        if (newVal !== oldVal) {
+          this.show = false
+        }
+      }
+    },
+    methods: {
 
-			this.refresh();
-		}
-	}
+      search() {
+        this.pager.page = 0;
+        this.refresh()
+      },
+      refresh() {
+        this.pager.httpFastPage();
+      }
+    },
+    mounted() {
+
+      let hasInitFilter = false;
+      if (this.initFilter) {
+        for (let key in this.initFilter) {
+          this.pager.setFilterValue(key, this.initFilter[key]);
+          hasInitFilter = true;
+        }
+      }
+
+      //没有筛选过滤器，默认使用更新时间的倒叙排列
+      if (!hasInitFilter) {
+        console.log("长度为0")
+        this.pager.setFilterValue("orderUpdateTime", SortDirection.DESC);
+      } else {
+        console.log("长度为非0", this.pager.filters)
+      }
+
+      this.refresh();
+    }
+  }
 </script>
 
 <style lang="less" rel="stylesheet/less">
 
-	.nb-pager-selection {
+  .nb-pager-selection {
 
-		.title-area {
+    .title-area {
 
-		}
-		.content-area {
-			margin-top: 10px;
-			padding: 10px;
-			border: 1px dashed #1167a9;
-		}
+    }
+    .content-area {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px dashed #1167a9;
+    }
 
-	}
+  }
 
 </style>

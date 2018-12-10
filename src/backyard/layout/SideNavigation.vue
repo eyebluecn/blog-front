@@ -4,76 +4,18 @@
 
       <div class="menu-header" @click="goToProfile">
         <div class="logo-area">
-          <img alt="image" class="img-circle w80" :src="user.getAvatarUrl()"/>
+          <img alt="image" class="img-circle w80" :src="handleImageUrl(user.avatarUrl)"/>
         </div>
         <div class="text-area">
           <div class="nickname">
-            {{user.role === 'GUEST' ? '请登录' : user.username}}
+            {{user.role === 'GUEST' ? '请登录' : user.nickname}}
           </div>
         </div>
       </div>
 
       <ul class="nav mt20">
 
-        <li v-if="!user.hasPermission(FeatureType.USER_MINE)">
-          <router-link to="/by/user/login">
-            <i class="w14 fa fa-user-circle-o"></i>
-            <span>登录</span>
-          </router-link>
-        </li>
-
-        <li v-if="user.hasPermission(FeatureType.USER_MINE)">
-          <router-link to="/by">
-            <i class="w14 fa fa-book"></i>
-            <span>文章列表</span>
-          </router-link>
-        </li>
-
-
-        <li v-if="user.hasPermission(FeatureType.USER_MINE)">
-          <router-link to="/by/tag/list">
-            <i class="w14 fa fa-tags"></i>
-            <span>标签列表</span>
-          </router-link>
-        </li>
-
-        <li v-if="user.hasPermission(FeatureType.USER_MANAGE)">
-          <router-link to="/by/preference">
-            <i class="w14 fa fa-dashboard"></i>
-            <span>网站偏好</span>
-          </router-link>
-        </li>
-
-        <li v-if="user.hasPermission(FeatureType.USER_MANAGE)">
-          <router-link to="/by/user/list">
-            <i class="w14 fa fa-user"></i>
-            <span>用户列表</span>
-          </router-link>
-        </li>
-
-
-        <li v-if="user.hasPermission(FeatureType.USER_MANAGE)">
-          <router-link to="/by/report/list">
-            <i class="w14 fa fa-warning"></i>
-            <span>举报列表</span>
-          </router-link>
-        </li>
-
-
-        <li>
-          <a href="/" @click.stop.prevent="goHome">
-            <i class="w14 fa fa-home"></i>
-            <span>网站前台</span>
-          </a>
-        </li>
-
-        <li v-if="user.hasPermission(FeatureType.USER_MINE)">
-          <router-link to="/by/user/login">
-            <i class="w14 fa fa-power-off"></i>
-            <span>退出登录</span>
-          </router-link>
-        </li>
-
+        <MenuPanel v-for="(menu,index) in menus" :key="index" :menu="menu"/>
 
       </ul>
 
@@ -81,7 +23,11 @@
   </nav>
 </template>
 <script>
-  import {FeatureType} from "../../common/model/feature/FeatureType";
+  import {FeatureType} from "../../common/model/core/FeatureType";
+  import NbExpanding from "../../common/widget/NbExpanding";
+  import MenuPanel from "./widget/MenuPanel"
+  import Menu from "../../common/frontend/Menu";
+  import {handleImageUrl} from "../../common/util/ImageUtil";
 
 
   export default {
@@ -89,7 +35,10 @@
     data() {
       return {
         FeatureType,
-        user: this.$store.state.user
+        user: this.$store.state.user,
+        //表单维护
+        formShow: true,
+        menus: []
       }
     },
     computed: {
@@ -102,14 +51,18 @@
 
     },
 
-    components: {},
+    components: {
+      NbExpanding,
+      MenuPanel
+    },
     methods: {
+      handleImageUrl,
       goToProfile() {
 
         if (!this.user.uuid) {
           this.$router.push("/by/user/login");
         } else {
-          this.$router.push("/by/user/detail/" + this.user.uuid);
+          this.$router.push("/by/user/profile/detail/" + this.user.uuid);
         }
 
 
@@ -125,6 +78,49 @@
         if (this.showDrawer && this.mobile) {
         } else {
         }
+      },
+      updateMenus() {
+
+        this.menus.splice(0, this.menus.length);
+
+
+        if (!this.user.hasPermission(FeatureType.USER_MINE)) {
+          this.menus.push(new Menu("登录", "/by/user/login", "fa-user-circle-o"))
+        }
+
+        if (this.user.hasPermission(FeatureType.USER_MINE)) {
+          this.menus.push(new Menu("活动管理", "/by", "fa-book"))
+        }
+
+
+        if (this.user.hasPermission(FeatureType.USER_MINE)) {
+          this.menus.push(new Menu("标签列表", "/by/tag/list", "fa-tags"))
+        }
+
+        if (this.user.hasPermission(FeatureType.USER_MANAGE)) {
+          this.menus.push(new Menu("网站偏好", "/by/preference", "fa-dashboard"))
+        }
+
+        if (this.user.hasPermission(FeatureType.USER_MANAGE)) {
+          this.menus.push(new Menu("用户列表", "/by/user/list", "fa-user"))
+        }
+
+
+        if (this.user.hasPermission(FeatureType.USER_MANAGE)) {
+          this.menus.push(new Menu("举报列表", "/by/report/list", "fa-warning"))
+        }
+
+
+        if (this.user.hasPermission(FeatureType.USER_MANAGE)) {
+          this.menus.push(new Menu("网站前台", "/", "fa-home"))
+        }
+
+
+
+        if (this.user.hasPermission(FeatureType.USER_MINE)) {
+          this.menus.push(new Menu("退出登录", "/by/user/login", "fa-power-off"))
+        }
+
       }
     },
     watch: {
@@ -133,6 +129,10 @@
       },
       "mobile"(newVal, oldVal) {
         this.updateBody();
+      },
+      "user.userRoleUuid"() {
+        console.log("user.userRoleUuid变化", this.user.userProfileUuid)
+        this.updateMenus()
       }
 
     },
@@ -140,6 +140,9 @@
       let that = this;
 
       this.updateBody();
+
+      this.updateMenus();
+
     }
   }
 </script>
@@ -235,9 +238,9 @@
     }
 
     .nav {
-      li {
-
-        a {
+      //第一级菜单
+      > li {
+        > a {
 
           color: @nav-text-color;
 
@@ -253,6 +256,30 @@
 
           &.router-link-exact-active {
             background-color: black;
+          }
+        }
+
+        .sub-nav {
+          padding: 0;
+          margin: 0;
+          > li {
+
+            list-style: none;
+
+            > a {
+              display: inline-block;
+              width: 100%;
+              color: @nav-text-color;
+              padding: 12px 20px 12px 43px;
+              &:hover, &:focus {
+                color: @font-highlight-color;
+                background-color: transparent;
+              }
+
+              &.router-link-exact-active {
+                background-color: black;
+              }
+            }
           }
         }
       }

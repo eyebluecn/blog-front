@@ -42,7 +42,7 @@
     {name: "Fortran", mime: "text/x-fortran", mode: "fortran", ext: ["f", "for", "f77", "f90"]},
     {name: "F#", mime: "text/x-fsharp", mode: "mllike", ext: ["fs"], alias: ["fsharp"]},
     {name: "Gas", mime: "text/x-gas", mode: "gas", ext: ["s"]},
-    {name: "Gherkin", mime: "text/x-feature", mode: "gherkin", ext: ["feature"]},
+    {name: "Gherkin", mime: "text/x-core", mode: "gherkin", ext: ["core"]},
     {name: "GitHub Flavored Markdown", mime: "text/x-gfm", mode: "gfm", file: /^(readme|contributing|history).md$/i},
     {name: "Go", mime: "text/x-go", mode: "go", ext: ["go"]},
     {name: "Groovy", mime: "text/x-groovy", mode: "groovy", ext: ["groovy"]},

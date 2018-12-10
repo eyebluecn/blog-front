@@ -34,7 +34,7 @@
 // It is possible to run the Tern server in a web worker by specifying
 // these additional options:
 // * useWorker: Set to true to enable web worker mode. You'll probably
-//   want to feature detect the actual value you use here, for example
+//   want to core detect the actual value you use here, for example
 //   !!window.Worker.
 // * workerScript: The main script of the worker. Point this to
 //   wherever you are hosting worker.js from this directory.

@@ -1,8 +1,11 @@
 import Base from './Base'
 import {str2Date} from '../../filter/time'
 import Filter from './Filter'
-import {MessageBox, Notification as NotificationBox} from 'element-ui'
-import Schema from '../../../../node_modules/async-validator'
+import {MessageBox, Message} from 'element-ui'
+import Schema from 'async-validator'
+import {appendString} from "../../util/Utils";
+import {startWith} from "../../filter/str";
+import {FilterType} from "./FilterType";
 
 export default class BaseEntity extends Base {
 
@@ -11,10 +14,11 @@ export default class BaseEntity extends Base {
     this.uuid = null
     this.sort = null
     this.createTime = null
-    this.modifyTime = null
+    this.updateTime = null
+    this.deleted = false
 
     //表单验证专用
-    this.validatorSchema = null
+    this.validatorSchema = {}
   }
 
   //This is just a intermedia method.
@@ -22,14 +26,16 @@ export default class BaseEntity extends Base {
 
     super.render(obj)
     this.createTime = str2Date(this.createTime)
-    this.modifyTime = str2Date(this.modifyTime)
+    this.updateTime = str2Date(this.updateTime)
 
   }
 
   //获取过滤器，必须每次动态生成，否则会造成filter逻辑混乱。
   getFilters() {
     return [
-      new Filter('SORT', 'ID', 'orderId')
+      new Filter(FilterType.SORT, '排序', 'orderSort'),
+      new Filter(FilterType.SORT, '修改时间排序', 'orderUpdateTime'),
+      new Filter(FilterType.SORT, '创建时间排序', 'orderCreateTime')
     ]
   };
 
@@ -41,12 +47,12 @@ export default class BaseEntity extends Base {
   }
 
 
-//该实体目前是否能够编辑
+  //该实体目前是否能够编辑
   canEdit() {
     console.error('canEdit: you should override this base method.')
   }
 
-//该实体目前是否能够删除
+  //该实体目前是否能够删除
   canDel() {
     console.error('canDel: you should override this base method.')
   }
@@ -55,43 +61,73 @@ export default class BaseEntity extends Base {
     console.error('getForm: you should override this base method.')
   }
 
-  /*validate () {
-    console.error('validate: you should override this base method.')
-  }*/
 
+  //验证某个Schema是否正确。返回错误信息，null表示没有错误。
   validate(validatorSchema = this.validatorSchema) {
-    let valid = true
+
+    let errorMessage = null
     let that = this
     let schema = validatorSchema
     if (!schema) {
-      return true
+      return null
     }
 
-    let validateArr = Object.keys(schema)      //遍历规则的key值
+    //遍历规则的key值
+    let validateArr = Object.keys(schema)
     let validateObj = {}
     validateArr.forEach(function (i) {
       validateObj[i] = that[i]
       schema[i].error = null
     })
+
+    //这里相当于要把自定义的error给去掉啦。
     let descriptor = {}
     validateArr.forEach(function (i) {
       descriptor[i] = schema[i].rules
     })
 
-    console.log(this.validatorSchema)
-    console.log("这里在搞笑？")
     new Schema(descriptor).validate(validateObj, (errors, fields) => {
 
       if (errors) {
-        errors.forEach(function (i) {
-          schema[i.field].error = i.message
+        console.log("此刻的errors:", errors)
+
+        errors.forEach(function (errorItem) {
+
+          //回填到每个字段的验证细节上。
+
+          schema[errorItem.field].error = appendString(schema[errorItem.field].error, errorItem.message, ";")
+          errorMessage = appendString(errorMessage, errorItem.message, ";")
+
+          console.log("此刻的errorItem:", errorItem)
+          console.log("此刻的schema[errorItem.field]:", schema[errorItem.field])
         })
-        valid = false
       }
     })
 
-    return valid
+    return errorMessage
+
   }
+
+  //获取当前类的EntityType
+  getEntityType() {
+    let originName = this.getTAG();
+    let res = originName.replace(/([A-Z])/g, "_$1").toUpperCase();
+    if (startWith(res, "_")) {
+      res = res.substr(1, res.length);
+    }
+
+    return res;
+  }
+
+  //在FilterType=HTTP_SELECTION 我们需要知道展示的名称，以及进行筛选的value
+  getDisplayName(){
+    console.error("you should override getDisplayName method")
+  }
+  setDisplayName(displayName){
+    console.error("you should override setDisplayName method")
+  }
+
+
 
   //common http detail methods.
   httpDetail(successCallback, errorCallback) {
@@ -116,18 +152,17 @@ export default class BaseEntity extends Base {
 
     this.httpGet(url, {}, function (response) {
       that.detailLoading = false
-      that.editMode = true
 
       that.render(response.data.data)
 
-      successCallback && successCallback(response)
+      that.safeCallback(successCallback)(response)
 
     }, function (response) {
 
       that.detailLoading = false
 
       if (typeof errorCallback === 'function') {
-        errorCallback()
+        errorCallback(that.getErrorMessage(response), response)
       } else {
         //没有传入错误处理的方法就采用默认处理方法：toast弹出该错误信息。
         that.defaultErrorHandler(response)
@@ -145,8 +180,8 @@ export default class BaseEntity extends Base {
       url = this.getUrlEdit()
     }
 
-    if (!this.validate()) {
-
+    this.errorMessage = this.validate()
+    if (this.errorMessage) {
       that.defaultErrorHandler(this.errorMessage, errorCallback)
       return
     }
@@ -155,7 +190,7 @@ export default class BaseEntity extends Base {
 
       that.render(response.data.data)
 
-      successCallback && successCallback(response)
+      that.safeCallback(successCallback)(response)
 
     }, errorCallback)
 
@@ -180,20 +215,25 @@ export default class BaseEntity extends Base {
 
     this.httpPost(url, {}, function (response) {
 
-      successCallback && successCallback(response)
+      that.safeCallback(successCallback)(response)
 
     }, errorCallback)
 
   }
 
-  httpSort(uuid1, sort1, uuid2, sort2, successCallback, failureCallback) {
+  httpSort(entity1, entity2, successCallback, errorCallback) {
+
+    let uuid1 = entity1.uuid;
+    let sort1 = entity2.sort;
+    let uuid2 = entity2.uuid;
+    let sort2 = entity1.sort;
 
     let that = this
 
     if (!uuid1 || !uuid2 || !(sort1 === 0 || sort1) || !(sort2 === 0 || sort2)) {
 
       this.errorMessage = '参数不齐！'
-      that.defaultErrorHandler(this.errorMessage, failureCallback)
+      that.defaultErrorHandler(this.errorMessage, errorCallback)
 
       return
     }
@@ -202,7 +242,7 @@ export default class BaseEntity extends Base {
 
     if (!url) {
 
-      that.defaultErrorHandler(this.errorMessage, failureCallback)
+      that.defaultErrorHandler(this.errorMessage, errorCallback)
       return
     }
 
@@ -213,11 +253,17 @@ export default class BaseEntity extends Base {
       sort2: sort2
     }
 
-    this.httpPost(url, params, successCallback, failureCallback)
+    this.httpPost(url, params, function () {
+      entity1.sort = sort1;
+      entity2.sort = sort2;
+      that.safeCallback(successCallback)()
+
+
+    }, errorCallback)
   }
 
   //确认删除操作.
-  confirmDel(successCallback, failureCallback) {
+  confirmDel(successCallback, errorCallback) {
 
     let that = this
 
@@ -228,7 +274,7 @@ export default class BaseEntity extends Base {
     }).then(function () {
 
         that.httpDel(function () {
-          NotificationBox.success({
+          Message.success({
             message: '成功删除!'
           })
 
@@ -236,13 +282,12 @@ export default class BaseEntity extends Base {
             successCallback()
           }
 
-        }, failureCallback)
+        }, errorCallback)
 
       },
       function () {
-        if (typeof failureCallback === 'function') {
-          failureCallback()
-        }
+        that.safeCallback(errorCallback)()
+
       }
     )
   }

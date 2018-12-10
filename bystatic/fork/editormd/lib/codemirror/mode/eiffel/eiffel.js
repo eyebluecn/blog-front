@@ -64,7 +64,7 @@ CodeMirror.defineMode("eiffel", function() {
     'invariant',
     'inherit',
     'indexing',
-    'feature',
+    'core',
     'expanded',
     'deferred',
     'class',

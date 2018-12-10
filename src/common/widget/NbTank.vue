@@ -1,7 +1,7 @@
 <template>
   <div class="nb-tank-block">
     <NbExpanding>
-      <div v-show="edit && tank.procedure === tank.Procedure.FREE && !tank.exist()">
+      <div v-show="edit && tank.procedure === TankProcedure.FREE && !tank.exist()">
         <div>
 				<span class="btn btn-primary btn-sm btn-file">
 					<slot name="button">
@@ -22,21 +22,21 @@
 
 
     <NbExpanding>
-      <div v-show="tank.procedure === tank.Procedure.FETCHING_UPLOAD_TOKEN">
+      <div v-show="tank.procedure === TankProcedure.FETCHING_UPLOAD_TOKEN">
         <i class="fa fa-spinner fa-spin fa-fw"></i> 准备上传中...
       </div>
     </NbExpanding>
 
     <NbExpanding>
       <div class="huge-block clearfix"
-           v-if="tank.procedure === tank.Procedure.UPLOADING">
+           v-if="tank.procedure === TankProcedure.UPLOADING">
         <div class="media">
           <div class="pull-right">
             <i class="btn-action f16 fa fa-trash text-danger" @click.stop.prevent="del()"></i>
           </div>
           <div class="media-body">{{tank.file.name}}</div>
         </div>
-        <div class="progress" :class="{'progress-striped active' : tank.procedure === tank.Procedure.UPLOADING}">
+        <div class="progress" :class="{'progress-striped active' : tank.procedure === TankProcedure.UPLOADING}">
           <div :style="'width: '+(tank.progress*100)+'%'" class="progress-bar progress-bar-primary">
             <span>已上传 {{(tank.progress * 100).toFixed(1)}}%</span>
           </div>
@@ -54,7 +54,8 @@
            v-if="tank.exist()">
         <div class="p10 mb10 bg-white br5 border" :style="'width:'+previewWidth+'px'"
              v-show="preview && tank.publicImgUrl()">
-          <img class="wp100" :src="tank.publicImgUrl()"/>
+          <img class="wp100 cursor" :src="tank.publicImgUrl()"
+               @click="$photoSwipePlugin.showPhoto(tank.publicImgUrl())"/>
         </div>
         <div>
           <i class="f16" v-show="tank.fileIcon() && !tank.publicImgUrl()" :class="[tank.fileIcon()]"></i>
@@ -83,10 +84,15 @@
   import Tank from '../../common/model/tank/Tank'
   import {MessageBox} from 'element-ui'
   import NbExpanding from './NbExpanding.vue'
+  import {TankProcedure} from "../model/tank/TankProcedure";
+
 
   export default {
     data() {
-      return {}
+      return {
+
+        TankProcedure
+      }
     },
     props: {
       //上传的照片是否需要预览
@@ -141,6 +147,7 @@
           if (typeof that.uploadSuccessCallback === 'function') {
             that.uploadSuccessCallback(that.tank)
           }
+          that.$emit("uploadSuccess", that.tank)
 
         }, function () {
           console.error('上传失败啦')
@@ -168,7 +175,6 @@
       }
     },
     mounted() {
-
 
     }
   }

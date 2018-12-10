@@ -124,7 +124,7 @@
   import Article from '../../../common/model/article/Article'
 
   export default {
-    name: 'list',
+
     data () {
       return {
         user: this.$store.state.user,

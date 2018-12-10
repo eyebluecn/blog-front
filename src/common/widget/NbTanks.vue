@@ -4,7 +4,7 @@
 
     <div class="tank-block" v-for="(tank,tankIndex) in tanks">
       <NbExpanding>
-        <div v-show="tank.procedure === tank.Procedure.FETCHING_UPLOAD_TOKEN">
+        <div v-show="tank.procedure === TankProcedure.FETCHING_UPLOAD_TOKEN">
           <i class="fa fa-spinner fa-spin fa-fw"></i> 准备上传中...
         </div>
       </NbExpanding>
@@ -12,14 +12,14 @@
 
       <NbExpanding>
         <div class="huge-block clearfix"
-             v-if="tank.procedure === tank.Procedure.UPLOADING">
+             v-if="tank.procedure === TankProcedure.UPLOADING">
           <div class="media">
             <div class="pull-right">
               <i class="btn-action f16 fa fa-trash text-danger" @click.stop.prevent="del(tank,tankIndex)"></i>
             </div>
             <div class="media-body">{{tank.file.name}}</div>
           </div>
-          <div class="progress" :class="{'progress-striped active' : tank.procedure === tank.Procedure.UPLOADING}">
+          <div class="progress" :class="{'progress-striped active' : tank.procedure === TankProcedure.UPLOADING}">
             <div :style="'width: '+(tank.progress*100)+'%'" class="progress-bar progress-bar-primary">
               <span>已上传 {{(tank.progress * 100).toFixed(1)}}%</span>
             </div>
@@ -60,7 +60,7 @@
     </div>
 
     <div
-      v-show="tanks.length < maxNum && edit && templateTank.procedure === templateTank.Procedure.FREE && !templateTank.exist()">
+      v-show="tanks.length < maxNum && edit && templateTank.procedure === TankProcedure.FREE && !templateTank.exist()">
       <div>
 				<span class="btn btn-primary btn-sm btn-file">
 					<slot name="button">
@@ -91,10 +91,13 @@
   import $ from 'jquery'
   import {MessageBox, Notification} from 'element-ui'
   import NbExpanding from './NbExpanding.vue'
+  import {TankProcedure} from "../model/tank/TankProcedure";
 
   export default {
     data() {
-      return {}
+      return {
+        TankProcedure
+      }
     },
     props: {
       tanks: {
@@ -166,7 +169,7 @@
           tank.file = fileDom.files[i]
 
           //提前验证，有错误及时显示
-          if (!tank.validate()) {
+          if (tank.validate()) {
             this.templateTank.errorMessage = tank.errorMessage
             console.error(tank.errorMessage)
             return

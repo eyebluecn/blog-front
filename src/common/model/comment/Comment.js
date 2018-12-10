@@ -1,8 +1,16 @@
 import BaseEntity from '../base/BaseEntity'
 import Filter from '../base/Filter'
 import Pager from '../base/Pager'
+import {FilterType} from "../base/FilterType";
 
 export default class Comment extends BaseEntity {
+
+
+  static URL_API_COMMENT_CREATE = '/api/comment/create'
+  static URL_API_COMMENT_AGREE = '/api/comment/agree'
+  static URL_API_COMMENT_CANCEL_AGREE = '/api/comment/cancel/agree'
+
+
   constructor (args) {
     super(args)
     this.articleUuid = null
@@ -40,10 +48,6 @@ export default class Comment extends BaseEntity {
     }
   }
 
-  static URL_API_COMMENT_CREATE = '/comment/create'
-  static URL_API_COMMENT_AGREE = '/comment/agree'
-  static URL_API_COMMENT_CANCEL_AGREE = '/comment/cancel/agree'
-
   render (obj) {
     super.render(obj)
     this.renderEntity('commentPager', Pager)
@@ -51,17 +55,17 @@ export default class Comment extends BaseEntity {
 
   getFilters () {
     return [
-      new Filter(Filter.prototype.Type.SORT, '排序', 'orderSort'),
-      new Filter(Filter.prototype.Type.INPUT, 'uuid', 'uuid', null, null, false),
-      new Filter(Filter.prototype.Type.INPUT, '用户uuid', 'userUuid'),
-      new Filter(Filter.prototype.Type.INPUT, '文章uuid', 'articleUuid'),
-      new Filter(Filter.prototype.Type.CHECK, '是否是楼层评论', 'isFloor'),
-      new Filter(Filter.prototype.Type.INPUT, '附属楼层uuid', 'floorUuid'),
-      new Filter(Filter.prototype.Type.INPUT, '回复的uuid', 'puuid'),
-      new Filter(Filter.prototype.Type.INPUT, '评论者姓名', 'name'),
-      new Filter(Filter.prototype.Type.INPUT, '评论者邮箱', 'email'),
-      new Filter(Filter.prototype.Type.INPUT, '评论内容', 'content'),
-      new Filter(Filter.prototype.Type.CHECK, '是否需要子评论', 'needSubPager')
+      ...super.getFilters(),
+      new Filter(FilterType.INPUT, 'uuid', 'uuid', null, null, false),
+      new Filter(FilterType.INPUT, '用户uuid', 'userUuid'),
+      new Filter(FilterType.INPUT, '文章uuid', 'articleUuid'),
+      new Filter(FilterType.CHECK, '是否是楼层评论', 'isFloor'),
+      new Filter(FilterType.INPUT, '附属楼层uuid', 'floorUuid'),
+      new Filter(FilterType.INPUT, '回复的uuid', 'puuid'),
+      new Filter(FilterType.INPUT, '评论者姓名', 'name'),
+      new Filter(FilterType.INPUT, '评论者邮箱', 'email'),
+      new Filter(FilterType.INPUT, '评论内容', 'content'),
+      new Filter(FilterType.CHECK, '是否需要子评论', 'needSubPager')
     ]
   }
 

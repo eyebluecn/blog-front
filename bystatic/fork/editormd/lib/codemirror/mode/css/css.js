@@ -432,7 +432,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "drop-initial-before-align", "drop-initial-size", "drop-initial-value",
     "elevation", "empty-cells", "fit", "fit-position", "flex", "flex-basis",
     "flex-direction", "flex-flow", "flex-grow", "flex-shrink", "flex-wrap",
-    "float", "float-offset", "flow-from", "flow-into", "font", "font-feature-settings",
+    "float", "float-offset", "flow-from", "flow-into", "font", "font-core-settings",
     "font-family", "font-kerning", "font-language-override", "font-size", "font-size-adjust",
     "font-stretch", "font-style", "font-synthesis", "font-variant",
     "font-variant-alternates", "font-variant-caps", "font-variant-east-asian",
@@ -501,7 +501,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
   ], nonStandardPropertyKeywords = keySet(nonStandardPropertyKeywords_);
 
   var fontProperties_ = [
-    "font-family", "src", "unicode-range", "font-variant", "font-feature-settings",
+    "font-family", "src", "unicode-range", "font-variant", "font-core-settings",
     "font-stretch", "font-weight", "font-style"
   ], fontProperties = keySet(fontProperties_);
 

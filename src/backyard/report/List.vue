@@ -37,7 +37,7 @@
   import Report from '../../common/model/report/Report'
 
   export default {
-    name: 'list',
+
     data() {
       return {
         pager: new Pager(Report),

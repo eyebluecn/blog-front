@@ -3,67 +3,34 @@ import Filter from '../base/Filter'
 import $ from 'jquery'
 import {readLocalStorage, removeLocalStorage, saveToLocalStorage} from '../../util/Utils'
 import Tank from '../tank/Tank'
-import {FeatureType} from '../feature/FeatureType'
+import {FeatureType} from '../core/FeatureType'
 import {Notification} from 'element-ui'
+import {UserLegalRoleList, UserRole} from "./UserRole";
+import {UserGender} from "./UserGender";
+import {FilterType} from "../base/FilterType";
 
-let Gender = {
-  UNKNOWN: 'UNKNOWN',
-  MALE: 'MALE',
-  FEMALE: 'FEMALE'
-}
-let GenderMap = {
-  UNKNOWN: {
-    name: '保密',
-    value: 'UNKNOWN',
-    style: 'success'
-  },
-  MALE: {
-    name: '男',
-    value: 'MALE',
-    style: 'info'
-  },
-  FEMALE: {
-    name: '女',
-    value: 'FEMALE',
-    style: 'primary'
-  }
-}
-
-let Role = {
-  GUEST: 'GUEST',
-  USER: 'USER',
-  ADMIN: 'ADMIN'
-}
-let RoleMap = {
-  GUEST: {
-    name: '游客',
-    value: 'GUEST',
-    style: 'primary'
-  },
-  USER: {
-    name: '普通用户',
-    value: 'USER',
-    style: 'success'
-  },
-  ADMIN: {
-    name: '管理员',
-    value: 'ADMIN',
-    style: 'info'
-  }
-}
 
 export default class User extends BaseEntity {
-  constructor (args) {
+
+
+  static URL_LOGIN = '/api/user/login'
+  static URL_LOGOUT = '/api/user/logout'
+  static URL_USER_CHANGE_PASSWORD = '/api/user/change/password'
+  static URL_USER_RESET_PASSWORD = '/api/user/reset/password'
+  static URL_USER_EMAIL_SEND = '/api/user/email/send'
+
+
+  constructor(args) {
     super(args)
 
     this.username = null
     this.nickname = null
     this.password = null
-    this.role = Role.GUEST
+    this.role = UserRole.GUEST
     this.email = null
     this.phone = null
     //用户角色
-    this.gender = Gender.UNKNOWN
+    this.gender = UserGender.UNKNOWN
     this.city = null
     this.description = null
     this.avatarTankUuid = null
@@ -133,47 +100,29 @@ export default class User extends BaseEntity {
 
   }
 
-  static URL_LOGIN = '/user/login'
-  static URL_LOGOUT = '/user/logout'
-  static URL_USER_CHANGE_PASSWORD = '/user/change/password'
-  static URL_USER_RESET_PASSWORD = '/user/reset/password'
-  static URL_USER_EMAIL_SEND = '/user/email/send'
 
-  static getLegalRoleList(){
-    let getLegalRoleList = []
-    for (let key in RoleMap) {
-      if (RoleMap.hasOwnProperty(key) && key !== 'GUEST') {
-        getLegalRoleList.push(RoleMap[key]);
-      }
-    }
-    return getLegalRoleList
-  }
-
-
-  getFilters () {
+  getFilters() {
     return [
-      new Filter(Filter.prototype.Type.SORT, '序号', 'orderSort'),
-      new Filter(Filter.prototype.Type.SORT, '最近', 'orderLastTime'),
-      new Filter(Filter.prototype.Type.INPUT, '姓名', 'username'),
-      new Filter(Filter.prototype.Type.INPUT, '邮箱', 'email'),
-      new Filter(Filter.prototype.Type.INPUT, '电话', 'phone'),
-      new Filter(Filter.prototype.Type.SELECTION, '角色', 'role', User.getLegalRoleList()),
-      new Filter(Filter.prototype.Type.INPUT, '关键字', 'keyword')
+      ...super.getFilters(),
+      new Filter(FilterType.SORT, '最近', 'orderLastTime'),
+      new Filter(FilterType.INPUT, '姓名', 'username'),
+      new Filter(FilterType.INPUT, '邮箱', 'email'),
+      new Filter(FilterType.INPUT, '电话', 'phone'),
+      new Filter(FilterType.SELECTION, '角色', 'role', UserLegalRoleList),
+      new Filter(FilterType.INPUT, '关键字', 'keyword')
     ]
   };
 
   //We use this method to get the full js Object.
-  render (obj) {
+  render(obj) {
     super.render(obj)
     this.renderEntity('lastTime', Date)
     this.renderEntity('avatar', Tank)
   }
 
 
-
-
   //获取用户头像的url.
-  getAvatarUrl () {
+  getAvatarUrl() {
     if (this.avatarUrl) {
       return this.avatarUrl
     } else {
@@ -183,7 +132,7 @@ export default class User extends BaseEntity {
 
 
   //将用户信息存储在本地。
-  renderFromLocalStorage () {
+  renderFromLocalStorage() {
 
     try {
       let userString = readLocalStorage(this.getTAG())
@@ -200,19 +149,19 @@ export default class User extends BaseEntity {
   }
 
   //将用户信息存储在本地。
-  saveToLocalStorage (rawUserObject = null) {
+  saveToLocalStorage(rawUserObject = null) {
 
     saveToLocalStorage(this.getTAG(), JSON.stringify(rawUserObject))
   }
 
   //清除本地的user信息
-  clearLocalStorage () {
+  clearLocalStorage() {
 
     removeLocalStorage(this.getTAG())
   }
 
   //更新本地持久化了的个别字段。
-  updateLocalStorage (opt = {}) {
+  updateLocalStorage(opt = {}) {
     try {
       let userString = readLocalStorage(this.getTAG())
 
@@ -228,7 +177,7 @@ export default class User extends BaseEntity {
     }
   }
 
-  getForm () {
+  getForm() {
 
     return {
       username: this.username,
@@ -246,7 +195,7 @@ export default class User extends BaseEntity {
     }
   }
 
-  validate () {
+  validate() {
 
     if (this.editMode) {
       this.password = true
@@ -255,7 +204,7 @@ export default class User extends BaseEntity {
     return super.validate()
   }
 
-  httpSave (successCallback, errorCallback) {
+  httpSave(successCallback, errorCallback) {
     let that = this
     let url = this.getUrlCreate()
     if (this.uuid) {
@@ -279,7 +228,7 @@ export default class User extends BaseEntity {
   }
 
   //local logout.
-  innerLogout () {
+  innerLogout() {
 
     this.render(new User())
 
@@ -288,7 +237,7 @@ export default class User extends BaseEntity {
 
   }
 
-  innerLogin (response) {
+  innerLogin(response) {
     let that = this
     that.errorMessage = null
     that.render(response.data.data)
@@ -298,7 +247,7 @@ export default class User extends BaseEntity {
 
   }
 
-  resetValidate () {
+  resetValidate() {
 
     if (!this.phone) {
       this.errorMessage = '手机必填'
@@ -312,10 +261,10 @@ export default class User extends BaseEntity {
     return true
   }
 
-  hasPermission (featureType) {
-    if (this.role === Role.ADMIN) {
+  hasPermission(featureType) {
+    if (this.role === UserRole.ADMIN) {
       return true
-    } else if (this.role === Role.USER) {
+    } else if (this.role === UserRole.USER) {
       return featureType === FeatureType.PUBLIC || featureType === FeatureType.USER_MINE
     } else {
       return featureType === FeatureType.PUBLIC
@@ -323,14 +272,14 @@ export default class User extends BaseEntity {
 
   }
 
-  getResetForm () {
+  getResetForm() {
     return {
       phone: this.phone,
       password: this.password
     }
   }
 
-  httpLogin (captcha, successCallback, errorCallback) {
+  httpLogin(captcha, successCallback, errorCallback) {
 
     let that = this
 
@@ -366,7 +315,7 @@ export default class User extends BaseEntity {
     })
   }
 
-  httpResetPassword (captcha, successCallback, errorCallback) {
+  httpResetPassword(captcha, successCallback, errorCallback) {
     let that = this
 
     if (!this.resetValidate()) {
@@ -386,7 +335,7 @@ export default class User extends BaseEntity {
 
   }
 
-  httpLogout (successCallback, errorCallback) {
+  httpLogout(successCallback, errorCallback) {
 
     let that = this
 
@@ -398,7 +347,7 @@ export default class User extends BaseEntity {
     }, errorCallback)
   }
 
-  httpUserChangePassword (oldPassword, newPassword, successCallback, errorCallback) {
+  httpUserChangePassword(oldPassword, newPassword, successCallback, errorCallback) {
     let that = this
     this.httpPost(User.URL_USER_CHANGE_PASSWORD, {
       'oldPassword': oldPassword,
@@ -408,7 +357,7 @@ export default class User extends BaseEntity {
     }, errorCallback)
   }
 
-  httpUserResetPassword (newPassword, successCallback, errorCallback) {
+  httpUserResetPassword(newPassword, successCallback, errorCallback) {
     let that = this
     this.httpPost(User.URL_USER_RESET_PASSWORD, {
       'userUuid': this.uuid,
@@ -418,20 +367,17 @@ export default class User extends BaseEntity {
     }, errorCallback)
   }
 
-  httpConfirmEmail (successCallback, errorCallback) {
+  httpConfirmEmail(successCallback, errorCallback) {
     let that = this
-    this.httpPost(User.URL_USER_EMAIL_SEND,{},function (response) {
+    this.httpPost(User.URL_USER_EMAIL_SEND, {}, function (response) {
       Notification.success({
         message: '验证短信发送成功，请登录邮箱查看'
       })
       typeof successCallback === 'function' && successCallback(response)
-    },errorCallback)
+    }, errorCallback)
   }
 
 }
 
-//注册Gender这个枚举变量
-User.registerEnum('Gender', GenderMap)
-User.registerEnum('Role', RoleMap)
 
 

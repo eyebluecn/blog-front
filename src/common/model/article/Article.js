@@ -5,8 +5,12 @@ import Filter from '../base/Filter'
 import Tank from '../tank/Tank'
 import User from '../user/User'
 import Tag from '../tag/Tag'
+import {FilterType} from "../base/FilterType";
 
 export default class Article extends BaseEntity {
+
+  static URL_API_ARTICLE_TOP = '/api/article/top'
+  static URL_API_ARTICLE_CANCEL_TOP = '/api/article/cancel/top'
 
   constructor(args) {
     super(args)
@@ -78,20 +82,16 @@ export default class Article extends BaseEntity {
   }
 
 
-  static URL_API_ARTICLE_TOP = '/article/top'
-  static URL_API_ARTICLE_CANCEL_TOP = '/article/cancel/top'
-
   getFilters() {
     return [
-      new Filter(Filter.prototype.Type.SORT, '排序', 'orderSort'),
-      new Filter(Filter.prototype.Type.SORT, '置顶', 'orderTop'),
-      new Filter(Filter.prototype.Type.SORT, '点击数', 'orderHit'),
-      new Filter(Filter.prototype.Type.SORT, '是否共有', 'orderPrivacy'),
-      new Filter(Filter.prototype.Type.SORT, '发布日期', 'orderCreateTime'),
-      new Filter(Filter.prototype.Type.HTTP_INPUT_SELECTION, '用户', 'userUuid', null, User, false, UserInputSelection),
-      new Filter(Filter.prototype.Type.CHECK, '私有', 'privacy'),
-      new Filter(Filter.prototype.Type.INPUT, '标题', 'title'),
-      new Filter(Filter.prototype.Type.INPUT, '关键词', 'keyword')
+      ...super.getFilters(),
+      new Filter(FilterType.SORT, '置顶', 'orderTop'),
+      new Filter(FilterType.SORT, '点击数', 'orderHit'),
+      new Filter(FilterType.SORT, '是否共有', 'orderPrivacy'),
+      new Filter(FilterType.HTTP_INPUT_SELECTION, '用户', 'userUuid', null, User, false, UserInputSelection),
+      new Filter(FilterType.CHECK, '私有', 'privacy'),
+      new Filter(FilterType.INPUT, '标题', 'title'),
+      new Filter(FilterType.INPUT, '关键词', 'keyword')
     ]
   };
 

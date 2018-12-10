@@ -19,7 +19,7 @@
 
   // BROWSER SNIFFING
 
-  // Kludges for bugs and behavior differences that can't be feature
+  // Kludges for bugs and behavior differences that can't be core
   // detected are enabled based on userAgent etc sniffing.
 
   var gecko = /gecko\/\d/i.test(navigator.userAgent);

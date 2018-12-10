@@ -99,7 +99,7 @@
           return
         }
         this.pager.httpFastPage(function () {
-          let list = that.pager.getList()
+          let list = that.pager.data
           if (list && list.length > 0) {
             that.options.splice(0, that.options.length)
             list.forEach(item => {

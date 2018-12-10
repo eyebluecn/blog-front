@@ -37,14 +37,15 @@
 
 <script>
 
-	import NbTank from "../../widget/NbTank.vue";
-	import Tank from "../../model/tank/Tank";
-	export default {
+  import NbTank from "../../widget/NbTank.vue";
+  import Tank from "../../model/tank/Tank";
+
+  export default {
 		data(){
 			return {
 				handurl: null,
 				uploadTab: true,
-				tank: new Tank("image", false, 20 * 1024 * 1024, "建议使用小于1M的图片。")
+        tank: new Tank("image", false, 20 * 1024 * 1024, "建议使用小于20M的图片。")
 			}
 		},
 		computed: {

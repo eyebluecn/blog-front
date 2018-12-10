@@ -1,13 +1,11 @@
 export default class Menu {
-  constructor(name, path, active = false, icon = null, children = []) {
+  constructor(name, path, icon = null, children = []) {
 
     this.name = name;
-    this.active = active;
     this.icon = icon;
-    this.router = {
-      path: path
-    };
+    this.path = path;
     this.children = children;
+    this.show = true;
   }
 
   add = function (menu) {

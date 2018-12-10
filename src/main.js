@@ -13,6 +13,7 @@ import {sync} from 'vuex-router-sync'
 import VueResource from 'vue-resource'
 import NProgress from 'vue-nprogress'
 import filters from './common/filter'
+import Element from 'element-ui';
 
 
 //expose to global.
@@ -23,6 +24,12 @@ sync(store, router)
 Vue.use(VueResource)
 Vue.http.options.root = store.state.host;
 Vue.use(NProgress)
+
+
+
+//全量引入饿了么组件。
+Vue.use(Element, {size: 'small', zIndex: 3000});
+
 
 
 // register global utility filters.

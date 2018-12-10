@@ -5,11 +5,12 @@
 			<div class="navbar-title">
 				<span>
 					<router-link to="/by">
-						<img class="logo" :src="logoUrl"/>
+						<img class="logo" src="../../assets/img/logo.png"/>
 						<span class="title">{{preference.name}}</span>
 					</router-link>
 				</span>
 			</div>
+
 
 			<button class="drawer-trigger btn btn-primary btn-sm"
 			        @click.stop.prevent="$store.state.config.showDrawer=!$store.state.config.showDrawer">
@@ -22,7 +23,6 @@
 </template>
 <script>
 
-  let defaultLogoPath = require('../../assets/img/logo.png')
 
   export default {
     data () {
@@ -32,14 +32,7 @@
       }
     },
     computed: {
-      //logo可以使用自定义的。
-      logoUrl () {
-        if (this.preference.logoUrl) {
-          return this.preference.logoUrl + '?imageProcess=resize&imageResizeM=fill&imageResizeW=100&imageResizeH=100'
-        } else {
-          return defaultLogoPath
-        }
-      }
+
     },
 	  watch:{
 

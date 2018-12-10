@@ -1,5 +1,5 @@
 import Tank from "../../model/tank/Tank";
-import {Notification} from 'element-ui'
+import {Message} from 'element-ui'
 import WEAttachment from "./WEAttachment.vue";
 import Vue from "vue";
 

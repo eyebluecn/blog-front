@@ -43,7 +43,7 @@
             <label class="col-md-2 control-label mt5 compulsory">角色</label>
             <div class="col-md-10 validate">
               <select class="form-control" v-model="currentUser.role">
-                <option v-for="(item,index) in currentUser.getRoleList()" v-if="item.value !== 'GUEST'"
+                <option v-for="(item,index) in UserRoleList" v-if="item.value !== 'GUEST'"
                         :value="item.value">{{item.name}}
                 </option>
               </select>
@@ -83,7 +83,7 @@
           <div class="row mt10">
             <label class="col-md-2 control-label mt5">性别</label>
             <div class="col-md-10">
-            <span v-for="gender in currentUser.getGenderList()" class="mr10">
+            <span v-for="gender in UserGenderList" class="mr10">
               <NbRadio v-model="currentUser.gender" :val="gender.value" name="gender"></NbRadio>
               <label>{{gender.name}}</label>
             </span>
@@ -121,16 +121,24 @@
 
 <script>
   import {Notification} from 'element-ui'
-  import {FeatureType} from '../../common/model/feature/FeatureType'
+  import {FeatureType} from '../../common/model/core/FeatureType'
   import NbRadio from '../../common/widget/NbRadio.vue'
   import NbTank from '../../common/widget/NbTank.vue'
   import CreateSaveButton from '../widget/CreateSaveButton'
   import User from '../../common/model/user/User'
+  import {UserRole, UserRoleList, UserRoleMap} from "../../common/model/user/UserRole";
+  import {UserGender, UserGenderList, UserGenderMap} from "../../common/model/user/UserGender";
 
   export default {
-    name: 'create',
+
     data() {
       return {
+        UserRole,
+        UserRoleMap,
+        UserRoleList,
+        UserGender,
+        UserGenderList,
+        UserGenderMap,
         FeatureType,
         repassword: null,
         user: this.$store.state.user,

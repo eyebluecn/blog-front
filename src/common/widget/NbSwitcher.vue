@@ -80,7 +80,7 @@
 
 <style lang="less" rel="stylesheet/less">
 
-	@import "../../assets/css/inspinia/variables.less";
+	@import "../../assets/css/global/variables.less";
 
 	.nb-switch {
 

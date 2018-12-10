@@ -3,6 +3,11 @@ import Filter from '../base/Filter'
 import Tank from '../tank/Tank'
 
 export default class Preference extends BaseEntity {
+
+
+  static URL_API_PREFERENCE_FETCH = '/api/preference/fetch'
+
+
   constructor (args) {
     super(args)
     //网站名称
@@ -41,8 +46,6 @@ export default class Preference extends BaseEntity {
       }
     }
   }
-
-  static URL_API_PREFERENCE_FETCH = '/preference/fetch'
 
   render (obj) {
     super.render(obj)

@@ -1,4 +1,4 @@
-import {Notification} from "element-ui";
+import {Message} from "element-ui";
 import Vue from "vue";
 import WEImage from "./WEImage.vue";
 

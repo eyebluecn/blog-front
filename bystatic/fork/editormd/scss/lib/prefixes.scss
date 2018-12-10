@@ -555,7 +555,7 @@
             font-kerning: $value;
 }
 
-// font-feature-settings
+// font-core-settings
 
 @mixin font-feature-settings($value) {
     -webkit-font-feature-settings: $value;  /* Chrome 16-26, Blackberry 10 */

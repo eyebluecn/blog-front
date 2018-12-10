@@ -17,6 +17,7 @@
   import PluginIndent from "../fork/wangeditor/PluginIndent";
   import PluginHr from "../fork/wangeditor/PluginHr";
   import PluginImage from "../fork/wangeditor/PluginImage";
+  import PluginVideo from "../fork/wangeditor/PluginVideo";
   import PluginAttachment from "../fork/wangeditor/PluginAttachment";
 
   //对齐
@@ -31,6 +32,8 @@
   PluginIndent(WangEditor, $);
   //图片上传插件
   PluginImage(WangEditor, $);
+  //插入视频插件
+  PluginVideo(WangEditor, $);
   //附件上传插件
   PluginAttachment(WangEditor, $);
 
@@ -107,7 +110,7 @@
         'unlink',
         'table',
         'image',
-        'attachment',
+        'video',
         'insertcode',
         'undo',
         'redo'

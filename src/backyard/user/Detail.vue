@@ -72,7 +72,7 @@
   import NbPager from '../../common/widget/NbPager'
   import User from '../../common/model/user/User'
   import { MessageBox, Notification } from 'element-ui'
-  import { FeatureType } from '../../common/model/feature/FeatureType'
+  import { FeatureType } from '../../common/model/core/FeatureType'
   import Pager from '../../common/model/base/Pager'
   import Article from '../../common/model/article/Article'
   import Tag from '../../common/model/tag/Tag'

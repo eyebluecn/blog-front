@@ -70,7 +70,7 @@
 
 <script>
   import Article from '../../../common/model/article/Article'
-  import { FeatureType } from '../../../common/model/feature/FeatureType'
+  import { FeatureType } from '../../../common/model/core/FeatureType'
 
   export default {
     name: 'article-info',

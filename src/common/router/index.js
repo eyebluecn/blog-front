@@ -343,7 +343,7 @@ router.beforeEach((to, from, next) => {
     document.title = '个人博客'
   }
 
-  //handle auth feature.
+  //handle auth core.
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.

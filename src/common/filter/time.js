@@ -83,7 +83,7 @@ if (!Date.prototype.setISO8601) {
 }
 
 //将js的时间对象，转换成yyyy-MM-dd格式的字符串
-export function simpleDate (d, fallback = null) {
+export function simpleDate(d, fallback = null) {
   if (d instanceof Date) {
     return d.format('yyyy-MM-dd')
   } else if (d === null) {
@@ -94,7 +94,7 @@ export function simpleDate (d, fallback = null) {
 }
 
 //将js的时间对象，转换成MM-dd格式的字符串
-export function simpleMiniDate (d, fallback = null) {
+export function simpleMiniDate(d, fallback = null) {
   if (d instanceof Date) {
     return d.format('MM-dd')
   } else if (d === null) {
@@ -105,7 +105,7 @@ export function simpleMiniDate (d, fallback = null) {
 }
 
 //将js的时间对象，转换成yyyy-MM-dd HH:mm:ss格式的字符串
-export function simpleDateTime (d, fallback = null) {
+export function simpleDateTime(d, fallback = null) {
   if (d instanceof Date) {
     return d.format('yyyy-MM-dd HH:mm:ss')
   } else if (d === null) {
@@ -117,7 +117,7 @@ export function simpleDateTime (d, fallback = null) {
 }
 
 //将js的时间对象，转换成yyyy-MM-dd HH:mm格式的字符串
-export function simpleDateHourMinute (d, fallback = null) {
+export function simpleDateHourMinute(d, fallback = null) {
   if (d instanceof Date) {
     return d.format('yyyy-MM-dd HH:mm')
   } else if (d === null) {
@@ -129,7 +129,7 @@ export function simpleDateHourMinute (d, fallback = null) {
 }
 
 //将js的时间对象，转换成HH:mm:ss格式的字符串
-export function simpleTime (d, fallback = null) {
+export function simpleTime(d, fallback = null) {
 
   if (d instanceof Date) {
     return d.format('HH:mm:ss')
@@ -141,7 +141,7 @@ export function simpleTime (d, fallback = null) {
 }
 
 //将js的时间对象，转换成HH:mm格式的字符串
-export function simpleMinute (d, fallback = null) {
+export function simpleMinute(d, fallback = null) {
 
   if (d instanceof Date) {
     return d.format('HH:mm')
@@ -153,7 +153,7 @@ export function simpleMinute (d, fallback = null) {
 }
 
 //将js的时间对象，转换成dd格式的字符串
-export function simpleDay (d, fallback = null) {
+export function simpleDay(d, fallback = null) {
 
   if (d instanceof Date) {
     return d.format('dd')
@@ -165,7 +165,7 @@ export function simpleDay (d, fallback = null) {
 }
 
 //将js的时间对象，转换成yyyy-MM格式的字符串
-export function simpleYearAndMonth (d, fallback = null) {
+export function simpleYearAndMonth(d, fallback = null) {
 
   if (d instanceof Date) {
     return d.format('yyyy-MM')
@@ -177,7 +177,7 @@ export function simpleYearAndMonth (d, fallback = null) {
 }
 
 //将js的时间对象，转换成人性化的时间。当天：15:34 2017-04-03
-export function humanTime (d, fallback = null) {
+export function humanTime(d, fallback = null) {
 
   let now = new Date()
   if (d instanceof Date) {
@@ -195,7 +195,7 @@ export function humanTime (d, fallback = null) {
 }
 
 //将时间戳转换成易读的格式
-export function unixTimeStamp2simpleDate (timestamp) {
+export function unixTimeStamp2simpleDate(timestamp) {
 
   if ((typeof timestamp) === 'number') {
     let unixTimestamp = new Date(timestamp)
@@ -210,7 +210,7 @@ export function unixTimeStamp2simpleDate (timestamp) {
 }
 
 //将时间戳转换成易读的格式
-export function unixTimeStamp2simpleDateTime (timestamp) {
+export function unixTimeStamp2simpleDateTime(timestamp) {
 
   if ((typeof timestamp) === 'number') {
 
@@ -226,7 +226,7 @@ export function unixTimeStamp2simpleDateTime (timestamp) {
 }
 
 //将java时间字符串转换成易读的格式
-export function str2simpleDate (str) {
+export function str2simpleDate(str) {
   if (!str) {
     return 'Invalid time'
   }
@@ -239,7 +239,7 @@ export function str2simpleDate (str) {
 }
 
 //将java时间字符串转换成易读的格式
-export function str2simpleDateTime (str) {
+export function str2simpleDateTime(str) {
 
   if (!str) {
     return 'Invalid time'
@@ -252,7 +252,7 @@ export function str2simpleDateTime (str) {
 }
 
 //将java时间字符串转换成易读的格式
-export function str2DateTime (str) {
+export function str2DateTime(str) {
 
   if (!str) {
     return 'Invalid time'
@@ -265,7 +265,7 @@ export function str2DateTime (str) {
 }
 
 //将java时间字符串转化成js date
-export function str2Date (str) {
+export function str2Date(str) {
   if (!str) {
     return null
   }
@@ -300,7 +300,7 @@ export function str2Date (str) {
 }
 
 //将时间戳转换成易读的格式
-export function str2simpleTime (str) {
+export function str2simpleTime(str) {
 
   if (!str) {
     return 'Invalid time'
@@ -311,7 +311,7 @@ export function str2simpleTime (str) {
 }
 
 //将时间戳转换成毫秒形式
-export function str2timeStamp (str) {
+export function str2timeStamp(str) {
 
   if (!str) {
     return 'Invalid time'
@@ -322,7 +322,7 @@ export function str2timeStamp (str) {
 }
 
 //将日期转换成相对于今天的星期几。昨天，明天，今天
-export function date2Weekday (date) {
+export function date2Weekday(date) {
   let today = new Date()
   let dateYear = date.getFullYear()
   let dateMonth = date.getMonth()
@@ -358,22 +358,33 @@ export function date2Weekday (date) {
 }
 
 //返回前一天的日期
-export function preDay (date) {
+export function preDay(date) {
   return new Date(date.getTime() - 24 * 60 * 60 * 1000)
 }
 
 //返回后一天的日期
-export function nextDay (date) {
+export function nextDay(date) {
   return new Date(date.getTime() + 24 * 60 * 60 * 1000)
 }
 
 //这个是为了兼容pdf预览时pebble的过滤器。
-export function date (d, format) {
+export function date(d, format) {
 
   if (d instanceof Date) {
     return d.format(format)
   } else {
     return ''
   }
+}
 
+
+//JS日期系列：根据出生日期 birthday是js时间对象
+export function dateAge(birthday) {
+
+  if (birthday) {
+    let now = new Date();
+    return now.getFullYear() - birthday.getFullYear()
+  } else {
+    return "";
+  }
 }

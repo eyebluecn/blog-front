@@ -1,16 +1,8 @@
 import BaseEntity from '../base/BaseEntity'
-import {containStr, endWith, getExtension, startWith} from '../../filter/str'
+import {containStr, endWith, getExtension, humanFileSize, startWith} from '../../filter/str'
 import Vue from 'vue'
 import {getMimeType} from "../../util/MimeUtil";
-
-//当前tank处于怎样的步骤中
-let Procedure = {
-  'FREE': 'FREE',
-  'FETCHING_UPLOAD_TOKEN': 'FETCHING_UPLOAD_TOKEN',
-  'UPLOADING': 'UPLOADING',
-  'FETCHING_DOWNLOAD_TOKEN': 'FETCHING_DOWNLOAD_TOKEN',
-  'DOWNLOADING': 'DOWNLOADING'
-}
+import {TankProcedure} from "./TankProcedure"
 
 export default class Tank extends BaseEntity {
   constructor(filter = '*', privacy = true, maxSize = 0, uploadHint = null) {
@@ -47,11 +39,17 @@ export default class Tank extends BaseEntity {
     this.maxSize = maxSize
     //给用户的提示文字
     this.uploadHint = uploadHint
+
     //浏览器中选择好的原生file，未作任何处理。
     this.file = null
+
+    //也可以直接传blob过来
+    this.blob = null
+    this.blobName = null
+
     this.disabled = false
     //当前文件处于哪一个步骤中
-    this.procedure = Procedure.FREE
+    this.procedure = TankProcedure.FREE
     //当前上传进度的数值 0-1之间
     this.progress = 0
     //实时上传速度 byte/s
@@ -59,9 +57,10 @@ export default class Tank extends BaseEntity {
 
   }
 
-  static URL_FETCH_UPLOAD_TOKEN = '/tank/fetch/upload/token'
-  static URL_DOWNLOAD = '/tank/download/'
-  static URL_CONFIRM = '/tank/confirm'
+  static URL_FETCH_UPLOAD_TOKEN = '/api/tank/fetch/upload/token'
+  static URL_DOWNLOAD = '/api/tank/download/'
+  static URL_CONFIRM = '/api/tank/confirm'
+  static URL_CRAWL_DIRECT = '/api/tank/crawl/direct'
 
   render(obj) {
     super.render(obj)
@@ -82,32 +81,30 @@ export default class Tank extends BaseEntity {
   //从file中装填metaData
   validate() {
 
-    if (!this.file) {
-      this.errorMessage = '请选择上传文件'
-      return false
+    if (this.file) {
+      this.name = this.file.name
+      this.size = this.file.size
+      this.type = this.file.type
+    } else if (this.blob) {
+      this.name = this.blobName
+      this.size = this.blob.size
+      this.type = this.blob.type
+    } else {
+      return '请选择上传文件'
     }
 
-    this.name = this.file.name
     if (!this.name) {
-      this.errorMessage = '请选择上传文件'
-      return false
+      return '选择的文件名称不存在！'
     }
 
-
-    if(this.file.size > this.maxSize){
-      this.errorMessage = '文件超出指定大小'
-      return false
+    if (this.maxSize !== 0 && this.size > this.maxSize) {
+      return '文件超出指定大小:' + humanFileSize(this.maxSize)
     }
 
-    this.size = this.file.size
-    this.type = getMimeType(this.name)
-
-    this.type = this.file.type
     if (!this.type) {
       this.type = getMimeType(this.name)
     }
-    this.errorMessage = null
-    return true
+    return null
 
   }
 
@@ -291,7 +288,7 @@ export default class Tank extends BaseEntity {
   download() {
 
     if (this.privacy) {
-      window.open(Vue.http.options.root + Tank.URL_DOWNLOAD + this.uuid)
+      window.open(Tank.URL_DOWNLOAD + this.uuid)
     } else {
       window.open(this.url)
     }
@@ -314,7 +311,7 @@ export default class Tank extends BaseEntity {
   }
 
   //去服务器上汇报自己上传工作已经完成。
-  httpConfirm(successMessage, errorMessage) {
+  httpConfirm(successCallback, errorMessage) {
     let that = this
 
     if (!this.uuid) {
@@ -326,62 +323,80 @@ export default class Tank extends BaseEntity {
 
       that.render(response.data.data);
 
-
-      if (typeof successMessage === "function") {
-        successMessage(response)
-      }
+      that.safeCallback(successCallback)(response)
 
     }, errorMessage)
   }
 
   //获取上传的token
-  httpFetchUploadToken(successMessage, errorMessage) {
+  httpFetchUploadToken(successCallback, errorCallback) {
     let that = this
 
-    if (!this.validate()) {
+    this.errorMessage = this.validate()
+    if (this.errorMessage) {
+      that.defaultErrorHandler(this.errorMessage, errorCallback)
       return
     }
-
 
     this.httpPost(Tank.URL_FETCH_UPLOAD_TOKEN, this.getForm(), function (response) {
 
       that.render(response.data.data);
 
-      (typeof successMessage === 'function') && successMessage()
+      that.safeCallback(successCallback)(response)
 
-    }, errorMessage)
+
+    }, errorCallback)
   }
 
   //文件上传
-  httpUpload(successCallback, failureCallback) {
+  httpUpload(successCallback, errorCallback) {
 
     let that = this
 
     //验证是否装填好
-    if (!this.validate()) {
+    this.errorMessage = this.validate()
+    if (this.errorMessage) {
+      that.defaultErrorHandler(this.errorMessage, errorCallback)
       return
     }
 
     //验证用户填写的过滤条件是否正确
     if (!this.validateFilter()) {
+
+      that.defaultErrorHandler(that.errorMessage, errorCallback)
       return
     }
 
     //验证是否满足过滤器
     if (!this.validateFileType()) {
+      that.defaultErrorHandler(that.errorMessage, errorCallback)
       return
     }
 
-    this.procedure = Procedure.FETCHING_UPLOAD_TOKEN
+    this.procedure = TankProcedure.FETCHING_UPLOAD_TOKEN
     this.httpFetchUploadToken(function (response) {
 
       //（兼容性：chrome，ff，IE9及以上）
       let formData = new FormData()
 
       formData.append('uploadTokenUuid', that.uploadTokenUuid)
-      formData.append('file', that.file)
 
-      that.procedure = Procedure.UPLOADING
+
+      //也可以直接传一个blob过来。
+      if (that.file) {
+        formData.append('file', that.file)
+      } else if (that.blob) {
+        formData.append("file", that.blob, that.blobName);
+      } else {
+        that.defaultErrorHandler("没有选择文件！", errorCallback)
+        return;
+      }
+
+
+      that.procedure = TankProcedure.UPLOADING
+      //闭包
+      let lastTimeStamp = new Date().getTime()
+      let lastSize = 0
       that.httpPost(that.uploadUrl, formData, function (response) {
 
         //上传到tank服务器成功了，更新matterUuid.
@@ -390,7 +405,7 @@ export default class Tank extends BaseEntity {
         //去服务器确认文件
         that.httpConfirm(function (response) {
 
-          that.procedure = Procedure.FREE
+          that.procedure = TankProcedure.FREE
 
           //已经被自己服务器确认过了
           that.confirmed = true
@@ -402,33 +417,86 @@ export default class Tank extends BaseEntity {
         }, function () {
 
 
-          that.procedure = Procedure.FREE
+          that.procedure = TankProcedure.FREE
           that.errorMessage = '准备去确认，出错啦'
           that.clear()
 
-          that.defaultErrorHandler(response, failureCallback)
+          that.defaultErrorHandler(response, errorCallback)
 
         })
 
       }, function (response) {
 
-        that.procedure = Procedure.FREE
+        that.procedure = TankProcedure.FREE
         that.errorMessage = '上传出错，请稍后重试'
         that.clear()
 
-        that.defaultErrorHandler(response, failureCallback)
+        that.defaultErrorHandler(response, errorCallback)
 
       }, {
         progress: function (event) {
 
+
           //上传进度。
           that.progress = event.loaded / event.total
 
+          let currentTime = (new Date()).getTime();
+          let deltaTime = currentTime - lastTimeStamp;
+
+          //每2s计算一次速度
+          if (deltaTime > 1000) {
+            lastTimeStamp = currentTime;
+
+            let currentSize = event.loaded;
+            let deltaSize = currentSize - lastSize;
+            lastSize = currentSize;
+
+            that.speed = (deltaSize / (deltaTime / 1000)).toFixed(0);
+          }
         }
       })
     })
 
   }
 
+  //根据一个url获取其自动的名字
+  getAutoFilename(url) {
+    let filename = "auto.png";
+    //自动获取名称。因为有可能最后有参数，所以导致最后并不是文件名.
+    if (url.indexOf(".png") !== -1) {
+      filename = "auto.png";
+    } else if (url.indexOf(".jpg") !== -1) {
+      filename = "auto.jpg";
+    } else if (url.indexOf(".jpeg") !== -1) {
+      filename = "auto.jpeg";
+    } else if (url.indexOf(".gif") !== -1) {
+      filename = "auto.gif";
+    } else if (url.indexOf(".bmp") !== -1) {
+      filename = "auto.bmp";
+    } else if (url.indexOf(".svg") !== -1) {
+      filename = "auto.svg";
+    }
+    return filename;
+  }
+
+  //让云盘自己根据url去爬取
+  httpCrawlDirect(url, filename, successCallback, errorCallback) {
+    let that = this
+
+
+    let form = {
+      url: url,
+      filename: filename
+    }
+    this.httpPost(Tank.URL_CRAWL_DIRECT, form, function (response) {
+
+      that.render(response.data.data);
+
+      that.safeCallback(successCallback)(response)
+
+
+    }, errorCallback)
+  }
+
+
 }
-Tank.prototype.Procedure = Procedure

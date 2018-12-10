@@ -39,7 +39,7 @@
               </div>
               <div>
                 <div class="mt5">
-                  {{u.getRoleName()}}
+                  {{UserRoleMap[u.role].name}}
                 </div>
                 <div class="mt5">
                   <i class="fa fa-envelope" :class="{'text-success':u.emailValidate}" :title="u.emailValidate ? '已验证邮箱':'未认证邮箱'" v-if="u.email"></i>
@@ -91,11 +91,19 @@
   import NbPager from '../../common/widget/NbPager.vue'
   import Pager from '../../common/model/base/Pager'
   import User from '../../common/model/user/User'
+  import {UserRole, UserRoleList, UserRoleMap} from "../../common/model/user/UserRole";
+  import {UserGender, UserGenderList, UserGenderMap} from "../../common/model/user/UserGender";
 
   export default {
-    name: 'list',
+
     data () {
       return {
+        UserRole,
+        UserRoleMap,
+        UserRoleList,
+        UserGender,
+        UserGenderList,
+        UserGenderMap,
         pager: new Pager(User),
         user: this.$store.state.user
       }

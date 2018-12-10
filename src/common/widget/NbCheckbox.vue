@@ -6,12 +6,14 @@
 
 <script>
 
-  import $ from 'jquery'
-  import iCheck from '../fork/icheck/icheck-vue'
+  import $ from "jquery"
+  import iCheck from "../fork/icheck/icheck-vue"
   //css
-  import 'icheck/skins/square/green.css'
+  //import "icheck/skins/square/green.css";
+  import "icheck/skins/flat/blue.css";
+  //import "../fork/icheck/blue.css";
 
-  iCheck($)
+  iCheck($);
 
   export default {
     data() {
@@ -21,12 +23,12 @@
       value: {
         type: [String, Number, Boolean, Array],
         required: false,
-        'default': false
+        "default": false
       },
       val: {
         type: [String, Number, Boolean],
         required: false,
-        'default': null
+        "default": null
       },
       disabled: {
         type: Boolean,
@@ -36,68 +38,74 @@
     },
     computed: {
       $check() {
-        return $(this.$refs.check)
+        return $(this.$refs.check);
       }
     },
     watch: {
-      'value'() {
-        this.refresh()
+      "value"() {
+        this.refresh();
       },
-      'val'() {
-        this.refresh()
+      "val"() {
+        this.refresh();
+      },
+      "disabled"(newVal, oldVal) {
+        this.refresh();
       }
     },
     methods: {
       refresh() {
 
-        let state = 'check'
+        let state = "check";
         if (this.value instanceof Array) {
           if (this.value.indexOf(this.val) === -1) {
-            state = 'uncheck'
+            state = "uncheck";
           } else {
-            state = 'check'
+            state = "check";
           }
         } else {
-          state = this.value ? 'check' : 'uncheck'
+          state = this.value ? "check" : "uncheck";
         }
-        this.$check.iCheck(state)
+        this.$check.iCheck(state);
+
+        //改变disabled状态
+        this.$check.iCheck(this.disabled ? 'disable' : 'enable');
 
       }
     },
     mounted() {
-      let that = this
+      let that = this;
       this.$check.iCheck({
-        checkboxClass: 'icheckbox_square-green',
-        radioClass: 'iradio_square-green'
-      })
-      this.refresh()
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue'
+      });
+      this.refresh();
 
       this.$check.on('ifChecked', function (event) {
+
         if (that.value instanceof Array) {
           if (that.value.indexOf(that.val) === -1) {
-            that.value.push(that.val)
-            that.$emit('input', that.value)
+            that.value.push(that.val);
+            that.$emit('input', that.value);
           }
         } else {
-          that.$emit('input', true)
+          that.$emit('input', true);
         }
 
-
-      })
+      });
 
       this.$check.on('ifUnchecked', function (event) {
         if (that.value instanceof Array) {
-          let index = that.value.indexOf(that.val)
+          let index = that.value.indexOf(that.val);
           if (index !== -1) {
-            that.value.splice(index, 1)
+            that.value.splice(index, 1);
           }
-          that.$emit('input', that.value)
+          that.$emit('input', that.value);
         } else {
-          that.$emit('input', false)
+          that.$emit('input', false);
         }
 
+      });
 
-      })
 
     }
   }
@@ -111,7 +119,7 @@
     margin: 0;
     padding: 0;
     width: 22px;
-    height: 22px;
+    line-height: 22px;
     border: none;
   }
 </style>
