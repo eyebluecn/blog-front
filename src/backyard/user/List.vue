@@ -9,7 +9,7 @@
 		</div>
 
     <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
+      <div class="col-xs-12">
         <NbFilter :filters="pager.filters" :callback="search">
           <router-link class="btn btn-primary btn-sm" to="/by/user/create">
             <i class="fa fa-plus"></i>
@@ -18,7 +18,7 @@
         </NbFilter>
       </div>
 
-      <div class="col-lg-8 col-lg-offset-2" v-for="(u,index) in pager.data">
+      <div class="col-xs-12" v-for="(u,index) in pager.data">
         <div class="bg-white border br4 p10 mb10">
           <div class="media">
             <div class="pull-left">
@@ -71,7 +71,7 @@
         </div>
       </div>
 
-      <div class="col-lg-8 col-lg-offset-2 mt20">
+      <div class="col-xs-12 mt20">
         <NbPager :pager="pager" :callback="refresh"></NbPager>
       </div>
 

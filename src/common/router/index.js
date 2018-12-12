@@ -6,6 +6,7 @@ import UserList from '../../backyard/user/List'
 import UserDetail from '../../backyard/user/Detail'
 import UserChangePassword from '../../backyard/user/ChangePassword'
 import UserCreate from '../../backyard/user/Create'
+import DocumentList from '../../backyard/document/List.vue'
 import ArticleList from '../../backyard/article/List.vue'
 import ArticleCreate from '../../backyard/article/Create.vue'
 import ArticleDetail from '../../backyard/article/Detail.vue'
@@ -100,6 +101,22 @@ const router = new Router({
             ]
           }
         },
+        {
+          path: 'document/list',
+          name: 'DocumentList',
+          component: DocumentList,
+          meta: {
+            title: '文档管理',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'DocumentList',
+                title: '文档管理'
+              }
+            ]
+          }
+        },
+
         {
           path: 'user/login',
           name: 'UserLogin',

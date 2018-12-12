@@ -6,10 +6,10 @@
         <div class="pedia-navigation">
           <span class="item active">文章列表</span>
           <span class="tool">
-              <router-link class="btn btn-primary btn-sm" to="/by/article/create">
-                <i class="fa fa-plus"></i>
-                创建文章
-              </router-link>
+            <router-link class="btn btn-primary btn-sm" to="/by/document/create">
+              <i class="fa fa-plus"></i>
+              创建文档
+            </router-link>
           </span>
         </div>
       </div>
@@ -32,7 +32,7 @@
   </div>
 </template>
 <script>
-  import NbPlainFilter from '../../common/widget/filter/NbPlainFilter'
+  import NbPlainFilter from '../../common/widget/filter/NbPlainFilter.vue'
   import NbPager from '../../common/widget/NbPager.vue'
   import ArticleCell from '../../backyard/article/widget/ArticleCell'
   import Pager from '../../common/model/base/Pager'
@@ -43,7 +43,6 @@
   export default {
     data() {
       return {
-        UserRole,
         pager: new Pager(Article),
         user: this.$store.state.user
       }

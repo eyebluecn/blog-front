@@ -10,7 +10,7 @@
             {{report.comment.articleTitle}}
           </router-link>
         </div>
-        <div v-if="report.type === Report.prototype.Type.REPORT_COMMENT" class="report-comment">
+        <div v-if="report.type === ReportType.REPORT_COMMENT" class="report-comment">
           <router-link :to="'/by/article/detail/' + report.comment.articleUuid + '?commentUuid=' + report.comment.uuid">
             {{report.comment.name + ' ：' + report.comment.content}}
           </router-link>

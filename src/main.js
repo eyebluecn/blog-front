@@ -1,6 +1,5 @@
 //For IE Exception.
 import "babel-polyfill";
-
 //custom directive.
 import "./common/directive/directive"
 
@@ -14,6 +13,9 @@ import VueResource from 'vue-resource'
 import NProgress from 'vue-nprogress'
 import filters from './common/filter'
 import Element from 'element-ui';
+//自定义文本框插件
+import CopyPlugin from "./common/plugin/copy/CopyPlugin";
+import PhotoSwipePlugin from "./common/plugin/photoswipe/PhotoSwipePlugin";
 
 
 //expose to global.
@@ -30,7 +32,9 @@ Vue.use(NProgress)
 //全量引入饿了么组件。
 Vue.use(Element, {size: 'small', zIndex: 3000});
 
-
+//使用自定义插件
+Vue.use(new CopyPlugin())
+Vue.use(new PhotoSwipePlugin())
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {

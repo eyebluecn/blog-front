@@ -262,6 +262,7 @@ export default class User extends BaseEntity {
   }
 
   hasPermission(featureType) {
+
     if (this.role === UserRole.ADMIN) {
       return true
     } else if (this.role === UserRole.USER) {

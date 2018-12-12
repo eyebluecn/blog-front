@@ -47,7 +47,7 @@
 
 
   export default {
-    name: 'article-cell',
+
     data() {
       return {}
     },

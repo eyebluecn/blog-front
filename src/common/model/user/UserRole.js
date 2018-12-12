@@ -1,7 +1,7 @@
 let UserRole = {
-  UNKNOWN: 'UNKNOWN',
-  MALE: 'MALE',
-  FEMALE: 'FEMALE'
+  GUEST: 'GUEST',
+  USER: 'USER',
+  ADMIN: 'ADMIN'
 }
 let UserRoleMap = {
   GUEST: {

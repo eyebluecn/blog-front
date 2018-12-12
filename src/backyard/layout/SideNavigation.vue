@@ -89,7 +89,11 @@
         }
 
         if (this.user.hasPermission(FeatureType.USER_MINE)) {
-          this.menus.push(new Menu("活动管理", "/by", "fa-book"))
+          this.menus.push(new Menu("文章管理", "/by", "fa-book"))
+        }
+
+        if (this.user.hasPermission(FeatureType.USER_MINE)) {
+          this.menus.push(new Menu("文档管理", "/by/document/list", "fa-cubes"))
         }
 
 
@@ -114,8 +118,6 @@
         if (this.user.hasPermission(FeatureType.USER_MANAGE)) {
           this.menus.push(new Menu("网站前台", "/", "fa-home"))
         }
-
-
 
         if (this.user.hasPermission(FeatureType.USER_MINE)) {
           this.menus.push(new Menu("退出登录", "/by/user/login", "fa-power-off"))

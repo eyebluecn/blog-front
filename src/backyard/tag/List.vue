@@ -9,7 +9,7 @@
     </div>
 
     <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
+      <div class="col-xs-12">
         <NbFilter :filters="pager.filters" :callback="search">
           <router-link class="btn btn-primary btn-sm" to="/by/tag/create">
             <i class="fa fa-plus"></i>
@@ -17,7 +17,7 @@
           </router-link>
         </NbFilter>
       </div>
-      <div class="col-lg-8 col-lg-offset-2">
+      <div class="col-xs-12">
         <div class="row">
           <div class="col-md-6" v-for="(tag,index) in pager.data">
 
@@ -28,7 +28,7 @@
       </div>
 
 
-      <div class="col-lg-8 col-lg-offset-2 mt20">
+      <div class="col-xs-12 mt20">
         <NbPager :pager="pager" :callback="refresh"/>
       </div>
 
@@ -47,6 +47,7 @@
   import NbTank from '../../common/widget/NbTank'
   import NbTanks from '../../common/widget/NbTanks'
   import Tank from "../../common/model/tank/Tank";
+  import {UserRole} from "../../common/model/user/UserRole";
 
   export default {
     data() {
@@ -74,7 +75,7 @@
       }
     },
     created() {
-      if (this.user.role === 'ADMIN') {
+      if (this.user.role === UserRole.ADMIN) {
         this.pager.getFilter('userUuid').visible = true
       } else {
         this.pager.setFilterValue('userUuid', this.user.uuid)

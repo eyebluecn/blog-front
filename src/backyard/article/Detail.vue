@@ -12,7 +12,7 @@
 
 		<!--编辑，权限设置-->
 		<div class="row">
-			<div class="col-lg-8 col-lg-offset-2 text-right mb10">
+      <div class="col-xs-12 text-right mb10">
 
         <a class="btn btn-primary btn-sm" :href="'/a/'+article.user.username+'/'+ article.path">
 					<i class="fa fa-arrow-right"></i>
@@ -29,7 +29,7 @@
 		<LoadingFrame :loading="article.detailLoading">
 			<div class="row">
 
-				<div class="col-lg-8 col-lg-offset-2">
+        <div class="col-xs-12">
 					<div class="article-detail">
 						<div class="row">
 							<div class="col-md-10 col-md-offset-1">

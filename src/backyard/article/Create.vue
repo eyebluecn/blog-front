@@ -60,9 +60,9 @@
                 <div class="col-md-12">
                   <NbTags v-if="article.editMode && article.userUuid" :Clazz="ArticleTag" :tags="shortTags" :max="5"
                           :taggable="false"
-                          :initFilter="{'orderSort':'DESC','userUuid': article.userUuid}"/>
+                          :initFilter="{'orderSort':SortDirection.DESC,'userUuid': article.userUuid}"/>
                   <NbTags v-if="!article.editMode" :Clazz="ArticleTag" :tags="shortTags" :max="5" :taggable="false"
-                          :initFilter="{'orderSort':'DESC','userUuid': user.uuid}"/>
+                          :initFilter="{'orderSort':SortDirection.DESC,'userUuid': user.uuid}"/>
                 </div>
               </div>
 
@@ -154,11 +154,13 @@
   import ArticleTag from '../../common/model/tag/Tag'
   import $ from 'jquery'
   import {simpleDate} from "../../common/filter/time";
+  import {SortDirection} from "../../common/model/base/SortDirection";
 
   export default {
 
     data() {
       return {
+        SortDirection,
         ArticleTag,
         shortTags: [],
         showOutline: true,

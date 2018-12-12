@@ -119,9 +119,9 @@
   import Pager from '../../../common/model/base/Pager'
   import Comment from '../../../common/model/comment/Comment'
   import CommentTextarea from './CommentTextarea'
-  import { simpleDateTime } from '../../../common/filter/time'
-  import { Message } from 'element-ui'
+  import {Message} from 'element-ui'
   import Article from '../../../common/model/article/Article'
+  import {SortDirection} from "../../../common/model/base/SortDirection";
 
   export default {
 
@@ -152,7 +152,7 @@
         this.refresh()
       },
       refresh () {
-        this.pager.setFilterValue('orderSort', 'DESC')
+        this.pager.setFilterValue('orderSort', SortDirection.DESC)
         this.pager.setFilterValue('isFloor', true)
         this.pager.setFilterValue('needSubPager', true)
         this.pager.httpFastPage()

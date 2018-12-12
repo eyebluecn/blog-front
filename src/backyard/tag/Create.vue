@@ -9,7 +9,7 @@
 					</span>
         </div>
       </div>
-      <div class="col-lg-8 col-lg-offset-2">
+      <div class="col-xs-12">
         <div class="bg-white br4 p20 mt10">
 
           <div class="row" v-validator="tag.validatorSchema.name.error">
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-  import {Notification, MessageBox, DatePicker} from 'element-ui'
+  import {Notification} from 'element-ui'
   import Tag from '../../common/model/tag/Tag'
   import NbTank from '../../common/widget/NbTank'
   import CreateSaveButton from '../widget/CreateSaveButton'

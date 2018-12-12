@@ -1,7 +1,7 @@
 let UserGender = {
-  GUEST: 'GUEST',
-  USER: 'USER',
-  ADMIN: 'ADMIN'
+  UNKNOWN: 'UNKNOWN',
+  MALE: 'MALE',
+  FEMALE: 'FEMALE'
 }
 let UserGenderMap = {
   UNKNOWN: {

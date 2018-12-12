@@ -10,7 +10,7 @@
 
 
     <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
+      <div class="col-xs-12">
         <NbFilter :filters="pager.filters" :callback="search"/>
 
         <div v-for="report in pager.data">
@@ -32,7 +32,6 @@
   import NbFilter from '../../common/widget/filter/NbFilter.vue'
   import NbPager from '../../common/widget/NbPager.vue'
   import ReportCell from './widget/ReportCell'
-  import {MessageBox, Notification} from 'element-ui'
   import Pager from '../../common/model/base/Pager'
   import Report from '../../common/model/report/Report'
 

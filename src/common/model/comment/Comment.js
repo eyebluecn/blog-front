@@ -2,6 +2,7 @@ import BaseEntity from '../base/BaseEntity'
 import Filter from '../base/Filter'
 import Pager from '../base/Pager'
 import {FilterType} from "../base/FilterType";
+import {SortDirection} from "../base/SortDirection";
 
 export default class Comment extends BaseEntity {
 
@@ -11,7 +12,7 @@ export default class Comment extends BaseEntity {
   static URL_API_COMMENT_CANCEL_AGREE = '/api/comment/cancel/agree'
 
 
-  constructor (args) {
+  constructor(args) {
     super(args)
     this.articleUuid = null
     this.userUuid = null
@@ -48,12 +49,12 @@ export default class Comment extends BaseEntity {
     }
   }
 
-  render (obj) {
+  render(obj) {
     super.render(obj)
     this.renderEntity('commentPager', Pager)
   }
 
-  getFilters () {
+  getFilters() {
     return [
       ...super.getFilters(),
       new Filter(FilterType.INPUT, 'uuid', 'uuid', null, null, false),
@@ -69,11 +70,11 @@ export default class Comment extends BaseEntity {
     ]
   }
 
-  validate () {
+  validate() {
     return super.validate()
   }
 
-  getForm () {
+  getForm() {
     return {
       articleUuid: this.articleUuid,
       isFloor: this.isFloor,
@@ -85,10 +86,10 @@ export default class Comment extends BaseEntity {
     }
   }
 
-  refreshCommentPager () {
+  refreshCommentPager() {
     let that = this
     return function () {
-      that.commentPager.setFilterValue('orderSort', 'DESC')
+      that.commentPager.setFilterValue('orderSort', SortDirection.DESC)
       that.commentPager.setFilterValue('articleUuid', this.articleUuid)
       that.commentPager.setFilterValue('floorUuid', this.uuid)
       that.commentPager.setFilterValue('isFloor', false)
@@ -98,14 +99,14 @@ export default class Comment extends BaseEntity {
 
   }
 
-  httpCreate (successCallback, errorCallback) {
+  httpCreate(successCallback, errorCallback) {
     let that = this
     this.httpPost(Comment.URL_API_COMMENT_CREATE, this.getForm(), function (response) {
       typeof successCallback === 'function' && successCallback(response)
     }, errorCallback)
   }
 
-  httpAgreeChange (successCallback, errorCallback) {
+  httpAgreeChange(successCallback, errorCallback) {
     let that = this
     if (this.agreed) {
       this.httpPost(Comment.URL_API_COMMENT_CANCEL_AGREE, {'commentUuid': this.uuid}, function (response) {
