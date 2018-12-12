@@ -79,6 +79,23 @@ export default class Article extends BaseEntity {
     this.tagArray = []
 
 
+    //创建文档时候的验证规则
+    this.documentValidatorSchema = {
+      title: {
+        rules: [{required: true, message: '标题必填'}],
+        error: null
+      },
+      digest: {
+        rules: [{required: true, message: '昵称必填'}],
+        error: null
+      },
+
+      path: {
+        rules: [{required: true, message: '访问路径'}],
+        error: null
+      }
+    }
+
   }
 
 
