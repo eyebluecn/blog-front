@@ -239,54 +239,14 @@
       }
     }
 
+    //去除一些不要样式的影响
     .nav {
-      //第一级菜单
-      > li {
-        > a {
-
-          color: @nav-text-color;
-
-          padding: 12px 20px;
-          &:hover, &:focus {
-            color: @font-highlight-color;
-            background-color: transparent;
-          }
-
-          i {
-            margin-right: 6px;
-          }
-
-          &.router-link-exact-active {
-            background-color: black;
-          }
-        }
-
-        .sub-nav {
-          padding: 0;
-          margin: 0;
-          > li {
-
-            list-style: none;
-
-            > a {
-              display: inline-block;
-              width: 100%;
-              color: @nav-text-color;
-              padding: 12px 20px 12px 43px;
-              &:hover, &:focus {
-                color: @font-highlight-color;
-                background-color: transparent;
-              }
-
-              &.router-link-exact-active {
-                background-color: black;
-              }
-            }
-          }
-        }
+      a:hover, a:focus {
+        color: @font-highlight-color;
+        background-color: transparent;
       }
-
     }
+
   }
 
 

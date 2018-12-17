@@ -226,6 +226,11 @@
           this.showOutline = true
           return
         }
+
+        this.article.posterTankUuid = this.article.posterTank.uuid
+        this.article.posterUrl = this.article.posterTank.url
+
+
         console.log("验证工作结束了。")
         this.article.httpSave(function (response) {
           Notification.success({

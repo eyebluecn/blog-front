@@ -39,10 +39,12 @@
   import Article from '../../common/model/article/Article'
   import {UserRole} from "../../common/model/user/UserRole";
   import {SortDirection} from "../../common/model/base/SortDirection";
+  import {ArticleType} from "../../common/model/article/ArticleType";
 
   export default {
     data() {
       return {
+        ArticleType,
         pager: new Pager(Article),
         user: this.$store.state.user
       }
@@ -99,6 +101,9 @@
       if (!this.pager.getFilterValue('userUuid')) {
         this.pager.setFilterValue('userUuid', this.user.uuid)
       }
+
+      //只显示知识库
+      this.pager.setFilterValue("types", ArticleType.DOCUMENT)
 
       this.refresh()
     }

@@ -6,6 +6,7 @@ import Tank from '../tank/Tank'
 import User from '../user/User'
 import Tag from '../tag/Tag'
 import {FilterType} from "../base/FilterType";
+import {ArticleType, ArticleTypeList} from "./ArticleType";
 
 export default class Article extends BaseEntity {
 
@@ -66,8 +67,17 @@ export default class Article extends BaseEntity {
     //是否接受评论的邮件通知
     this.needNotify = true
 
+    //对应文档的uuid，只有类型是 DOCUMENT_ARTICLE时用到此字段
+    this.documentUuid = null;
+
+    //自己作为文档文章时，标题的父级是什么。第一级菜单的puuid是ROOT
+    this.puuid = null;
+
+    //类型，默认单篇文章类型
+    this.type = ArticleType.ARTICLE
+
     //封面图片
-    this.posterTank = new Tank('image', false, 1024 * 1024, '图片不能超过1M')
+    this.posterTank = new Tank('image', false, 10 * 1024 * 1024, '图片不能超过10M')
 
     //作者
     this.user = new User()
@@ -78,6 +88,9 @@ export default class Article extends BaseEntity {
     //标签数组对象
     this.tagArray = []
 
+    //作为文档的目录时，有子目录情况。
+    this.children = []
+
 
     //创建文档时候的验证规则
     this.documentValidatorSchema = {
@@ -86,12 +99,11 @@ export default class Article extends BaseEntity {
         error: null
       },
       digest: {
-        rules: [{required: true, message: '昵称必填'}],
+        rules: [{required: true, message: '摘要必填'}],
         error: null
       },
-
       path: {
-        rules: [{required: true, message: '访问路径'}],
+        rules: [{required: true, message: '访问路径必填'}],
         error: null
       }
     }
@@ -108,6 +120,7 @@ export default class Article extends BaseEntity {
       new Filter(FilterType.HTTP_INPUT_SELECTION, '用户', 'userUuid', null, User, false, UserInputSelection),
       new Filter(FilterType.CHECK, '私有', 'privacy'),
       new Filter(FilterType.INPUT, '标题', 'title'),
+      new Filter(FilterType.MULTI_SELECTION, '文档类型', 'types', ArticleTypeList, null, false),
       new Filter(FilterType.INPUT, '关键词', 'keyword')
     ]
   };
@@ -117,6 +130,7 @@ export default class Article extends BaseEntity {
     this.renderEntity('posterTank', Tank)
     this.renderEntity('user', User)
     this.renderList('tagArray', Tag)
+    this.renderList('children', Article)
   }
 
   getForm() {
@@ -134,39 +148,39 @@ export default class Article extends BaseEntity {
       privacy: this.privacy,
       top: this.top,
       needNotify: this.needNotify,
+      documentUuid: this.documentUuid,
+      puuid: this.puuid,
+      type: this.type,
       uuid: this.uuid ? this.uuid : null
     }
   }
 
-  validate() {
-    if (this.posterTank) {
-      this.posterTankUuid = this.posterTank.uuid
-      this.posterUrl = this.posterTank.url
-    }
-
-    if (!this.title) {
-      this.errorMessage = "标题必填";
-      return false
-    }
-
-    if (this.isMarkdown) {
-      if (!this.markdown || this.markdown.length > 2147483647) {
-        this.errorMessage = "文章内容必填且不超过2147483647字";
-        return false
-      }
-    }
-
-    if (!this.html || this.html.length > 2147483647) {
-
-      this.errorMessage = "文章内容必填且不超过2147483647字";
-      return false
-    }
-
-
-
-    this.errorMessage = null;
-    return true
+  validate(validatorSchema = this.validatorSchema) {
+    return super.validate(validatorSchema)
   }
+
+
+  toggleEdit() {
+
+    if (this.editMode) {
+      this.finish();
+    } else {
+      this.editMode = true;
+    }
+
+  }
+
+  finish() {
+
+    if (this.validate()) {
+      this.errorMessage = null;
+      this.editMode = false;
+    }
+
+  }
+
+
+
 
 
   httpChangeTop(successCallback, errorCallback) {
@@ -189,5 +203,30 @@ export default class Article extends BaseEntity {
       }
     )
   }
+
+  httpSaveDocument(successCallback, errorCallback) {
+
+    let that = this
+
+    let url = this.getUrlCreate()
+    if (this.uuid) {
+      url = this.getUrlEdit()
+    }
+
+    this.errorMessage = this.validate(this.documentValidatorSchema)
+    if (this.errorMessage) {
+      that.defaultErrorHandler(this.errorMessage, errorCallback)
+      return
+    }
+
+    this.httpPost(url, this.getForm(), function (response) {
+
+      that.render(response.data.data)
+
+      that.safeCallback(successCallback)(response)
+
+    }, errorCallback)
+  }
+
 
 }

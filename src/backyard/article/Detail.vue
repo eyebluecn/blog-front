@@ -5,28 +5,25 @@
 
 				<div class="pedia-navigation">
 					<span class="item active">文章详情</span>
-				</div>
+          <span class="tool">
 
-			</div>
-		</div>
+            <a class="btn btn-primary btn-sm" :href="'/a/'+article.user.username+'/'+ article.path">
+              <i class="fa fa-arrow-right"></i>
+              前台文章
+            </a>
+            <router-link class="btn btn-primary btn-sm" :to="'/by/article/edit/'+ article.uuid">
+              <i class="fa fa-pencil"></i>
+              编辑文章
+            </router-link>
+          </span>
+        </div>
 
-		<!--编辑，权限设置-->
-		<div class="row">
-      <div class="col-xs-12 text-right mb10">
 
-        <a class="btn btn-primary btn-sm" :href="'/a/'+article.user.username+'/'+ article.path">
-					<i class="fa fa-arrow-right"></i>
-					前台文章
-				</a>
-				<router-link class="btn btn-primary btn-sm" :to="'/by/article/edit/'+ article.uuid">
-					<i class="fa fa-pencil"></i>
-					编辑文章
-				</router-link>
-			</div>
+      </div>
 		</div>
 
 
-		<LoadingFrame :loading="article.detailLoading">
+    <LoadingFrame :loading="article.detailLoading">
 			<div class="row">
 
         <div class="col-xs-12">

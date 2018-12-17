@@ -4,13 +4,13 @@
 			<div class="col-lg-12">
 				<div class="pedia-navigation">
 					<span class="item active">网站偏好</span>
-				</div>
-			</div>
-      <div class="col-xs-12 text-right">
-				<router-link class="btn btn-sm btn-primary" to="/by/preference/edit">
-					<i class="fa fa-pencil"></i>
-					修改
-				</router-link>
+          <span class="tool">
+            <router-link class="btn btn-sm btn-primary" to="/by/preference/edit">
+              <i class="fa fa-pencil"></i>
+              修改
+            </router-link>
+          </span>
+        </div>
 			</div>
       <div class="col-xs-12">
         <div class="mt10 bg-white br4 border">

@@ -4,18 +4,19 @@
       <div class="col-md-12">
         <div class="pedia-navigation">
           <span class="item active">标签列表</span>
+          <span class="tool">
+            <router-link class="btn btn-primary btn-sm" to="/by/tag/create">
+              <i class="fa fa-plus"></i>
+              创建标签
+            </router-link>
+          </span>
         </div>
       </div>
     </div>
 
     <div class="row">
       <div class="col-xs-12">
-        <NbFilter :filters="pager.filters" :callback="search">
-          <router-link class="btn btn-primary btn-sm" to="/by/tag/create">
-            <i class="fa fa-plus"></i>
-            创建标签
-          </router-link>
-        </NbFilter>
+        <NbPlainFilter :filters="pager.filters" :callback="search"/>
       </div>
       <div class="col-xs-12">
         <div class="row">
@@ -39,7 +40,7 @@
 </template>
 
 <script>
-  import NbFilter from '../../common/widget/filter/NbFilter.vue'
+  import NbPlainFilter from '../../common/widget/filter/NbPlainFilter.vue'
   import NbPager from '../../common/widget/NbPager.vue'
   import Pager from '../../common/model/base/Pager'
   import Tag from '../../common/model/tag/Tag'
@@ -59,7 +60,7 @@
       }
     },
     components: {
-      NbFilter,
+      NbPlainFilter,
       NbPager,
       TagCell,
       NbTank,

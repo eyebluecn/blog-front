@@ -6,6 +6,9 @@ import UserList from '../../backyard/user/List'
 import UserDetail from '../../backyard/user/Detail'
 import UserChangePassword from '../../backyard/user/ChangePassword'
 import UserCreate from '../../backyard/user/Create'
+import DocumentCreate from '../../backyard/document/Create.vue'
+import DocumentDetail from '../../backyard/document/Detail'
+import DocumentDesign from '../../backyard/document/Design'
 import DocumentList from '../../backyard/document/List.vue'
 import ArticleList from '../../backyard/article/List.vue'
 import ArticleCreate from '../../backyard/article/Create.vue'
@@ -63,6 +66,8 @@ const router = new Router({
             ]
           }
         },
+
+
         {
           path: 'article/edit/:uuid',
           name: 'ArticleEdit',
@@ -97,6 +102,87 @@ const router = new Router({
               {
                 name: 'ArticleDetail',
                 title: '文章详情'
+              }
+            ]
+          }
+        },
+
+        {
+          path: 'document/create',
+          name: 'DocumentCreate',
+          component: DocumentCreate,
+          meta: {
+            title: '新建文档',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'DocumentList',
+                title: '文档列表'
+              },
+              {
+                name: 'DocumentCreate',
+                title: '新建文档'
+              }
+            ]
+          }
+        },
+        {
+          path: 'document/edit/:uuid',
+          name: 'DocumentEdit',
+          component: DocumentCreate,
+          meta: {
+            title: '编辑文档',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'DocumentList',
+                title: '文档列表'
+              },
+              {
+                name: 'DocumentEdit',
+                title: '编辑文档'
+              }
+            ]
+          }
+        },
+        {
+          path: 'document/detail/:uuid',
+          name: 'DocumentDetail',
+          component: DocumentDetail,
+          meta: {
+            title: '文档详情',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'DocumentList',
+                title: '文档列表'
+              },
+              {
+                name: 'DocumentDetail',
+                title: '文档详情'
+              }
+            ]
+          }
+        },
+        {
+          path: 'document/design/:uuid',
+          name: 'DocumentDesign',
+          component: DocumentDesign,
+          meta: {
+            title: '设计目录',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'DocumentList',
+                title: '文档列表'
+              },
+              {
+                name: 'DocumentDetail',
+                title: '文档详情'
+              },
+              {
+                name: 'DocumentDesign',
+                title: '设计目录'
               }
             ]
           }
