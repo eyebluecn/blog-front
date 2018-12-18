@@ -6,12 +6,10 @@
 
 <script>
   import $script from 'scriptjs'
-
   //引入自定义的“上传附件”插件
   import EMAttachment from './EMAttachment.js'
   //引入自定义的“插入图片”插件
   import EMPicture from './EMPicture.js'
-
 
   export default {
     data() {
@@ -76,10 +74,9 @@
             // Or return editormd.toolbarModes[name]; // full, simple, mini
             // Using "||" set icons align right.
             return [
-              'undo', 'redo', '|', 'bold', 'del', 'italic', 'quote', 'ucwords', 'uppercase', 'lowercase', '|',
-              'h1', 'h2', 'h3', 'h4', 'h5', 'h6', '|',
+              'h1', 'h2', 'bold', 'del', 'italic', 'quote',
               'list-ul', 'list-ol', 'hr', '|',
-              'link', 'reference-link', emPicture.name, emAttachment.name, 'code', 'preformatted-text', 'code-block', 'table', 'datetime', 'pagebreak', '|', 'watch', 'preview', 'clear', 'fullscreen'
+              'link', 'reference-link', emPicture.name, emAttachment.name, 'code', 'table', '|', 'watch', 'preview', 'clear', 'fullscreen'
             ]
           },
           //自定义一个附件上传的动作
@@ -160,7 +157,6 @@
       })
 
       //初始化各种插件
-
 
     },
     beforeDestroy() {

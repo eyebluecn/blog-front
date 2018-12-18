@@ -7,21 +7,18 @@
 						<span v-show="!article.editMode">新建文章</span>
 						<span v-show="article.editMode">编辑文章</span>
 					</span>
+          <span class="tool">
+              <button class="btn btn-sm btn-primary mr5" @click.stop.prevent="showOutline = !showOutline">
+              <span v-show="!showOutline">
+                展开基本信息
+              </span>
+              <span v-show="showOutline">
+                收起基本信息
+              </span>
+            </button>
+            <CreateSaveButton :entity="article" :callback="save"/>
+          </span>
         </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12 text-right">
-        <button class="btn btn-sm btn-primary mr5" @click.stop.prevent="showOutline = !showOutline">
-					<span v-show="!showOutline">
-						展开基本信息
-					</span>
-          <span v-show="showOutline">
-						收起基本信息
-					</span>
-        </button>
-        <CreateSaveButton :entity="article" :callback="save"/>
       </div>
     </div>
 

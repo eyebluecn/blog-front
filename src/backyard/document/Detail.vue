@@ -15,7 +15,7 @@
                 <i class="fa fa-list-ol"></i>
                 设计目录
               </router-link>
-              <router-link class="btn btn-primary btn-sm" to="/by/article/create">
+              <router-link class="btn btn-primary btn-sm" :to="'/by/document/edit/'+document.uuid">
                 <i class="fa fa-cubes"></i>
                 编辑文档
               </router-link>
@@ -38,6 +38,13 @@
 
           </div>
 
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+              <IndexFrame :document="document"/>
+            </div>
+          </div>
+
+
         </div>
 
       </div>
@@ -55,6 +62,7 @@
   import CreateSaveButton from '../widget/CreateSaveButton'
   import Article from "../../common/model/article/Article";
   import {currentHost} from "../../common/util/Utils";
+  import IndexFrame from "./widget/detail/IndexFrame"
 
   export default {
 
@@ -75,7 +83,8 @@
       NbSwitcher,
       NbRadio,
       NbTank,
-      CreateSaveButton
+      CreateSaveButton,
+      IndexFrame
     },
     methods: {},
     created() {

@@ -93,11 +93,6 @@
         }
 
         if (this.user.hasPermission(FeatureType.USER_MINE)) {
-          this.menus.push(new Menu("文档管理", "/by/document/list", "fa-cubes"))
-        }
-
-
-        if (this.user.hasPermission(FeatureType.USER_MINE)) {
           this.menus.push(new Menu("标签列表", "/by/tag/list", "fa-tags"))
         }
 

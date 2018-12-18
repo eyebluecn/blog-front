@@ -22,9 +22,6 @@
           <div class="title">
             {{document.title}}
           </div>
-          <div class="digest">
-            提示：拖拽目录来进行调节
-          </div>
           <div class="author">
             <MenuFrame :document="document"/>
           </div>
@@ -46,7 +43,7 @@
   import CreateSaveButton from '../widget/CreateSaveButton'
   import Article from "../../common/model/article/Article";
   import {currentHost} from "../../common/util/Utils";
-  import MenuFrame from "./widget/MenuFrame"
+  import MenuFrame from "./widget/design/MenuFrame"
 
   export default {
 
@@ -102,6 +99,7 @@
         font-weight: bold;
         text-align: center;
         color: black;
+        margin-bottom: 20px;
 
       }
       .digest {

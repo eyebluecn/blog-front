@@ -16,7 +16,7 @@
     </div>
     <div class="row">
       <div class="col-xs-12">
-        <NbPlainFilter :filters="pager.filters" :callback="search"/>
+        <NbPlainFilter :filters="pager.filters" @change="search"/>
       </div>
 
       <div class="col-xs-12" v-for="(article,index) in pager.data">

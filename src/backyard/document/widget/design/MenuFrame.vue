@@ -20,7 +20,9 @@
 
 <script>
   import LevelBlock from "./LevelBlock.vue"
-  import Article from "../../../common/model/article/Article";
+  import Article from "../../../../common/model/article/Article";
+  import {ArticleType} from "../../../../common/model/article/ArticleType";
+  import {simpleDate} from "../../../../common/filter/time";
 
   export default {
     data() {
@@ -41,13 +43,12 @@
       addMenu() {
 
         let article = new Article()
-        article.name = null
-        article.key = null
+        article.path = simpleDate(new Date())
         article.documentUuid = this.document.uuid
-        article.puuid = null
+        article.puuid = Article.ROOT
         article.sort = (new Date()).getTime()
         article.document = this.document
-
+        article.type = ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE
         article.editMode = true
 
         this.document.children.push(article)
@@ -60,6 +61,10 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
+
+  @import "../../../../assets/css/global/variables";
+  @import "../../../../assets/css/global/miscellaneous";
+
   .document-menu-frame {
 
     @color-bg: #F8FAFF;
@@ -100,11 +105,11 @@
       font-weight: bold;
       color: @color-attribute;
     }
-    .label-link {
+    .label-document {
       font-weight: bold;
       color: @color-collection-highlight;
     }
-    .label-document {
+    .label-link {
       font-weight: bold;
       color: @color-document-highlight;
     }
@@ -153,7 +158,7 @@
       &.add {
 
         min-height: 38px;
-        margin: 5px 0;
+        margin: 10px 0;
         padding: 8px 12px;
 
         text-align: center;

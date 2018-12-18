@@ -7,11 +7,13 @@ import User from '../user/User'
 import Tag from '../tag/Tag'
 import {FilterType} from "../base/FilterType";
 import {ArticleType, ArticleTypeList} from "./ArticleType";
+import {simpleDate} from "../../filter/time";
 
 export default class Article extends BaseEntity {
 
   static URL_API_ARTICLE_TOP = '/api/article/top'
   static URL_API_ARTICLE_CANCEL_TOP = '/api/article/cancel/top'
+  static ROOT = "ROOT"
 
   constructor(args) {
     super(args)
@@ -92,6 +94,19 @@ export default class Article extends BaseEntity {
     this.children = []
 
 
+    //创建文章时候的验证规则
+    this.validatorSchema = {
+      title: {
+        rules: [{required: true, message: '标题必填'}],
+        error: null
+      },
+      path: {
+        rules: [{required: true, message: '路径必填'}],
+        error: null
+      }
+    }
+
+
     //创建文档时候的验证规则
     this.documentValidatorSchema = {
       title: {
@@ -103,7 +118,7 @@ export default class Article extends BaseEntity {
         error: null
       },
       path: {
-        rules: [{required: true, message: '访问路径必填'}],
+        rules: [{required: true, message: '路径必填'}],
         error: null
       }
     }
@@ -120,7 +135,7 @@ export default class Article extends BaseEntity {
       new Filter(FilterType.HTTP_INPUT_SELECTION, '用户', 'userUuid', null, User, false, UserInputSelection),
       new Filter(FilterType.CHECK, '私有', 'privacy'),
       new Filter(FilterType.INPUT, '标题', 'title'),
-      new Filter(FilterType.MULTI_SELECTION, '文档类型', 'types', ArticleTypeList, null, false),
+      new Filter(FilterType.MULTI_SELECTION, '类型', 'types', ArticleTypeList, null, true),
       new Filter(FilterType.INPUT, '关键词', 'keyword')
     ]
   };
@@ -180,7 +195,21 @@ export default class Article extends BaseEntity {
   }
 
 
+  //添加一个子目录
+  addChild() {
 
+    let article = new Article()
+
+    article.path = simpleDate(new Date())
+    article.documentUuid = this.documentUuid
+    article.puuid = this.uuid
+    article.sort = (new Date()).getTime()
+    article.document = this.document
+    article.type = ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE
+    article.editMode = true
+
+    this.children.push(article)
+  }
 
 
   httpChangeTop(successCallback, errorCallback) {
@@ -228,5 +257,8 @@ export default class Article extends BaseEntity {
     }, errorCallback)
   }
 
+  hasChildren() {
+    return this.children && this.children.length
+  }
 
 }

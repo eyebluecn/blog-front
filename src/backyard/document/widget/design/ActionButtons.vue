@@ -1,7 +1,7 @@
 <template>
 	<span v-show="editMode">
 		<a class="btn-action" title="完成" v-show="article.editMode">
-			<i class="fa fa-check text-warning f18"></i>
+			<i class="fa fa-check text-success f18"></i>
 		</a>
 
 		<a class="btn-action" title="编辑" v-show="!article.editMode"
@@ -33,8 +33,8 @@
 
 <script>
   import {MessageBox} from 'element-ui';
-  import Article from "../../../common/model/article/Article";
-  import {moveDown, moveUp} from "../../../common/util/ElementUtil";
+  import Article from "../../../../common/model/article/Article";
+  import {moveDown, moveUp} from "../../../../common/util/ElementUtil";
 
   export default {
     data() {

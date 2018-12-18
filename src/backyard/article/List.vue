@@ -10,13 +10,17 @@
                 <i class="fa fa-plus"></i>
                 创建文章
               </router-link>
+              <router-link class="btn btn-primary btn-sm" to="/by/document/create">
+                <i class="fa fa-plus"></i>
+                创建文档
+              </router-link>
           </span>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-xs-12">
-        <NbPlainFilter :filters="pager.filters" :callback="search"/>
+        <NbPlainFilter :filters="pager.filters" @change="search"/>
       </div>
 
       <div class="col-xs-12" v-for="(article,index) in pager.data">
@@ -39,6 +43,7 @@
   import Article from '../../common/model/article/Article'
   import {UserRole} from "../../common/model/user/UserRole";
   import {SortDirection} from "../../common/model/base/SortDirection";
+  import {ArticleType} from "../../common/model/article/ArticleType";
 
   export default {
     data() {
@@ -95,11 +100,16 @@
         this.pager.setFilterValue('orderCreateTime', SortDirection.DESC)
       }
 
-
       //如果没有设置用户的话，那么默认显示当前登录用户的资料
       if (!this.pager.getFilterValue('userUuid')) {
         this.pager.setFilterValue('userUuid', this.user.uuid)
       }
+
+      //默认只查看文章和文档。
+      if (!this.pager.getFilterValue('types')) {
+        this.pager.setFilterValue('types', ArticleType.ARTICLE + "," + ArticleType.DOCUMENT)
+      }
+
 
       this.refresh()
     }

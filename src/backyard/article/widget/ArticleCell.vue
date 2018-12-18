@@ -16,6 +16,8 @@
         <div class="title">
           <i class="fa fa-rocket text-danger f18 mr5" v-if="article.top" title="置顶文章"></i>
           <i class="fa fa-lock f18 mr5" v-if="article.privacy" title="私有文章，只有自己可见"></i>
+          <i class="fa fa-cubes text-primary f18 mr5" v-if="article.type === ArticleType.DOCUMENT"
+             title="文档，包含一系列文章"></i>
           <router-link :to="detailUrl">
             {{article.title}}
           </router-link>
@@ -43,13 +45,17 @@
   import TagCell from '../../tag/widget/TagCell'
   import ArticleInfo from '../widget/ArticleInfo'
   import Article from '../../../common/model/article/Article'
-  import {ArticleType} from "../../../common/model/article/ArticleType";
+  import {ArticleType, ArticleTypeList, ArticleTypeMap} from "../../../common/model/article/ArticleType";
 
 
   export default {
 
     data() {
-      return {}
+      return {
+        ArticleType,
+        ArticleTypeMap,
+        ArticleTypeList
+      }
     },
     props: {
       article: {
