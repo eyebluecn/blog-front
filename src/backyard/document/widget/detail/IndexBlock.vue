@@ -2,7 +2,7 @@
 
   <div class="index-block">
 
-    <div class="line">
+    <div class="line" :class="{blank:article.type === ArticleType.DOCUMENT_BLANK}">
       <div class="left-part"
            :class="{fat:article.hasChildren(),placeholder:article.type === ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE}">
         <i class="fa fa-caret-right" v-if="article.hasChildren() && !expand" @click.stop.prevent="toggleExpand"></i>
@@ -14,10 +14,11 @@
           {{article.title}}
         </span>
 
-
       </div>
       <div class="right-part">
-        {{article.path}}
+        {{(article.type === ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE || article.type ===
+        ArticleType.DOCUMENT_ARTICLE)?article.path:
+        (article.type === ArticleType.DOCUMENT_URL?article.digest:'')}}
       </div>
     </div>
 

@@ -13,6 +13,7 @@ export default class Article extends BaseEntity {
 
   static URL_API_ARTICLE_TOP = '/api/article/top'
   static URL_API_ARTICLE_CANCEL_TOP = '/api/article/cancel/top'
+  static URL_DOCUMENT_ASSIGN = '/api/article/document/assign'
   static ROOT = "ROOT"
 
   constructor(args) {
@@ -93,6 +94,10 @@ export default class Article extends BaseEntity {
     //作为文档的目录时，有子目录情况。
     this.children = []
 
+
+    //本地字段。
+    //当前这篇文章是否处于设计阶段，在文档设计目录时有用到。
+    this.designMode = false
 
     //创建文章时候的验证规则
     this.validatorSchema = {
@@ -175,6 +180,19 @@ export default class Article extends BaseEntity {
   }
 
 
+  toggleDesignMode() {
+
+    if (this.designMode) {
+      if (this.validate()) {
+        this.errorMessage = null;
+        this.designMode = false;
+      }
+    } else {
+      this.designMode = true;
+    }
+
+  }
+
   toggleEdit() {
 
     if (this.editMode) {
@@ -206,9 +224,14 @@ export default class Article extends BaseEntity {
     article.sort = (new Date()).getTime()
     article.document = this.document
     article.type = ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE
-    article.editMode = true
+    article.designMode = true
 
     this.children.push(article)
+  }
+
+
+  hasChildren() {
+    return this.children && this.children.length
   }
 
 
@@ -257,8 +280,24 @@ export default class Article extends BaseEntity {
     }, errorCallback)
   }
 
-  hasChildren() {
-    return this.children && this.children.length
+
+  httpDocumentAssign(documentUuid, puuid, articleUuid, sort, successCallback, errorCallback) {
+
+    let that = this
+
+    let form = {
+      documentUuid,
+      puuid,
+      articleUuid,
+      sort
+    }
+
+    this.httpPost(Article.URL_DOCUMENT_ASSIGN, form, function (response) {
+
+      that.safeCallback(successCallback)(response)
+
+    }, errorCallback)
   }
+
 
 }

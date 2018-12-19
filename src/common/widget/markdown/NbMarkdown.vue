@@ -76,7 +76,7 @@
             return [
               'h1', 'h2', 'bold', 'del', 'italic', 'quote',
               'list-ul', 'list-ol', 'hr', '|',
-              'link', 'reference-link', emPicture.name, emAttachment.name, 'code', 'table', '|', 'watch', 'preview', 'clear', 'fullscreen'
+              'link', emPicture.name, emAttachment.name, 'code', 'table', '|', 'watch', 'preview', 'clear', 'fullscreen'
             ]
           },
           //自定义一个附件上传的动作

@@ -98,8 +98,6 @@
     },
     watch: {
       "activeItem.uuid"(newVal, oldVal) {
-        newVal = parseInt(newVal);
-        oldVal = parseInt(oldVal);
 
         if (newVal !== oldVal) {
           this.show = false

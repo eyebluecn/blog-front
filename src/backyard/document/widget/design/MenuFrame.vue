@@ -7,10 +7,9 @@
                 :article="article"
                 :document="document"
                 :index="index"
-                :container="document.children"
-                :editMode="document.editMode"/>
+                :container="document.children"/>
 
-    <div class="level add" @click.stop.prevent="addMenu" v-show="document.editMode">
+    <div class="level add" @click.stop.prevent="addMenu">
       <i class="fa fa-plus"></i>
       添加菜单
     </div>
@@ -49,7 +48,7 @@
         article.sort = (new Date()).getTime()
         article.document = this.document
         article.type = ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE
-        article.editMode = true
+        article.designMode = true
 
         this.document.children.push(article)
 

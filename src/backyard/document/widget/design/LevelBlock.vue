@@ -5,7 +5,7 @@
     <div class="panel panel-default">
       <div class="panel-heading clearfix"
            :class="{'error':article.errorMessage}"
-           @click.stop.prevent="levelClick(article)">
+           @click.stop.prevent="levelClick()">
         <div class="pull-left">
           <span>
 						{{article.title?article.title:"请填写节点名称"}}
@@ -20,12 +20,15 @@
 					</span>
         </div>
         <div class="pull-right">
-          <ActionButtons :index="index" :article="article" :container="container" :editMode="editMode"/>
+          <ActionButtons :index="index" :article="article" :container="container"/>
         </div>
       </div>
 
       <NbExpanding>
-        <PanelBody v-if="article.editMode" :article="article" :container="container"/>
+        <PanelBody v-if="article.designMode"
+                   :article="article"
+                   :candidateArticle="candidateArticle"
+                   :container="container"/>
       </NbExpanding>
     </div>
 
@@ -34,8 +37,7 @@
                 :article="attr"
                 :document="document"
                 :index="attrIndex"
-                :container="article.children"
-                :editMode="editMode"/>
+                :container="article.children"/>
 
   </div>
 
@@ -55,15 +57,13 @@
       return {
         ArticleType,
         ArticleTypeList,
-        ArticleTypeMap
+        ArticleTypeMap,
+        //要作为被选中的文章
+        candidateArticle: new Article()
+
       }
     },
     props: {
-      editMode: {
-        type: Boolean,
-        required: false,
-        "default": false
-      },
       article: {
         type: Article,
         required: false
@@ -90,16 +90,41 @@
     computed: {},
     watch: {},
     methods: {
-      levelClick(article) {
-        if (this.editMode) {
+      levelClick() {
+        let that = this
+        if (that.article.designMode) {
 
-          if (article.editMode) {
+
+          //如果当前节点是 新文章，空白，链接。直接编辑即可
+          if (that.article.type === ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE ||
+            that.article.type === ArticleType.DOCUMENT_BLANK ||
+            that.article.type === ArticleType.DOCUMENT_URL
+          ) {
             //尝试去服务器保存。
-            article.httpSave(function () {
-              article.editMode = !article.editMode
+            that.article.httpSave(function () {
+              that.article.designMode = !that.article.designMode
             })
 
+          } else if (that.article.type === ArticleType.DOCUMENT_ARTICLE) {
+
+            that.document.httpDocumentAssign(
+              that.document.uuid,
+              that.article.puuid,
+              that.candidateArticle.uuid,
+              that.article.sort,
+              function () {
+                that.$message.success("指定文章成功！")
+
+                that.article.title = that.candidateArticle.title
+                that.article.path = that.candidateArticle.path
+                that.article.designMode = false
+
+              })
+
+
           }
+
+
         }
       }
     },

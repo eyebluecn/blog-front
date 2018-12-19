@@ -1,25 +1,26 @@
 <template>
-	<span v-show="editMode">
-		<a class="btn-action" title="完成" v-show="article.editMode">
+	<span>
+		<a class="btn-action" title="完成" v-show="article.designMode">
 			<i class="fa fa-check text-success f18"></i>
 		</a>
 
-		<a class="btn-action" title="编辑" v-show="!article.editMode"
-       @click.stop.prevent="article.toggleEdit">
+		<a class="btn-action" title="编辑"
+       v-show="article.type !== ArticleType.DOCUMENT_ARTICLE && !article.designMode"
+       @click.stop.prevent="article.toggleDesignMode">
 			<i class="fa fa-pencil text-warning f18"></i>
 		</a>
 
-		<a class="btn-action" title="添加子菜单" v-show="!article.editMode"
+		<a class="btn-action" title="添加子菜单" v-show="!article.designMode"
        @click.stop.prevent="article.addChild">
 			<i class="fa fa-plus text-success f18"></i>
 		</a>
 
-		<a class="btn-action" title="上移" v-show="!article.editMode && index !== 0"
+		<a class="btn-action" title="上移" v-show="!article.designMode && index !== 0"
        @click.stop.prevent="moveUp(index,container)">
 			<i class="fa fa-arrow-up f18"></i>
 		</a>
 
-		<a class="btn-action" title="下移" v-show="!article.editMode && index !== container.length - 1"
+		<a class="btn-action" title="下移" v-show="!article.designMode && index !== container.length - 1"
        @click.stop.prevent="moveDown(index,container)">
 			<i class="fa fa-arrow-down f18"></i>
 		</a>
@@ -35,17 +36,15 @@
   import {MessageBox} from 'element-ui';
   import Article from "../../../../common/model/article/Article";
   import {moveDown, moveUp} from "../../../../common/util/ElementUtil";
+  import {ArticleType} from "../../../../common/model/article/ArticleType";
 
   export default {
     data() {
-      return {}
+      return {
+        ArticleType
+      }
     },
     props: {
-      editMode: {
-        type: Boolean,
-        required: false,
-        "default": false
-      },
       article: {
         type: Article,
         required: true

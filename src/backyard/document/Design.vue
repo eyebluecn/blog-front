@@ -7,10 +7,10 @@
         <div class="pedia-navigation">
           <span class="item active">设计目录</span>
           <span class="tool">
-              <router-link class="btn btn-primary btn-sm" to="/by/article/create">
-                <i class="fa fa-plus"></i>
-                保存
-              </router-link>
+            <router-link class="btn btn-primary btn-sm" :to="'/by/document/edit/'+document.uuid">
+              <i class="fa fa-cubes"></i>
+              编辑文档
+            </router-link>
           </span>
         </div>
       </div>

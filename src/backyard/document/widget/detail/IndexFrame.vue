@@ -74,7 +74,7 @@
           }
           &.placeholder {
             .title-span {
-              border-bottom: 1px dotted #c88820;
+              border-bottom: 1px dashed red;
             }
           }
 
@@ -108,6 +108,14 @@
           right: 0;
           z-index: 0;
         }
+
+        //空节点，不带引导线
+        &.blank {
+          &:before {
+            border-bottom: 1px dashed transparent;
+          }
+        }
+
       }
     }
 
