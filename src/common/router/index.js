@@ -7,6 +7,9 @@ import UserDetail from '../../backyard/user/Detail'
 import UserChangePassword from '../../backyard/user/ChangePassword'
 import UserCreate from '../../backyard/user/Create'
 import DocumentCreate from '../../backyard/document/Create.vue'
+import DocumentWrite from '../../backyard/document/Write.vue'
+import DocumentReadFrame from '../../backyard/document/ReadFrame'
+import DocumentRead from '../../backyard/document/Read'
 import DocumentDetail from '../../backyard/document/Detail'
 import DocumentDesign from '../../backyard/document/Design'
 import DocumentList from '../../backyard/document/List.vue'
@@ -66,8 +69,6 @@ const router = new Router({
             ]
           }
         },
-
-
         {
           path: 'article/edit/:uuid',
           name: 'ArticleEdit',
@@ -106,7 +107,6 @@ const router = new Router({
             ]
           }
         },
-
         {
           path: 'document/create',
           name: 'DocumentCreate',
@@ -146,7 +146,59 @@ const router = new Router({
           }
         },
         {
-          path: 'document/detail/:uuid',
+          path: 'document/write/:uuid',
+          name: 'DocumentWrite',
+          component: DocumentWrite,
+          meta: {
+            title: '文章写作',
+            requiresAuth: true,
+            breadcrumbs: [
+              {
+                name: 'DocumentList',
+                title: '文档列表'
+              },
+              {
+                name: 'DocumentDetail',
+                title: '文档详情'
+              },
+              {
+                name: 'DocumentWrite',
+                title: '文章写作'
+              }
+            ]
+          }
+        },
+        {
+          path: 'document/read/:documentUuid',
+          component: DocumentReadFrame,
+          children: [
+            {
+              path: ':articleUuid',
+              name: 'DocumentRead',
+              component: DocumentRead,
+              meta: {
+                title: '阅读文章',
+                requiresAuth: true,
+                breadcrumbs: [
+                  {
+                    name: 'DocumentList',
+                    title: '文档列表'
+                  },
+                  {
+                    name: 'DocumentDetail',
+                    title: '文档详情'
+                  },
+                  {
+                    name: 'DocumentRead',
+                    title: '阅读文章'
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          path: 'document/detail/:documentUuid',
           name: 'DocumentDetail',
           component: DocumentDetail,
           meta: {

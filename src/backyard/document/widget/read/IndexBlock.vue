@@ -2,29 +2,19 @@
 
   <div class="index-block">
 
-    <div class="line" :class="{blank:article.type === ArticleType.DOCUMENT_BLANK}">
-      <div class="left-part"
-           :class="{fat:article.hasChildren(),placeholder:article.type === ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE}">
-        <i class="fa fa-caret-right" v-if="article.hasChildren() && !expand" @click.stop.prevent="toggleExpand"></i>
-        <i class="fa fa-caret-down" v-if="article.hasChildren() && expand" @click.stop.prevent="toggleExpand"></i>
+    <div class="line"
+         :class="{blank:article.type === ArticleType.DOCUMENT_BLANK,
+         fat:article.hasChildren(),
+         placeholder:article.type === ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE}">
 
-        <span class="title-span"
-              @click.stop.prevent="clickTitle"
-              :title="article.type === ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE?'该文章尚未创建，点击创建':article.title">
-          {{article.title}}
-        </span>
+      <i class="fa fa-caret-right" v-if="article.hasChildren() && !expand" @click.stop.prevent="toggleExpand"></i>
+      <i class="fa fa-caret-down" v-if="article.hasChildren() && expand" @click.stop.prevent="toggleExpand"></i>
 
-      </div>
-      <div class="right-part"
-           @click.stop.prevent="clickTitle"
-           :title="(article.type === ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE || article.type ===
-        ArticleType.DOCUMENT_ARTICLE)?article.path:
-        (article.type === ArticleType.DOCUMENT_URL?article.digest:'')">
-
-        {{(article.type === ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE || article.type ===
-        ArticleType.DOCUMENT_ARTICLE)?article.path:
-        (article.type === ArticleType.DOCUMENT_URL?article.digest:'')}}
-      </div>
+      <span class="title-span"
+            @click.stop.prevent="clickTitle"
+            :title="article.type === ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE?'该文章尚未创建，点击创建':article.title">
+        {{article.title}}
+      </span>
     </div>
 
     <NbExpanding>

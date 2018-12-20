@@ -14,6 +14,8 @@ export default class Article extends BaseEntity {
   static URL_API_ARTICLE_TOP = '/api/article/top'
   static URL_API_ARTICLE_CANCEL_TOP = '/api/article/cancel/top'
   static URL_DOCUMENT_ASSIGN = '/api/article/document/assign'
+  static URL_DOCUMENT_INDEX_DEL = '/api/article/document/index/del'
+  static URL_DOCUMENT_ARTICLE_SAVE = '/api/article/document/article/save'
   static ROOT = "ROOT"
 
   constructor(args) {
@@ -95,6 +97,9 @@ export default class Article extends BaseEntity {
     this.children = []
 
 
+    //本文文档
+    this.document = null;
+
     //本地字段。
     //当前这篇文章是否处于设计阶段，在文档设计目录时有用到。
     this.designMode = false
@@ -130,7 +135,6 @@ export default class Article extends BaseEntity {
 
   }
 
-
   getFilters() {
     return [
       ...super.getFilters(),
@@ -151,6 +155,7 @@ export default class Article extends BaseEntity {
     this.renderEntity('user', User)
     this.renderList('tagArray', Tag)
     this.renderList('children', Article)
+    this.renderEntity('document', Article)
   }
 
   getForm() {
@@ -293,6 +298,47 @@ export default class Article extends BaseEntity {
     }
 
     this.httpPost(Article.URL_DOCUMENT_ASSIGN, form, function (response) {
+
+      that.safeCallback(successCallback)(response)
+
+    }, errorCallback)
+  }
+
+  //从文档中删除一个目录
+  httpDocumentIndexDel(documentUuid, articleUuid, forceDelete, successCallback, errorCallback) {
+
+    let that = this
+
+    let form = {
+      documentUuid,
+      articleUuid,
+      forceDelete
+    }
+
+    this.httpPost(Article.URL_DOCUMENT_INDEX_DEL, form, function (response) {
+
+      that.safeCallback(successCallback)(response)
+
+    }, errorCallback)
+  }
+
+  //保存一篇文档中的文章
+  httpDocumentArticleSave(successCallback, errorCallback) {
+
+    let that = this
+
+    let form = {
+      articleUuid: this.uuid,
+      title: this.title,
+      words: this.words,
+      path: this.path,
+      markdown: this.markdown,
+      html: this.html
+    }
+
+    this.httpPost(Article.URL_DOCUMENT_ARTICLE_SAVE, form, function (response) {
+
+      that.render(response.data.data)
 
       that.safeCallback(successCallback)(response)
 

@@ -7,20 +7,20 @@
            :class="{'error':article.errorMessage}"
            @click.stop.prevent="levelClick()">
         <div class="pull-left">
-          <span>
+          <span class="label-title">
 						{{article.title?article.title:"请填写节点名称"}}
 					</span>
-          <span class="ml10"
+          <span class="label-path"
                 v-if="article.type === ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE || article.type === ArticleType.DOCUMENT_ARTICLE">
 						<span class="label-attribute">{{article.path}}</span>
 					</span>
-          <span class="ml10 label-topic" v-if="article.type === ArticleType.DOCUMENT_URL">
+          <span class="label-link" v-if="article.type === ArticleType.DOCUMENT_URL">
 						<i class="fa fa-link"></i>
-						<span class="label-link">{{article.digest}}</span>
+						<span>{{article.digest}}</span>
 					</span>
         </div>
         <div class="pull-right">
-          <ActionButtons :index="index" :article="article" :container="container"/>
+          <ActionButtons :index="index" :article="article" :document="document" :container="container"/>
         </div>
       </div>
 

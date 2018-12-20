@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import Vue from 'vue'
 import {Message} from 'element-ui'
-import {lowerCamel, lowerSlash, startWith, toPlural} from '../../filter/str'
+import {lowerCamel, lowerSlash, toPlural} from '../../filter/str'
 import {str2Date} from '../../filter/time'
 import {functionName} from "../../util/Utils";
 import {parseList} from "../../util/JsonUtils";
@@ -110,7 +110,7 @@ export default class Base {
       }
 
     } else {
-      console.error('调用错误！')
+      console.error('调用错误！', field, Clazz)
     }
 
   }

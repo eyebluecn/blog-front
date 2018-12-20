@@ -1,6 +1,6 @@
 <template>
 
-  <div class="document-index-frame">
+  <div class="document-index-detail-frame">
 
     <IndexBlock v-for="(article,index) in document.children"
                 :key="index"
@@ -42,7 +42,7 @@
   @import "../../../../assets/css/global/variables";
   @import "../../../../assets/css/global/miscellaneous";
 
-  .document-index-frame {
+  .document-index-detail-frame {
 
     .index-block {
       margin: 5px 0 5px 25px;
@@ -93,6 +93,8 @@
           font-size: 14px;
           color: #bfbfbf;
           cursor: pointer;
+          .one-line;
+          max-width: 200px;
 
           &:hover {
             color: #777;

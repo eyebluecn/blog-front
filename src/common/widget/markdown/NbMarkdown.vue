@@ -1,6 +1,6 @@
 <template>
   <div id="editor-md" class="main-editor">
-    <textarea></textarea>
+    <textarea v-show="markdownLoaded"></textarea>
   </div>
 </template>
 
@@ -14,6 +14,7 @@
   export default {
     data() {
       return {
+        markdownLoaded: false,
         instance: null,
         emAttachment: new EMAttachment(),
         emPicture: new EMPicture(),
@@ -74,9 +75,9 @@
             // Or return editormd.toolbarModes[name]; // full, simple, mini
             // Using "||" set icons align right.
             return [
-              'h1', 'h2', 'bold', 'del', 'italic', 'quote',
+              'clear', '|', 'h1', 'h2', 'bold', 'del', 'italic', 'quote',
               'list-ul', 'list-ol', 'hr', '|',
-              'link', emPicture.name, emAttachment.name, 'code', 'table', '|', 'watch', 'preview', 'clear', 'fullscreen'
+              'link', emPicture.name, emAttachment.name, 'code', 'table', '|', 'watch', 'fullscreen'
             ]
           },
           //自定义一个附件上传的动作
@@ -102,7 +103,8 @@
               picture: emPicture.title
             }
           },
-
+          placeholder: "请输入Markdown格式文章~ Enjoy it!",
+          watch: false,
           markdown: that.innerValue,
           codeFold: true,
           saveHTMLToTextarea: true,
@@ -125,10 +127,15 @@
               that.instance.setMarkdown(that.innerValue)
             }
 
+            that.markdownLoaded = true
+
           },
           onchange: function () {
 
             that.innerValue = this.getMarkdown()
+
+            console.log("markdown形状", that.innerValue)
+
 
             // 编辑区域内容变化时，实时打印出当前内容
             that.$emit('input', that.innerValue)
@@ -137,6 +144,12 @@
           }
         })
 
+      },
+      getMarkdown() {
+        return this.instance.getMarkdown();
+      },
+      getHTML() {
+        return this.instance.getHTML();
       }
     },
     mounted() {

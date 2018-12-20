@@ -82,24 +82,6 @@
     @color-add-btn: #999;
     @color-add-btn-highlight: #555;
 
-    .usage {
-      .indicator {
-
-      }
-      .content {
-        border: 1px solid #aaaaaa;
-        padding: 10px;
-
-        .section {
-          margin-top: 20px;
-          &:first-child {
-            margin-top: 0;
-          }
-
-        }
-      }
-
-    }
     .label-attribute {
       font-weight: bold;
       color: @color-attribute;
@@ -108,9 +90,23 @@
       font-weight: bold;
       color: @color-collection-highlight;
     }
+    .label-title {
+      display: inline-block;
+      max-width: 200px;
+      .one-line;
+    }
+    .label-path {
+      display: inline-block;
+      max-width: 200px;
+      .one-line;
+    }
     .label-link {
       font-weight: bold;
       color: @color-document-highlight;
+
+      display: inline-block;
+      max-width: 200px;
+      .one-line;
     }
 
     .label-field {
@@ -138,6 +134,7 @@
     .level, .panel-heading {
 
       border-color: transparent;
+      padding: 10px 15px 5px 15px;
 
       &.error {
         border: 1px dashed red;
@@ -149,8 +146,6 @@
 
       text-decoration: none;
       font-weight: bold;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
       box-sizing: border-box;
 
       //添加属性按钮

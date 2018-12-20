@@ -19,7 +19,6 @@
                 <i class="fa fa-cubes"></i>
                 编辑文档
               </router-link>
-
           </span>
         </div>
       </div>
@@ -86,15 +85,27 @@
       CreateSaveButton,
       IndexFrame
     },
-    methods: {},
+    methods: {
+      refineBreadcrumb() {
+        let that = this;
+        //整理面包屑
+        that.breadcrumbs.forEach(function (breadcrumb) {
+          if (breadcrumb.name === "DocumentDetail") {
+            breadcrumb.title = that.document.title
+          }
+        })
+      }
+    },
     created() {
 
     },
     mounted() {
       let that = this
-      this.document.uuid = this.$store.state.route.params.uuid
+      this.document.uuid = this.$store.state.route.params.documentUuid
       if (this.document.uuid) {
-        this.document.httpDetail()
+        this.document.httpDetail(function () {
+          that.refineBreadcrumb()
+        })
       }
     }
   }
