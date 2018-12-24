@@ -1,12 +1,10 @@
 <template>
   <div class="animated fadeIn document-detail">
 
-    <div class="row">
-
-      <div class="col-xs-12">
-        <div class="pedia-navigation">
-          <span class="item active">文档详情</span>
-          <span class="tool">
+    <div class="upper-box">
+      <div class="pedia-navigation">
+        <span class="item active">文档详情</span>
+        <span class="tool">
               <router-link class="btn btn-primary btn-sm" to="/by/article/create">
                 <i class="fa fa-plus"></i>
                 创建文章
@@ -20,40 +18,42 @@
                 编辑文档
               </router-link>
           </span>
+      </div>
+    </div>
+    <div class="document-block">
+
+      <div class="title">
+        {{document.title}}
+      </div>
+      <div class="digest">
+        {{document.digest}}
+      </div>
+      <div class="author">
+        <div>
+          <img :src="handleImageUrl(document.user.avatarUrl)"/>
+        </div>
+        <div>
+          <router-link :to="'/by/user/detail/'+document.user.uuid">
+            {{document.user.nickname}}
+          </router-link>
         </div>
       </div>
 
-      <div class="col-xs-12">
-
-        <div class="document-block">
-
-          <div class="title">
-            {{document.title}}
-          </div>
-          <div class="digest">
-            {{document.digest}}
-          </div>
-          <div class="author">
-
-          </div>
-
-          <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-              <IndexFrame :document="document"/>
-            </div>
-          </div>
-
-
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <IndexFrame :document="document"/>
         </div>
-
       </div>
+
 
     </div>
+
 
   </div>
 </template>
 
 <script>
+
   import {FeatureType} from '../../common/model/core/FeatureType'
   import NbSwitcher from '../../common/widget/NbSwitcher.vue'
   import NbRadio from '../../common/widget/NbRadio.vue'
@@ -62,6 +62,7 @@
   import Article from "../../common/model/article/Article";
   import {currentHost} from "../../common/util/Utils";
   import IndexFrame from "./widget/detail/IndexFrame"
+  import {handleImageUrl} from "../../common/util/ImageUtil";
 
   export default {
 
@@ -78,6 +79,12 @@
         return currentHost() + "/a/" + this.user.username + "/"
       }
     },
+    watch: {
+      "$store.state.route.params.documentUuid"() {
+        console.log("变化了啊")
+        this.refresh()
+      }
+    },
     components: {
       NbSwitcher,
       NbRadio,
@@ -86,6 +93,7 @@
       IndexFrame
     },
     methods: {
+      handleImageUrl,
       refineBreadcrumb() {
         let that = this;
         //整理面包屑
@@ -94,19 +102,22 @@
             breadcrumb.title = that.document.title
           }
         })
+      },
+      refresh() {
+        let that = this
+        this.document.uuid = this.$store.state.route.params.documentUuid
+        if (this.document.uuid) {
+          this.document.httpDetail(function () {
+            that.refineBreadcrumb()
+          })
+        }
       }
     },
     created() {
 
     },
     mounted() {
-      let that = this
-      this.document.uuid = this.$store.state.route.params.documentUuid
-      if (this.document.uuid) {
-        this.document.httpDetail(function () {
-          that.refineBreadcrumb()
-        })
-      }
+      this.refresh()
     }
   }
 </script>
@@ -135,6 +146,13 @@
         margin: 15px;
       }
 
+      .author {
+        text-align: center;
+        img {
+          width: 40px;
+          height: 40px;
+        }
+      }
     }
 
   }

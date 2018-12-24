@@ -1,6 +1,6 @@
 <template>
 
-  <div class="document-index-read-frame">
+  <div ref="documentIndexReadFrame" class="document-index-read-frame">
 
     <IndexBlock v-for="(article,index) in document.children"
                 :key="index"
@@ -15,10 +15,14 @@
 <script>
   import IndexBlock from "./IndexBlock.vue"
   import Article from "../../../../common/model/article/Article";
+  import PerfectScrollbar from "perfect-scrollbar";
+  import "perfect-scrollbar/css/perfect-scrollbar.css";
 
   export default {
     data() {
-      return {}
+      return {
+        perfectScrollbar: null
+      }
     },
     props: {
       document: {
@@ -33,6 +37,8 @@
     watch: {},
     methods: {},
     mounted() {
+      this.perfectScrollbar = new PerfectScrollbar(this.$refs.documentIndexReadFrame);
+
     }
   }
 </script>
@@ -44,11 +50,47 @@
 
   .document-index-read-frame {
 
+    padding: 10px 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
     .index-block {
-      margin: 5px 0 5px 25px;
+      margin-left: 14px;
 
       .line {
-        .one-line;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        padding: 5px 10px 5px 15px;
+
+        font-size: 14px;
+        color: #222;
+        cursor: pointer;
+
+        .fa {
+          width: 8px;
+          color: #aaa;
+        }
+        &.fat {
+          padding-left: 2px;
+        }
+        &.placeholder {
+          .title-span {
+            border-bottom: 1px dashed red;
+          }
+        }
+        &.active {
+          color: @brand-primary;
+          font-weight: bold;
+        }
+
+        &:hover {
+          color: #777;
+        }
+
       }
     }
 

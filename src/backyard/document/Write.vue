@@ -113,14 +113,8 @@
       save() {
         let that = this
 
-        // setTimeout(function () {
-        //
-        // }, 1000)
-
         this.article.markdown = this.$refs.nbMarkdown.getMarkdown();
         this.article.html = this.$refs.nbMarkdown.getHTML();
-
-        console.log("markdown形状", this.article.markdown)
 
         //统计字数
         this.article.words = this.article.markdown.length

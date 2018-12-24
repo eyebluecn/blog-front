@@ -78,6 +78,7 @@
         this.refresh()
       },
       refresh() {
+        this.pager.setFilterValue("needTags", true)
         this.pager.httpFastPage()
       }
     },

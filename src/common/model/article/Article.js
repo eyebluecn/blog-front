@@ -145,7 +145,8 @@ export default class Article extends BaseEntity {
       new Filter(FilterType.CHECK, '私有', 'privacy'),
       new Filter(FilterType.INPUT, '标题', 'title'),
       new Filter(FilterType.MULTI_SELECTION, '类型', 'types', ArticleTypeList, null, true),
-      new Filter(FilterType.INPUT, '关键词', 'keyword')
+      new Filter(FilterType.INPUT, '关键词', 'keyword'),
+      new Filter(FilterType.INPUT, '附上标签', 'needTags', null, null, false)
     ]
   };
 

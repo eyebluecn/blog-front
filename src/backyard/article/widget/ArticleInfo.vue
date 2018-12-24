@@ -3,7 +3,8 @@
     <div v-if="showUser">
       <div class="pull-left mr10">
         <router-link :to="'/by/user/detail/' + article.user.uuid">
-          <img class="img-circle w40 h40" :src="article.user.getAvatarUrl()"/>
+          <img class="img-circle w40 h40" :src="handleImageUrl(article.user.avatarUrl)"/>
+
         </router-link>
       </div>
       <div>
@@ -73,9 +74,10 @@
   import Article from '../../../common/model/article/Article'
   import {FeatureType} from '../../../common/model/core/FeatureType'
   import {ArticleType} from "../../../common/model/article/ArticleType";
+  import {handleImageUrl} from "../../../common/util/ImageUtil";
 
   export default {
-    name: 'article-info',
+
     data() {
       return {
         FeatureType,
@@ -104,6 +106,9 @@
           return true
         }
       }
+    },
+    methods: {
+      handleImageUrl
     },
     computed: {
       editUrl() {

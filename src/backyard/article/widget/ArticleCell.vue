@@ -8,8 +8,11 @@
     <div class="media">
       <div v-if="article.posterUrl" class="pull-right">
         <router-link :to="detailUrl">
-          <img :src="article.posterUrl + '?imageProcess=resize&imageResizeM=fit&imageResizeW=100'"
-               alt="">
+          <img
+            class="cursor"
+            @click.stop.prevent="$photoSwipePlugin.showPhoto(article.posterUrl)"
+            :src="handleImageUrl(article.posterUrl,false,100,100)"
+            alt="">
         </router-link>
       </div>
       <div class="media-body">
@@ -46,6 +49,7 @@
   import ArticleInfo from '../widget/ArticleInfo'
   import Article from '../../../common/model/article/Article'
   import {ArticleType, ArticleTypeList, ArticleTypeMap} from "../../../common/model/article/ArticleType";
+  import {handleImageUrl} from "../../../common/util/ImageUtil";
 
 
   export default {
@@ -102,6 +106,9 @@
           return null
         }
       }
+    },
+    methods: {
+      handleImageUrl
     },
     components: {
       TagCell,

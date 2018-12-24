@@ -5,6 +5,7 @@
     <div class="line"
          :class="{blank:article.type === ArticleType.DOCUMENT_BLANK,
          fat:article.hasChildren(),
+         active:article.uuid === $store.state.route.params.articleUuid,
          placeholder:article.type === ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE}">
 
       <i class="fa fa-caret-right" v-if="article.hasChildren() && !expand" @click.stop.prevent="toggleExpand"></i>
@@ -86,7 +87,7 @@
       },
       clickTitle() {
         if (this.article.type === ArticleType.DOCUMENT_PLACEHOLDER_ARTICLE) {
-          this.$router.push("/by/document/write/" + this.article.uuid)
+          this.$router.push("/by/document/read/" + this.document.uuid + "/" + this.article.uuid)
         } else if (this.article.type === ArticleType.DOCUMENT_ARTICLE) {
           this.$router.push("/by/document/read/" + this.document.uuid + "/" + this.article.uuid)
         } else if (this.article.type === ArticleType.DOCUMENT_URL) {
