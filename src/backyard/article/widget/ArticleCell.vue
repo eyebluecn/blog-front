@@ -8,7 +8,7 @@
     <div class="media">
       <div v-if="article.posterUrl" class="pull-right">
         <router-link :to="'/by/article/detail/' + article.uuid">
-          <img :src="article.posterUrl + '?imageProcess=resize&imageResizeM=fit&imageResizeW=100'"
+          <img :src="article.posterUrl + '?ir=fit_100_0'"
                alt="">
         </router-link>
       </div>
@@ -41,22 +41,22 @@
 </template>
 
 <script>
-  import TagCell from '../../tag/widget/TagCell'
-  import ArticleInfo from '../widget/ArticleInfo'
-  import Article from '../../../common/model/article/Article'
+import TagCell from '../../tag/widget/TagCell'
+import ArticleInfo from '../widget/ArticleInfo'
+import Article from '../../../common/model/article/Article'
 
 
-  export default {
-    name: 'article-cell',
-    data() {
-      return {}
+export default {
+  name: 'article-cell',
+  data() {
+    return {}
+  },
+  props: {
+    article: {
+      type: Article,
+      required: true
     },
-    props: {
-      article: {
-        type: Article,
-        required: true
-      },
-      articleInfoPosition: {
+    articleInfoPosition: {
         type: String,
         required: false,
         default: 'top'

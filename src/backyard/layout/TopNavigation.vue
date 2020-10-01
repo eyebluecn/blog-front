@@ -35,7 +35,7 @@
       //logo可以使用自定义的。
       logoUrl () {
         if (this.preference.logoUrl) {
-          return this.preference.logoUrl + '?imageProcess=resize&imageResizeM=fill&imageResizeW=100&imageResizeH=100'
+          return this.preference.logoUrl + '?ir=fill_100_100'
         } else {
           return defaultLogoPath
         }

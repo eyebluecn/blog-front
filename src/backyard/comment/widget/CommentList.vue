@@ -27,7 +27,8 @@
 
               <div class="pull-left mr10">
                 <a :href="'/by/user/detail/'+commentFloor.userUuid" v-if="commentFloor.userUuid" title="站内用户">
-                  <img v-if="commentFloor.avatarUrl" class="img-circle img-sm" :src="commentFloor.avatarUrl+'?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200'"/>
+                  <img v-if="commentFloor.avatarUrl" :src="commentFloor.avatarUrl+'?ir=fill_200_200'"
+                       class="img-circle img-sm"/>
                   <img class="img-circle img-sm" src="../../../assets/img/avatar.png" v-else />
                 </a>
                 <img class="img-circle img-sm" src="../../../assets/img/avatar.png" v-else />
@@ -114,26 +115,25 @@
 </template>
 
 <script>
-  import NbPager from '../../../common/widget/NbPager.vue'
-  import NbExpanding from '../../../common/widget/NbExpanding'
-  import Pager from '../../../common/model/base/Pager'
-  import Comment from '../../../common/model/comment/Comment'
-  import CommentTextarea from './CommentTextarea'
-  import { simpleDateTime } from '../../../common/filter/time'
-  import { Message } from 'element-ui'
-  import Article from '../../../common/model/article/Article'
+import NbPager from '../../../common/widget/NbPager.vue'
+import NbExpanding from '../../../common/widget/NbExpanding'
+import Pager from '../../../common/model/base/Pager'
+import Comment from '../../../common/model/comment/Comment'
+import CommentTextarea from './CommentTextarea'
+import {Message} from 'element-ui'
+import Article from '../../../common/model/article/Article'
 
-  export default {
-    name: 'list',
-    data () {
-      return {
-        user: this.$store.state.user,
-        pager: new Pager(Comment),
-        floorComment: new Comment(),
-        repliedComment: new Comment(),
-        replyComment: new Comment(),
-        replyModel: false,
-	      reportCommentUuid: null
+export default {
+  name: 'list',
+  data() {
+    return {
+      user: this.$store.state.user,
+      pager: new Pager(Comment),
+      floorComment: new Comment(),
+      repliedComment: new Comment(),
+      replyComment: new Comment(),
+      replyModel: false,
+      reportCommentUuid: null
       }
     },
     props: {

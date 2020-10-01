@@ -2,13 +2,14 @@
 	<router-link
 		:to="active ? '/by/user/detail/' + tag.userUuid : '/by/user/detail/' + tag.userUuid + '?tagUuid=' + tag.uuid">
 		<span class="tag-collection" :class="[size,{'active':active }]">
-			<img :src="tag.logoUrl ? tag.logoUrl + '?imageProcess=resize&imageResizeM=fill&imageResizeW=100&imageResizeH=100' : defaultTagPath" alt="100">
-			<span class="name">{{tag.name}}</span>
+			<img :src="tag.logoUrl ? tag.logoUrl + '?ir=fill_100_100' : defaultTagPath" alt="100">
+			<span class="name">{{ tag.name }}</span>
 			<span v-if="operate" class="operate pull-right action-buttons">
 								<router-link :to="'/by/tag/edit/'+tag.uuid">
 									<i class="fa fa-pencil text-info f18"></i>
 								</router-link>
-								<a href="javascript:void(0)" title="删除" @click.stop.prevent="tag.confirmDel(delCallback)" style="outline: none;">
+								<a href="javascript:void(0)" title="删除" @click.stop.prevent="tag.confirmDel(delCallback)"
+                   style="outline: none;">
 									<i class="fa fa-trash text-danger f18"></i>
                 </a>
 							</span>
@@ -17,18 +18,19 @@
 </template>
 
 <script>
-  import Tag from '../../../common/model/tag/Tag'
-  let defaultTagPath = require('../../../assets/img/tag.png')
+import Tag from '../../../common/model/tag/Tag'
 
-  export default {
-    name: 'tag',
-    data () {
-      return {
-        defaultTagPath
-      }
-    },
-    props: {
-      tag: {
+let defaultTagPath = require('../../../assets/img/tag.png')
+
+export default {
+  name: 'tag',
+  data() {
+    return {
+      defaultTagPath
+    }
+  },
+  props: {
+    tag: {
         type: Tag,
         required: true
       },

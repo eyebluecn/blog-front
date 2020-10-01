@@ -18,13 +18,14 @@
         </NbFilter>
       </div>
 
+
       <div class="col-lg-8 col-lg-offset-2" v-for="(u,index) in pager.data">
         <div class="bg-white border br4 p10 mb10">
           <div class="media">
             <div class="pull-left">
               <router-link :to="'/by/user/detail/'+u.uuid">
                 <img class="img-circle img-md"
-                     :src="u.getAvatarUrl()+'?imageProcess=resize&imageResizeM=fill&imageResizeW=200&imageResizeH=200'">
+                     :src="u.getAvatarUrl()+'?ir=fill_200_200'">
               </router-link>
             </div>
             <div class="media-body">
@@ -87,22 +88,22 @@
 </template>
 
 <script>
-  import NbFilter from '../../common/widget/filter/NbFilter.vue'
-  import NbPager from '../../common/widget/NbPager.vue'
-  import Pager from '../../common/model/base/Pager'
-  import User from '../../common/model/user/User'
+import NbFilter from '../../common/widget/filter/NbFilter.vue'
+import NbPager from '../../common/widget/NbPager.vue'
+import Pager from '../../common/model/base/Pager'
+import User from '../../common/model/user/User'
 
-  export default {
-    name: 'list',
-    data () {
-      return {
-        pager: new Pager(User),
-        user: this.$store.state.user
-      }
-    },
-    components: {
-      NbFilter,
-      NbPager
+export default {
+  name: 'list',
+  data() {
+    return {
+      pager: new Pager(User),
+      user: this.$store.state.user
+    }
+  },
+  components: {
+    NbFilter,
+    NbPager
     },
     methods: {
       search () {
